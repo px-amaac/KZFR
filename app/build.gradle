@@ -4,6 +4,9 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
+    signingConfigs {
+        releaseConfig
+    }
     defaultConfig {
         applicationId "creek.fm.doublea.kzfr"
         minSdkVersion 15
@@ -15,11 +18,32 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
 
+    def props = new Properties()
+
+    props.load(new FileInputStream(project.file("release.properties")))
+
+    android.signingConfigs.releaseConfig.storeFile project.file(props.keyStore)
+
+    android.signingConfigs.releaseConfig.storePassword props.keyStorePassword
+
+    android.signingConfigs.releaseConfig.keyAlias props.keyAlias
+
+    android.signingConfigs.releaseConfig.keyPassword props.keyAliasPassword
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.android.support:cardview-v7:21.0.3'
+    compile 'com.android.support:recyclerview-v7:21.0.3'
+
 }
