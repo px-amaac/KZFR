@@ -1,6 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/now_playing" android:title="@string/now_playing"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/schedule" android:title="@string/schedule"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/programs" android:title="@string/programs"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/hosts" android:title="@string/hosts"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/website" android:title="@string/website"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
