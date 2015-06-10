@@ -1,14 +1,24 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/now_playing" android:title="@string/now_playing"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/schedule" android:title="@string/schedule"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/programs" android:title="@string/programs"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/hosts" android:title="@string/hosts"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/website" android:title="@string/website"
-        android:orderInCategory="100" app:showAsAction="never" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/now_playing"
+            android:orderInCategory="0"
+            android:title="@string/now_playing" />
+        <item
+            android:id="@+id/schedule"
+            android:orderInCategory="1"
+            android:title="@string/schedule" />
+        <item
+            android:id="@+id/programs"
+            android:orderInCategory="2"
+            android:title="@string/programs" />
+        <item
+            android:id="@+id/hosts"
+            android:orderInCategory="3"
+            android:title="@string/hosts" />
+        <item
+            android:id="@+id/website"
+            android:orderInCategory="4"
+            android:title="@string/website" />
+    </group>
 </menu>
