@@ -1,4 +1,4 @@
-package creek.fm.doublea.kzfr;
+package creek.fm.doublea.kzfr.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,10 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import creek.fm.doublea.kzfr.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
     ActionBarDrawerToggle actionBarDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,15 +25,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mainActionToolBar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainActionToolBar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             setupActionBar(actionBar);
         }
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(
-                        this,
-                        drawerLayout,
-                        R.string.open_drawer_content_description,
-                        R.string.close_drawer_content_description) {
+                this,
+                drawerLayout,
+                R.string.open_drawer_content_description,
+                R.string.close_drawer_content_description) {
             @Override
             public boolean onOptionsItemSelected(MenuItem item) {
                 return super.onOptionsItemSelected(item);
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
     }
 
-    public void setupActionBar(ActionBar actionBar){
+    public void setupActionBar(ActionBar actionBar) {
         actionBar.setIcon(R.mipmap.kzfr_logo);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
