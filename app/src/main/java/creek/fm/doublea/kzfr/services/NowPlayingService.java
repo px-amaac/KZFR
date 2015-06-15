@@ -1,5 +1,6 @@
 package creek.fm.doublea.kzfr.services;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +11,11 @@ import android.media.session.MediaSession;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import java.io.IOException;
 
@@ -79,7 +83,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
                 // Lost focus for a short time, but we have to stop
                 // playback. We don't release the media player because playback
                 // is likely to resume
-                pauseMediaPlayer();
+                processPauseRequest();
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
@@ -94,7 +98,8 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        return false;
+        startMediaPlayer();
+        return true;
     }
 
     @Override
@@ -179,6 +184,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     private void configAndPrepareMediaPlayer() {
         initMediaPlayer();
         mState = State.Preparing;
+        buildNotification(true);
         mMediaPlayer.prepareAsync();
 
     }
@@ -201,6 +207,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         if (mMediaPlayer != null) {
             mMediaPlayer.start();
             mState = State.Playeng;
+            buildNotification(false);
         }
     }
 
@@ -251,18 +258,10 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
             mMediaPlayer = null;
         }
         mState = State.Stopped;
-
+        buildNotification(false);
         //relax the resources because we no longer need them.
         relaxResources();
         giveUpAudioFocus();
-    }
-
-
-    private void pauseMediaPlayer() {
-        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-            mState = State.Paused;
-        }
     }
 
     private void processPlayRequest() {
@@ -277,13 +276,44 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
 
     private void processPauseRequest() {
 
-        if (mState != State.Stopped) {  // process the pause request unless the media player is in the stopped state.
-            if (mState == State.Playeng) { //if we are in the playing state then the media player needs to be paused
-                mMediaPlayer.pause();
-            }
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.pause();
             mState = State.Paused;
             relaxResources();
+            buildNotification(false);
         }
+    }
+
+    /*
+        There is no media style notification for operating systems below api 21. So This method builds
+        a simple compat notification that has a play or pause button depending on if the player is paused or played.
+        if foreGroundOrUpdate then the service should go to the foreground. else just update the notification.
+     */
+    private void buildNotification(boolean foreGroundOrUpdate) {
+        Intent intent = new Intent(getApplicationContext(), NowPlayingService.class);
+        intent.setAction(ACTION_CLOSE);
+        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setContentTitle("KZFR Radio")
+                .setDeleteIntent(pendingIntent);
+        if (mState == State.Paused || mState == State.Stopped) {
+            builder.addAction(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
+        } else {
+            builder.addAction(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE));
+        }
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        if (foreGroundOrUpdate)
+            startForeground(42, builder.build());
+        else
+            notificationManagerCompat.notify(42, builder.build());
+    }
+
+    private NotificationCompat.Action generateAction(int icon, String title, String intentAction) {
+        Intent intent = new Intent(getApplicationContext(), NowPlayingService.class);
+        intent.setAction(intentAction);
+        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+        return new NotificationCompat.Action.Builder(icon, title, pendingIntent).build();
     }
 
     @Override
