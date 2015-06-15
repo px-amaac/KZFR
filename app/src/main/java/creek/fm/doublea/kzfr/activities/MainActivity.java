@@ -1,7 +1,12 @@
 package creek.fm.doublea.kzfr.activities;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,12 +15,30 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import creek.fm.doublea.kzfr.NoHideMediaController;
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.services.NowPlayingService;
 
 
 public class MainActivity extends AppCompatActivity {
 
     ActionBarDrawerToggle actionBarDrawerToggle;
+    private NowPlayingService mNowPlayingService;
+    private boolean mBound;
+
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            NowPlayingService.MediaPlayerBinder binder = (NowPlayingService.MediaPlayerBinder) service;
+            mNowPlayingService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Intent mediaIntent = new Intent(this, NowPlayingService.class);
+        startService(mediaIntent);
+        if(!mBound)
+            bindService(mediaIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

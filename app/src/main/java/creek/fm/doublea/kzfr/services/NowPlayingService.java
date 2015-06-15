@@ -6,18 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import java.io.IOException;
+
 
 /**
  * Created by Aaron on 6/10/2015.
@@ -31,7 +30,6 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     public static final String ACTION_CLOSE = "creek.fm.doublea.kzfr.services.APP_CLOSING";
     private MediaPlayer mMediaPlayer = null;
     private MediaSession mMediaSession = null;
-    private MediaController mMediaController = null;
     private AudioManager mAudioManager = null;
 
     //The URL that feeds the KZFR stream.
@@ -351,18 +349,16 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         }
     }
 
+    public boolean isPlaying() {
+        if (mMediaPlayer != null)
+            return mMediaPlayer.isPlaying();
+        return false;
+    }
+
     public class MediaPlayerBinder extends Binder {
 
         public NowPlayingService getService() {
             return NowPlayingService.this;
-        }
-
-        public boolean isPlaying() {
-            if (mMediaPlayer != null) {
-                return mMediaPlayer.isPlaying();
-            } else {
-                return false;
-            }
         }
     }
 }
