@@ -14,17 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ToggleButton;
 
-import creek.fm.doublea.kzfr.NoHideMediaController;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.services.NowPlayingService;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActionBarDrawerToggle actionBarDrawerToggle;
     private NowPlayingService mNowPlayingService;
     private boolean mBound;
+    private ToggleButton mPlayPauseButton;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar mainActionToolBar = (Toolbar) findViewById(R.id.main_toolbar);
+        mPlayPauseButton = (ToggleButton) findViewById(R.id.play_pause_button);
+        mPlayPauseButton.setOnClickListener(this);
         setSupportActionBar(mainActionToolBar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -72,8 +76,14 @@ public class MainActivity extends AppCompatActivity {
 
         Intent mediaIntent = new Intent(this, NowPlayingService.class);
         startService(mediaIntent);
-        if(!mBound)
+        if (!mBound)
             bindService(mediaIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        else
+            updateToggle();
+    }
+
+    private void updateToggle() {
+        mPlayPauseButton.setChecked(mNowPlayingService.isPlaying());
     }
 
     @Override
@@ -110,5 +120,26 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unbindService(mServiceConnection);
+        mBound = false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.play_pause_button) {
+            Intent mediaPlayerIntent = new Intent(this, NowPlayingService.class);
+            if (mPlayPauseButton.isChecked()) {//media player is playing or the play intent has been passed to the media player
+                //if its playing then user clicked the pause button so sent pause intent.
+                mediaPlayerIntent.setAction(NowPlayingService.ACTION_PLAY);
+            } else {
+                mediaPlayerIntent.setAction(NowPlayingService.ACTION_PAUSE);
+            }
+            startService(mediaPlayerIntent);
+        }
     }
 }

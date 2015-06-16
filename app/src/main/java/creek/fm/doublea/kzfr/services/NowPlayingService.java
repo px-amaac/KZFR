@@ -17,6 +17,8 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import java.io.IOException;
 
+import creek.fm.doublea.kzfr.R;
+
 
 /**
  * Created by Aaron on 6/10/2015.
@@ -256,7 +258,6 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
             mMediaPlayer = null;
         }
         mState = State.Stopped;
-        buildNotification(false);
         //relax the resources because we no longer need them.
         relaxResources();
         giveUpAudioFocus();
@@ -287,12 +288,13 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         a simple compat notification that has a play or pause button depending on if the player is paused or played.
         if foreGroundOrUpdate then the service should go to the foreground. else just update the notification.
      */
-    private void buildNotification(boolean foreGroundOrUpdate) {
+    private void buildNotification(boolean startForeground) {
         Intent intent = new Intent(getApplicationContext(), NowPlayingService.class);
         intent.setAction(ACTION_CLOSE);
         PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setContentTitle("KZFR Radio")
+                .setContentTitle("KZFR Radio").setContentText("Streaming Live")
+                .setSmallIcon(R.mipmap.kzfr_logo).setOngoing(true)
                 .setDeleteIntent(pendingIntent);
         if (mState == State.Paused || mState == State.Stopped) {
             builder.addAction(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
@@ -301,7 +303,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         }
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        if (foreGroundOrUpdate)
+        if (startForeground)
             startForeground(42, builder.build());
         else
             notificationManagerCompat.notify(42, builder.build());
