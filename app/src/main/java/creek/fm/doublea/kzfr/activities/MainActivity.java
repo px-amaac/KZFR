@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onServiceConnected(ComponentName name, IBinder service) {
             NowPlayingService.MediaPlayerBinder binder = (NowPlayingService.MediaPlayerBinder) service;
             mNowPlayingService = binder.getService();
+            updateToggle();
             mBound = true;
         }
 
@@ -125,8 +126,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
+        sendStopIntent();
         unbindService(mServiceConnection);
         mBound = false;
+    }
+
+    /* Stop intent is sent to the service so the service can determine if it should stop. If the
+       media player is paused when any activity triggers onPause then the service should stop itself.
+      */
+    private void sendStopIntent() {
+        Intent stopIntent = new Intent(this, NowPlayingService.class);
+        stopIntent.setAction(NowPlayingService.ACTION_CLOSE);
+        startService(stopIntent);
     }
 
     @Override

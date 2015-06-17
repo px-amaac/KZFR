@@ -30,8 +30,8 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     public static final String ACTION_PLAY = "creek.fm.doublea.kzfr.services.PLAY";
     public static final String ACTION_PAUSE = "creek.fm.doublea.kzfr.services.PAUSE";
     public static final String ACTION_CLOSE = "creek.fm.doublea.kzfr.services.APP_CLOSING";
+    private static final int NOTIFICATION_ID = 4223;
     private MediaPlayer mMediaPlayer = null;
-    private MediaSession mMediaSession = null;
     private AudioManager mAudioManager = null;
 
     //The URL that feeds the KZFR stream.
@@ -166,9 +166,19 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
                 processPlayRequest();
             } else if (action.equals(ACTION_PAUSE)) {
                 processPauseRequest();
+            } else if (action.equals(ACTION_CLOSE)) {
+                closeIfPaused();
             }
         }
         return START_STICKY; //do not restart service if it is killed.
+    }
+
+    //if the media player is paused or stopped and this method has been triggered then stop the service.
+    private void closeIfPaused() {
+        if(mState == State.Paused || mState == State.Stopped) {
+            removeNotification();
+            stopSelf();
+        }
     }
 
     private void initMediaPlayer() {
@@ -220,22 +230,6 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         mWifiLock.acquire();
 
         tryToGetAudioFocus();
-
-        //this was explicit logic of getting audio focus. Instead just make the attempt and move on.
-        // if we do not have audio focus it will not play but the state will be changed and the media
-        //player  will have been set up. The music will play when we gain audio focus.
-        /*//if audio focus is something other than focused then ask for focus from the audio manager.
-        //if audio focus is already focused then simply return true.
-        if (mAudioFocus != AudioFocus.Focused) {
-            if (AudioManager.AUDIOFOCUS_REQUEST_GRANTED ==
-                    mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
-                            AudioManager.AUDIOFOCUS_GAIN)) {
-                mAudioFocus = AudioFocus.Focused;
-                return true;
-            } else
-                return false;
-        }
-        return true;*/
     }
 
     private void tryToGetAudioFocus() {
@@ -304,9 +298,9 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         if (startForeground)
-            startForeground(42, builder.build());
+            startForeground(NOTIFICATION_ID, builder.build());
         else
-            notificationManagerCompat.notify(42, builder.build());
+            notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
     }
 
     private NotificationCompat.Action generateAction(int icon, String title, String intentAction) {
@@ -335,13 +329,20 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     private void relaxResources() {
 
         //Release the WifiLock resource
-        if (mWifiLock.isHeld()) {
+        if (mWifiLock != null && mWifiLock.isHeld()) {
             mWifiLock.release();
         }
+
 
         // stop service from being a foreground service. Passing true removes the notification as well.
         stopForeground(true);
 
+    }
+
+    private void removeNotification() {
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+
+        notificationManagerCompat.cancel(NOTIFICATION_ID);
     }
 
     private void giveUpAudioFocus() {
