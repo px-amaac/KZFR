@@ -12,6 +12,7 @@ import android.util.Log;
 public class KZFRRetrofitCallback<S> implements Callback<S> {
     private static final String TAG = KZFRRetrofitCallback.class.getSimpleName();
 
+
     @Override
     public void success(S s, Response response) {
 

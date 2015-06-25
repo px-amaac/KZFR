@@ -2,16 +2,23 @@ package creek.fm.doublea.kzfr.api;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import creek.fm.doublea.kzfr.models.Week;
+import creek.fm.doublea.kzfr.models.Day;
+import creek.fm.doublea.kzfr.models.Image;
+import creek.fm.doublea.kzfr.models.JsonDeserializer;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
+import retrofit.converter.GsonConverter;
 import retrofit.http.GET;
 
 /**
@@ -20,7 +27,9 @@ import retrofit.http.GET;
 public class ApiClient {
 
     private static KZFRApiInterface sKZFRApiInterface;
-
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Image.class, new JsonDeserializer<Image>())
+            .create();
 
     public static KZFRApiInterface getKZFRApiClient(Context context) {
         Executor executor = Executors.newCachedThreadPool();
@@ -33,9 +42,12 @@ public class ApiClient {
         OkHttpClient mClient = new OkHttpClient();
         mClient.setCache(cache);
 
+
+
         //build the rest adapter
         if(sKZFRApiInterface == null) {
-            RestAdapter restAdapter = new RestAdapter.Builder()
+            final RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setConverter(new GsonConverter(gson))
                     .setExecutors(executor, executor)
                     .setEndpoint("http://kzfr.org/api")
                     .setClient(new OkClient(mClient))
@@ -49,6 +61,6 @@ public class ApiClient {
 
     public interface KZFRApiInterface {
         @GET("/schedule")
-        void getSchedule(KZFRRetrofitCallback<Week> callback);
+        void getSchedule(KZFRRetrofitCallback<Map<String, Day>> callback);
     }
 }
