@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ToggleButton;
 
 import creek.fm.doublea.kzfr.R;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NowPlayingService mNowPlayingService;
     private boolean mBound;
     private ToggleButton mPlayPauseButton;
+    protected FrameLayout mContentView;
+    private NavigationView mNavigationView;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar mainActionToolBar = (Toolbar) findViewById(R.id.main_toolbar);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mContentView = (FrameLayout) findViewById(R.id.content);
         mPlayPauseButton = (ToggleButton) findViewById(R.id.play_pause_button);
         mPlayPauseButton.setOnClickListener(this);
         setSupportActionBar(mainActionToolBar);
@@ -61,15 +67,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this,
                 drawerLayout,
                 R.string.open_drawer_content_description,
-                R.string.close_drawer_content_description) {
-            @Override
-            public boolean onOptionsItemSelected(MenuItem item) {
-                return super.onOptionsItemSelected(item);
-                //TODO add actions here for the drawer menu
-            }
-        };
+                R.string.close_drawer_content_description);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+
+        mNavigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
+
     }
+
+    private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(MenuItem menuItem) {
+            int itemId = menuItem.getItemId();
+            if(itemId == R.id.schedule) {
+                Intent scheduleIntent = new Intent(MainActivity.this, ScheduleActivity.class);
+                startActivity(scheduleIntent);
+                return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onResume() {
