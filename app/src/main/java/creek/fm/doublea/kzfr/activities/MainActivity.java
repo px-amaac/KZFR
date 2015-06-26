@@ -19,18 +19,24 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ToggleButton;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.services.NowPlayingService;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Butterknife view injections
+    @InjectView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+    @InjectView(R.id.main_toolbar) Toolbar mMainActionToolbar;
+    @InjectView(R.id.navigation) NavigationView mNavigationView;
+    @InjectView(R.id.content) FrameLayout mContentView;
+    @InjectView(R.id.play_pause_button) ToggleButton mPlayPauseButton;
+
     ActionBarDrawerToggle actionBarDrawerToggle;
     private NowPlayingService mNowPlayingService;
     private boolean mBound;
-    private ToggleButton mPlayPauseButton;
-    protected FrameLayout mContentView;
-    private NavigationView mNavigationView;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -51,13 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Toolbar mainActionToolBar = (Toolbar) findViewById(R.id.main_toolbar);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        mContentView = (FrameLayout) findViewById(R.id.content);
-        mPlayPauseButton = (ToggleButton) findViewById(R.id.play_pause_button);
+        ButterKnife.inject(this);
         mPlayPauseButton.setOnClickListener(this);
-        setSupportActionBar(mainActionToolBar);
+        setSupportActionBar(mMainActionToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             setupActionBar(actionBar);
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
-                drawerLayout,
+                mDrawerLayout,
                 R.string.open_drawer_content_description,
                 R.string.close_drawer_content_description);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
