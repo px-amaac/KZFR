@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/schedule_pager"
-    android:layout_height="match_parent"
-     android:layout_width="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <android.support.v4.view.PagerTabStrip
-        android:id="@+id/schedule_pager_tab_strip"
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:layout_gravity="top" >
-    </android.support.v4.view.PagerTabStrip>
+    <ProgressBar
+        android:id="@+id/progress_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
-</android.support.v4.view.ViewPager>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/schedule_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/schedule_pager_tab_strip"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="top">
+
+        </android.support.v4.view.PagerTabStrip>
+
+    </android.support.v4.view.ViewPager>
+</RelativeLayout>
 
