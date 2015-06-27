@@ -28,11 +28,16 @@ import creek.fm.doublea.kzfr.services.NowPlayingService;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Butterknife view injections
-    @InjectView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @InjectView(R.id.main_toolbar) Toolbar mMainActionToolbar;
-    @InjectView(R.id.navigation) NavigationView mNavigationView;
-    @InjectView(R.id.content) FrameLayout mContentView;
-    @InjectView(R.id.play_pause_button) ToggleButton mPlayPauseButton;
+    @InjectView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @InjectView(R.id.main_toolbar)
+    Toolbar mMainActionToolbar;
+    @InjectView(R.id.navigation)
+    NavigationView mNavigationView;
+    @InjectView(R.id.content)
+    FrameLayout mContentView;
+    @InjectView(R.id.play_pause_button)
+    ToggleButton mPlayPauseButton;
 
     ActionBarDrawerToggle actionBarDrawerToggle;
     private NowPlayingService mNowPlayingService;
@@ -81,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             int itemId = menuItem.getItemId();
-            if(itemId == R.id.schedule) {
+            if (itemId == R.id.schedule) {
                 Intent scheduleIntent = new Intent(MainActivity.this, ScheduleActivity.class);
                 startActivity(scheduleIntent);
                 return true;

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.session.MediaSession;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
@@ -175,7 +174,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
 
     //if the media player is paused or stopped and this method has been triggered then stop the service.
     private void closeIfPaused() {
-        if(mState == State.Paused || mState == State.Stopped) {
+        if (mState == State.Paused || mState == State.Stopped) {
             removeNotification();
             stopSelf();
         }
