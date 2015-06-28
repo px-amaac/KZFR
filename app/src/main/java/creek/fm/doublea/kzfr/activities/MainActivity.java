@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 
 import butterknife.ButterKnife;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FrameLayout mContentView;
     @InjectView(R.id.play_pause_button)
     ToggleButton mPlayPauseButton;
+    @InjectView(R.id.progress_spinner)
+    protected ProgressBar mProgressBar;
 
     ActionBarDrawerToggle actionBarDrawerToggle;
     private NowPlayingService mNowPlayingService;
@@ -175,6 +178,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mediaPlayerIntent.setAction(NowPlayingService.ACTION_PAUSE);
             }
             startService(mediaPlayerIntent);
+        }
+    }
+
+    protected void showProgressBar(boolean shouldShow) {
+        if(shouldShow) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 }
