@@ -1,12 +1,15 @@
 package creek.fm.doublea.kzfr.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Aaron on 6/18/2015.
  */
-public class Host {
+public class Host implements Parcelable {
     @Expose
     private String id;
     @SerializedName("display_name")
@@ -89,4 +92,36 @@ public class Host {
         this.image = image;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.displayName);
+        dest.writeString(this.username);
+        dest.writeValue(this.image);
+    }
+
+    public Host() {
+    }
+
+    protected Host(Parcel in) {
+        this.id = in.readString();
+        this.displayName = in.readString();
+        this.username = in.readString();
+        this.image = (Boolean) in.readValue(Boolean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Host> CREATOR = new Parcelable.Creator<Host>() {
+        public Host createFromParcel(Parcel source) {
+            return new Host(source);
+        }
+
+        public Host[] newArray(int size) {
+            return new Host[size];
+        }
+    };
 }

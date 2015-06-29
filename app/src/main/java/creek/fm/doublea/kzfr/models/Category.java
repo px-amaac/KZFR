@@ -1,12 +1,15 @@
 package creek.fm.doublea.kzfr.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Aaron on 6/18/2015.
  */
-public class Category {
+public class Category implements Parcelable {
     @Expose
     private String id;
     @Expose
@@ -69,4 +72,34 @@ public class Category {
         this.shortName = shortName;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.shortName);
+    }
+
+    public Category() {
+    }
+
+    protected Category(Parcel in) {
+        this.id = in.readString();
+        this.title = in.readString();
+        this.shortName = in.readString();
+    }
+
+    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+        public Category createFromParcel(Parcel source) {
+            return new Category(source);
+        }
+
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
 }

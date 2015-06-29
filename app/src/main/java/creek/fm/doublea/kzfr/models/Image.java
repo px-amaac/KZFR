@@ -1,12 +1,15 @@
 package creek.fm.doublea.kzfr.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Aaron on 6/18/2015.
  */
-public class Image {
+public class Image implements Parcelable {
     @Expose
     private String url;
     @SerializedName("url_sm")
@@ -91,4 +94,36 @@ public class Image {
         this.urlLg = urlLg;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.url);
+        dest.writeString(this.urlSm);
+        dest.writeString(this.urlMd);
+        dest.writeString(this.urlLg);
+    }
+
+    public Image() {
+    }
+
+    protected Image(Parcel in) {
+        this.url = in.readString();
+        this.urlSm = in.readString();
+        this.urlMd = in.readString();
+        this.urlLg = in.readString();
+    }
+
+    public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
+        public Image createFromParcel(Parcel source) {
+            return new Image(source);
+        }
+
+        public Image[] newArray(int size) {
+            return new Image[size];
+        }
+    };
 }

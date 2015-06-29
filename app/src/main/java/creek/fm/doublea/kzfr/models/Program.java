@@ -1,5 +1,8 @@
 package creek.fm.doublea.kzfr.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +12,7 @@ import java.util.List;
 /**
  * Created by Aaron on 6/18/2015.
  */
-public class Program {
+public class Program implements Parcelable {
     @Expose
     private creek.fm.doublea.kzfr.models.Airtime Airtime;
     @Expose
@@ -215,4 +218,49 @@ public class Program {
         this.categories = categories;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.Airtime, 0);
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.shortName);
+        dest.writeString(this.fullDescription);
+        dest.writeString(this.shortDescription);
+        dest.writeParcelable(this.Image, 0);
+        dest.writeString(this.imageName);
+        dest.writeList(this.hosts);
+        dest.writeTypedList(categories);
+    }
+
+    public Program() {
+    }
+
+    protected Program(Parcel in) {
+        this.Airtime = in.readParcelable(creek.fm.doublea.kzfr.models.Airtime.class.getClassLoader());
+        this.id = in.readString();
+        this.title = in.readString();
+        this.shortName = in.readString();
+        this.fullDescription = in.readString();
+        this.shortDescription = in.readString();
+        this.Image = in.readParcelable(creek.fm.doublea.kzfr.models.Image.class.getClassLoader());
+        this.imageName = in.readString();
+        this.hosts = new ArrayList<Object>();
+        in.readList(this.hosts, List.class.getClassLoader());
+        this.categories = in.createTypedArrayList(Category.CREATOR);
+    }
+
+    public static final Parcelable.Creator<Program> CREATOR = new Parcelable.Creator<Program>() {
+        public Program createFromParcel(Parcel source) {
+            return new Program(source);
+        }
+
+        public Program[] newArray(int size) {
+            return new Program[size];
+        }
+    };
 }

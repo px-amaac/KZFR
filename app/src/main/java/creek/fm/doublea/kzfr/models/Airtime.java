@@ -1,13 +1,16 @@
 package creek.fm.doublea.kzfr.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Aaron on 6/18/2015.
  */
-public class Airtime {
+public class Airtime implements Parcelable {
     @Expose
     private String start;
     @Expose
@@ -195,4 +198,46 @@ public class Airtime {
         this.weekday = weekday;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.start);
+        dest.writeString(this.end);
+        dest.writeString(this.startX);
+        dest.writeString(this.endX);
+        dest.writeString(this.startF);
+        dest.writeString(this.endF);
+        dest.writeString(this.startGmt);
+        dest.writeString(this.endGmt);
+        dest.writeString(this.weekday);
+    }
+
+    public Airtime() {
+    }
+
+    protected Airtime(Parcel in) {
+        this.start = in.readString();
+        this.end = in.readString();
+        this.startX = in.readString();
+        this.endX = in.readString();
+        this.startF = in.readString();
+        this.endF = in.readString();
+        this.startGmt = in.readString();
+        this.endGmt = in.readString();
+        this.weekday = in.readString();
+    }
+
+    public static final Parcelable.Creator<Airtime> CREATOR = new Parcelable.Creator<Airtime>() {
+        public Airtime createFromParcel(Parcel source) {
+            return new Airtime(source);
+        }
+
+        public Airtime[] newArray(int size) {
+            return new Airtime[size];
+        }
+    };
 }
