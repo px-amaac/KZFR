@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.Utils;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.Program;
 
@@ -109,10 +110,13 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
             String imageUrl = null;
             Image imageUrls = mProgramItem.getImage();
             if (imageUrls != null)
-                imageUrl = imageUrls.getUrlMd();
+                imageUrl = imageUrls.getUrlSm();
 
             Picasso.with(mContext)
                     .load(imageUrl)
+                    .resize(Utils.convertDpToPx(mContext, 128), Utils.convertDpToPx(mContext, 128))
+                    .onlyScaleDown()
+                    .centerInside()
                     .into(mImageView);
         }
     }

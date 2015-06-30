@@ -10,30 +10,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/program_time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/black"
-            android:textColor="@android:color/white" />
+        android:layout_height="match_parent"
+        android:padding="4dp">
 
         <ImageView
             android:id="@+id/program_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/program_time"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp" />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp" />
 
         <LinearLayout
             android:id="@+id/details"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/program_time"
+            android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/program_image"
             android:orientation="vertical">
 
@@ -41,13 +33,24 @@
                 android:id="@+id/program_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:layout_gravity="left" />
 
             <TextView
                 android:id="@+id/program_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="5"
                 android:layout_gravity="left" />
+
+            <TextView
+                android:id="@+id/program_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp"/>
         </LinearLayout>
 
     </RelativeLayout>
