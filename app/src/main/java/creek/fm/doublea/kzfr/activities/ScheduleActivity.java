@@ -62,7 +62,7 @@ public class ScheduleActivity extends MainActivity implements ScheduleDayFragmen
                 @Override
                 public void run() {
                     mPagerAdapter.notifyDataSetChanged();
-                    mProgressBar.setVisibility(View.VISIBLE);
+                    showProgressBar(false);
                 }
             });
         }
