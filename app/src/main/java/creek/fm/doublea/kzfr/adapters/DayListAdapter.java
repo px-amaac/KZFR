@@ -6,12 +6,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.Program;
 
 /**
@@ -23,13 +29,15 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     private OnItemClickListener mOnItemClickListener;
     private final LayoutInflater mInflater;
     private ArrayList<Program> mPrograms = new ArrayList<>();
+    private Context mContext;
 
     public static interface OnItemClickListener {
         public void onItemClick(Program program);
     }
 
     public DayListAdapter(Context context, OnItemClickListener onItemClickListener) {
-        mInflater = LayoutInflater.from(context);
+        mContext = context;
+        mInflater = LayoutInflater.from(mContext);
         this.setOnItemClickListener(onItemClickListener);
     }
 
@@ -66,17 +74,21 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTime;
-        public TextView mTitle;
-        public TextView mDescription;
+        @InjectView(R.id.program_time)
+        TextView mTime;
+        @InjectView(R.id.program_title)
+        TextView mTitle;
+        @InjectView(R.id.program_description)
+        TextView mDescription;
+        @InjectView(R.id.program_image)
+        ImageView mImageView;
+
         private Program mProgramItem;
 
         public ViewHolder(View v) {
             super(v);
             Log.d(TAG, "ViewHolder Constructor");
-            mTime = (TextView) v.findViewById(R.id.program_time);
-            mTitle = (TextView) v.findViewById(R.id.program_title);
-            mDescription = (TextView) v.findViewById(R.id.program_description);
+            ButterKnife.inject(this, v);
             v.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -94,6 +106,14 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
             mTime.setText(mProgramItem.getAirtime().getStartF());
             mTitle.setText(mProgramItem.getTitle());
             mDescription.setText(mProgramItem.getShortDescription());
+            String imageUrl = null;
+            Image imageUrls = mProgramItem.getImage();
+            if (imageUrls != null)
+                imageUrl = imageUrls.getUrlMd();
+
+            Picasso.with(mContext)
+                    .load(imageUrl)
+                    .into(mImageView);
         }
     }
 }
