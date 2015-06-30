@@ -2,6 +2,7 @@ package creek.fm.doublea.kzfr.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import creek.fm.doublea.kzfr.models.Program;
  * Created by Aaron on 6/26/2015.
  */
 public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHolder> {
+    private static final String TAG = DayListAdapter.class.getSimpleName();
+
     private OnItemClickListener mOnItemClickListener;
     private final LayoutInflater mInflater;
     private ArrayList<Program> mPrograms = new ArrayList<>();
@@ -32,6 +35,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
 
     @Override
     public DayListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder");
         return new ViewHolder(mInflater.inflate(R.layout.program_card_view, parent, false));
     }
 
@@ -69,6 +73,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
 
         public ViewHolder(View v) {
             super(v);
+            Log.d(TAG, "ViewHolder Constructor");
             mTime = (TextView) v.findViewById(R.id.program_time);
             mTitle = (TextView) v.findViewById(R.id.program_title);
             mDescription = (TextView) v.findViewById(R.id.program_description);
@@ -84,6 +89,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
         }
 
         public void bind(Program program) {
+            Log.d(TAG, "bind day");
             mProgramItem = program;
             mTime.setText(mProgramItem.getAirtime().getStartF());
             mTitle.setText(mProgramItem.getTitle());

@@ -2,7 +2,7 @@ package creek.fm.doublea.kzfr.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -16,11 +16,12 @@ import creek.fm.doublea.kzfr.models.Program;
 /**
  * Created by Aaron on 6/25/2015.
  */
-public class SchedulePagerAdapter extends FragmentPagerAdapter {
+public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
+    private static final String TAG = SchedulePagerAdapter.class.getSimpleName();
     private static final String[] CONTENT = new String[]{"Monday", "Tuesday",
             "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
-    private Map<String, Day> mScheduleData = new HashMap<String, Day>();
+    private HashMap<String, Day> mScheduleData = new HashMap<String, Day>();
 
     public SchedulePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -28,6 +29,7 @@ public class SchedulePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Log.d(TAG, "getItem at pasition " + position);
         return ScheduleDayFragment.newInstance(position);
     }
 
@@ -50,12 +52,22 @@ public class SchedulePagerAdapter extends FragmentPagerAdapter {
 
     public void setData(Map<String, Day> data) {
 
-        Log.d("SchedulePagerAdapter", "setScheduleData");
+        Log.d(TAG, "setData");
         mScheduleData.clear();
         mScheduleData.putAll(data);
     }
 
     public List<Program> getData(int position) {
-        return mScheduleData.get(String.valueOf(position +1)).getPrograms();
+        Log.d(TAG, "getData at position " + position);
+        return mScheduleData.get(String.valueOf(position + 1)).getPrograms();
+    }
+
+    public HashMap<String, Day> getAllData() {
+        return mScheduleData;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

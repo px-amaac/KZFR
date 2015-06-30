@@ -8,8 +8,7 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -43,9 +42,8 @@ public class ApiClient {
         mClient.setCache(cache);
 
 
-
         //build the rest adapter
-        if(sKZFRApiInterface == null) {
+        if (sKZFRApiInterface == null) {
             final RestAdapter restAdapter = new RestAdapter.Builder()
                     .setConverter(new GsonConverter(gson))
                     .setExecutors(executor, executor)
@@ -58,9 +56,8 @@ public class ApiClient {
     }
 
 
-
     public interface KZFRApiInterface {
         @GET("/schedule")
-        void getSchedule(KZFRRetrofitCallback<Map<String, Day>> callback);
+        void getSchedule(KZFRRetrofitCallback<HashMap<String, Day>> callback);
     }
 }
