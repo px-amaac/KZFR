@@ -1,11 +1,14 @@
 package creek.fm.doublea.kzfr.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +40,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     private final LayoutInflater mInflater;
     private ArrayList<Program> mPrograms = new ArrayList<>();
     private Context mContext;
-
+    private int mLastPosition = -1;
     public static interface OnItemClickListener {
         public void onItemClick(Program program);
     }
@@ -57,6 +60,21 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     @Override
     public void onBindViewHolder(DayListAdapter.ViewHolder holder, int position) {
         holder.bind(mPrograms.get(position));
+        setAnimation(holder.mCardView, position);
+    }
+
+    /**
+     * Here is the key method to apply the animation
+     */
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > mLastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_in);
+            viewToAnimate.startAnimation(animation);
+            mLastPosition = position;
+        }
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -81,6 +99,8 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @InjectView(R.id.day_card_view)
+        CardView mCardView;
         @InjectView(R.id.program_time)
         TextView mTime;
         @InjectView(R.id.program_title)
