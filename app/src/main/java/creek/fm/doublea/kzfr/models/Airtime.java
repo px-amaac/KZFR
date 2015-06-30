@@ -12,15 +12,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Airtime implements Parcelable {
     @Expose
+    private String id;
+    @Expose
     private String start;
     @Expose
     private String end;
-    @SerializedName("start_x")
     @Expose
-    private String startX;
-    @SerializedName("end_x")
+    private String weekday;
     @Expose
-    private String endX;
+    private String rule;
     @SerializedName("start_f")
     @Expose
     private String startF;
@@ -33,8 +33,73 @@ public class Airtime implements Parcelable {
     @SerializedName("end_gmt")
     @Expose
     private String endGmt;
+    @SerializedName("start_date_gmt")
     @Expose
-    private String weekday;
+    private String startDateGmt;
+    @SerializedName("start_date_time_gmt")
+    @Expose
+    private String startDateTimeGmt;
+    @SerializedName("end_date_gmt")
+    @Expose
+    private String endDateGmt;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
+    }
+
+    public String getStartDateGmt() {
+        return startDateGmt;
+    }
+
+    public void setStartDateGmt(String startDateGmt) {
+        this.startDateGmt = startDateGmt;
+    }
+
+    public String getStartDateTimeGmt() {
+        return startDateTimeGmt;
+    }
+
+    public void setStartDateTimeGmt(String startDateTimeGmt) {
+        this.startDateTimeGmt = startDateTimeGmt;
+    }
+
+    public String getEndDateGmt() {
+        return endDateGmt;
+    }
+
+    public void setEndDateGmt(String endDateGmt) {
+        this.endDateGmt = endDateGmt;
+    }
+
+    public String getEndDateTimeGmt() {
+        return endDateTimeGmt;
+    }
+
+    public void setEndDateTimeGmt(String endDateTimeGmt) {
+        this.endDateTimeGmt = endDateTimeGmt;
+    }
+
+    @SerializedName("end_date_time_gmt")
+    @Expose
+    private String endDateTimeGmt;
+    @SerializedName("start_x")
+    @Expose
+    private String startX;
+    @SerializedName("end_x")
+    @Expose
+    private String endX;
 
     /**
      *
@@ -205,33 +270,45 @@ public class Airtime implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.start);
         dest.writeString(this.end);
-        dest.writeString(this.startX);
-        dest.writeString(this.endX);
+        dest.writeString(this.weekday);
+        dest.writeString(this.rule);
         dest.writeString(this.startF);
         dest.writeString(this.endF);
         dest.writeString(this.startGmt);
         dest.writeString(this.endGmt);
-        dest.writeString(this.weekday);
+        dest.writeString(this.startDateGmt);
+        dest.writeString(this.startDateTimeGmt);
+        dest.writeString(this.endDateGmt);
+        dest.writeString(this.endDateTimeGmt);
+        dest.writeString(this.startX);
+        dest.writeString(this.endX);
     }
 
     public Airtime() {
     }
 
     protected Airtime(Parcel in) {
+        this.id = in.readString();
         this.start = in.readString();
         this.end = in.readString();
-        this.startX = in.readString();
-        this.endX = in.readString();
+        this.weekday = in.readString();
+        this.rule = in.readString();
         this.startF = in.readString();
         this.endF = in.readString();
         this.startGmt = in.readString();
         this.endGmt = in.readString();
-        this.weekday = in.readString();
+        this.startDateGmt = in.readString();
+        this.startDateTimeGmt = in.readString();
+        this.endDateGmt = in.readString();
+        this.endDateTimeGmt = in.readString();
+        this.startX = in.readString();
+        this.endX = in.readString();
     }
 
-    public static final Parcelable.Creator<Airtime> CREATOR = new Parcelable.Creator<Airtime>() {
+    public static final Creator<Airtime> CREATOR = new Creator<Airtime>() {
         public Airtime createFromParcel(Parcel source) {
             return new Airtime(source);
         }
