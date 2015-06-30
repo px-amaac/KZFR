@@ -3,4 +3,6 @@
 
     <color name="dark">#444</color>
     <color name="grey">#EEE</color>
+    <color name="white">#FFF</color>
+
 </resources>
