@@ -18,15 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.ToggleButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.fragments.NowPlayingFragment;
 import creek.fm.doublea.kzfr.services.NowPlayingService;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements NowPlayingFragment.GetMainService {
 
     // Butterknife view injections
     @InjectView(R.id.drawer_layout)
@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NavigationView mNavigationView;
     @InjectView(R.id.content)
     FrameLayout mContentView;
-    @InjectView(R.id.play_pause_button)
-    ToggleButton mPlayPauseButton;
     @InjectView(R.id.progress_spinner)
     protected ProgressBar mProgressBar;
 
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onServiceConnected(ComponentName name, IBinder service) {
             NowPlayingService.MediaPlayerBinder binder = (NowPlayingService.MediaPlayerBinder) service;
             mNowPlayingService = binder.getService();
-            updateToggle();
+            updateMediaPlayerToggle();
             mBound = true;
         }
 
@@ -61,12 +59,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    private void updateMediaPlayerToggle() {
+        NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.now_playing_fragment);
+        if (nowPlayingFragment != null) {
+            nowPlayingFragment.updateToggle();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        mPlayPauseButton.setOnClickListener(this);
         setSupportActionBar(mMainActionToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -106,13 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startService(mediaIntent);
         if (!mBound)
             bindService(mediaIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        else
-            updateToggle();
+
     }
 
-    private void updateToggle() {
-        mPlayPauseButton.setChecked(mNowPlayingService.isPlaying());
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -167,25 +167,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startService(stopIntent);
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.play_pause_button) {
-            Intent mediaPlayerIntent = new Intent(this, NowPlayingService.class);
-            if (mPlayPauseButton.isChecked()) {//media player is playing or the play intent has been passed to the media player
-                //if its playing then user clicked the pause button so sent pause intent.
-                mediaPlayerIntent.setAction(NowPlayingService.ACTION_PLAY);
-            } else {
-                mediaPlayerIntent.setAction(NowPlayingService.ACTION_PAUSE);
-            }
-            startService(mediaPlayerIntent);
-        }
-    }
 
     protected void showProgressBar(boolean shouldShow) {
-        if(shouldShow) {
+        if (shouldShow) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             mProgressBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public NowPlayingService getMainService() {
+        if (mBound)
+            return mNowPlayingService;
+        return null;
     }
 }
