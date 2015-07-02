@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.activities.MainActivity;
+import creek.fm.doublea.kzfr.activities.ScheduleActivity;
 import creek.fm.doublea.kzfr.fragments.NowPlayingFragment;
 
 
@@ -297,6 +298,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setContentTitle("KZFR Radio").setContentText("Streaming Live")
                 .setSmallIcon(R.mipmap.kzfr_logo).setOngoing(true)
+                .setContentIntent(getMainContentIntent())
                 .setDeleteIntent(pendingIntent);
         if (mState == State.Paused || mState == State.Stopped) {
             builder.addAction(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
@@ -309,6 +311,12 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
             startForeground(NOTIFICATION_ID, builder.build());
         else
             notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    private PendingIntent getMainContentIntent() {
+        Intent resultIntent = new Intent(this, ScheduleActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return resultPendingIntent;
     }
 
     private NotificationCompat.Action generateAction(int icon, String title, String intentAction) {

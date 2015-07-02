@@ -31,7 +31,7 @@
 
         <FrameLayout
             android:id="@+id/content"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/now_playing_fragment"
             android:layout_below="@id/main_toolbar">
