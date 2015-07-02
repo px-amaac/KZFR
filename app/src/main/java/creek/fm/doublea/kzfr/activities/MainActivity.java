@@ -1,13 +1,16 @@
 package creek.fm.doublea.kzfr.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,6 +30,9 @@ import creek.fm.doublea.kzfr.services.NowPlayingService;
 
 
 public class MainActivity extends AppCompatActivity implements NowPlayingFragment.GetMainService {
+    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String UPDATE_PLAYER = TAG + ".update_player";
+
 
     // Butterknife view injections
     @InjectView(R.id.drawer_layout)
@@ -59,6 +65,15 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         }
     };
 
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(UPDATE_PLAYER)) {
+                updateMediaPlayerToggle();
+            }
+        }
+    };
+
     private void updateMediaPlayerToggle() {
         NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.now_playing_fragment);
         if (nowPlayingFragment != null) {
@@ -86,6 +101,15 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
 
         mNavigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
 
+        registerBroadcastReceiver();
+
+    }
+
+    private void registerBroadcastReceiver() {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter updateIntentFilter = new IntentFilter();
+        updateIntentFilter.addAction(UPDATE_PLAYER);
+        broadcastManager.registerReceiver(broadcastReceiver, updateIntentFilter);
     }
 
     private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
@@ -117,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        //sync state needed to make the drawer menu item appear
         actionBarDrawerToggle.syncState();
     }
 

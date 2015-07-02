@@ -13,10 +13,13 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.IOException;
 
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.activities.MainActivity;
+import creek.fm.doublea.kzfr.fragments.NowPlayingFragment;
 
 
 /**
@@ -215,9 +218,15 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     private void startMediaPlayer() {
         if (mMediaPlayer != null) {
             mMediaPlayer.start();
+            sendUpdatePlayerIntent();
             mState = State.Playeng;
             buildNotification(false);
         }
+    }
+
+    private void sendUpdatePlayerIntent() {
+        Intent updatePlayerIntent = new Intent(MainActivity.UPDATE_PLAYER);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(updatePlayerIntent);
     }
 
     /*
@@ -263,13 +272,13 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
             requestResources();
             startMediaPlayer();
         }
-
     }
 
     private void processPauseRequest() {
 
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
+            sendUpdatePlayerIntent();
             mState = State.Paused;
             relaxResources();
             buildNotification(false);
