@@ -16,6 +16,7 @@ import creek.fm.doublea.kzfr.models.Broadcast;
 import creek.fm.doublea.kzfr.models.Day;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.JsonDeserializer;
+import creek.fm.doublea.kzfr.models.NowPlaying;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
@@ -65,7 +66,7 @@ public class ApiClient {
 
         /*http://kzfr.org/api/broadcasting*/
         @GET("/broadcasting")
-        void getCurrentBroadcast(KZFRRetrofitCallback<Broadcast> callback);
+        void getCurrentBroadcast(KZFRRetrofitCallback<NowPlaying> callback);
     }
 
 

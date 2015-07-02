@@ -8,13 +8,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.Utils;
+import creek.fm.doublea.kzfr.api.ApiClient;
+import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.models.Broadcast;
+import creek.fm.doublea.kzfr.models.NowPlaying;
 import creek.fm.doublea.kzfr.services.NowPlayingService;
+import retrofit.client.Response;
 
 /**
  * Created by Aaron on 6/10/2015.
@@ -22,11 +28,15 @@ import creek.fm.doublea.kzfr.services.NowPlayingService;
 public class NowPlayingFragment extends Fragment implements View.OnClickListener {
     @InjectView(R.id.play_pause_button)
     ToggleButton mPlayPauseButton;
+    @InjectView(R.id.media_player_title)
+    TextView mMediaPlayerTitle;
+    @InjectView(R.id.media_player_time)
+    TextView mMediaPlayerTime;
 
     GetMainService sGetMainService;
 
     public interface GetMainService {
-        public NowPlayingService getMainService();
+        NowPlayingService getMainService();
     }
 
     @Override
@@ -45,11 +55,36 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
         View v = inflater.inflate(R.layout.fragment_media_controls, container, false);
         ButterKnife.inject(this, v);
         mPlayPauseButton.setOnClickListener(this);
-
+        executeApiCall();
         return v;
     }
 
-    public void addData(Broadcast broadcast) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateToggle();
+    }
+
+    private void executeApiCall() {
+        ApiClient.getKZFRApiClient(getActivity()).getCurrentBroadcast(new KZFRRetrofitCallback<NowPlaying>() {
+
+            @Override
+            public void success(NowPlaying nowPlaying, Response response) {
+                super.success(nowPlaying, response);
+                addDataToView(nowPlaying);
+
+            }
+        });
+    }
+
+    private void addDataToView(final NowPlaying nowPlaying) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMediaPlayerTitle.setText(nowPlaying.getNow().getTitle());
+                mMediaPlayerTime.setText(Utils.getFriendlyAirTime(nowPlaying.getNow().getAirtime()));
+            }
+        });
 
     }
 
