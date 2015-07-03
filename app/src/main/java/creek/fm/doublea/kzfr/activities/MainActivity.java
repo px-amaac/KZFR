@@ -32,6 +32,7 @@ import creek.fm.doublea.kzfr.services.NowPlayingService;
 public class MainActivity extends AppCompatActivity implements NowPlayingFragment.GetMainService {
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String UPDATE_PLAYER = TAG + ".update_player";
+    public static final String BUFFERING = TAG + ".buffering_player";
 
 
     // Butterknife view injections
@@ -68,11 +69,20 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(UPDATE_PLAYER)) {
+            if (intent.getAction().equals(UPDATE_PLAYER)) {
                 updateMediaPlayerToggle();
+            } else if (intent.getAction().equals(BUFFERING)) {
+                showMediaPlayerBuffering();
             }
         }
     };
+
+    private void showMediaPlayerBuffering() {
+        NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.now_playing_fragment);
+        if (nowPlayingFragment != null) {
+            nowPlayingFragment.showBuffering(true);
+        }
+    }
 
     private void updateMediaPlayerToggle() {
         NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.now_playing_fragment);
@@ -109,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter updateIntentFilter = new IntentFilter();
         updateIntentFilter.addAction(UPDATE_PLAYER);
+        updateIntentFilter.addAction(BUFFERING);
         broadcastManager.registerReceiver(broadcastReceiver, updateIntentFilter);
     }
 
@@ -179,8 +190,10 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     protected void onPause() {
         super.onPause();
         sendStopIntent();
-        if(mNowPlayingService != null)
+        if (mNowPlayingService != null) {
             unbindService(mServiceConnection);
+            mNowPlayingService = null;
+        }
         mBound = false;
     }
 
@@ -204,6 +217,6 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
 
     @Override
     public NowPlayingService getMainService() {
-            return mNowPlayingService;
+        return mNowPlayingService;
     }
 }

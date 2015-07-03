@@ -17,7 +17,6 @@ import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.Utils;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
-import creek.fm.doublea.kzfr.models.Broadcast;
 import creek.fm.doublea.kzfr.models.NowPlaying;
 import creek.fm.doublea.kzfr.services.NowPlayingService;
 import retrofit.client.Response;
@@ -26,14 +25,19 @@ import retrofit.client.Response;
  * Created by Aaron on 6/10/2015.
  */
 public class NowPlayingFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = NowPlayingFragment.class.getSimpleName();
+
     @InjectView(R.id.play_pause_button)
     ToggleButton mPlayPauseButton;
     @InjectView(R.id.media_player_title)
     TextView mMediaPlayerTitle;
     @InjectView(R.id.media_player_time)
     TextView mMediaPlayerTime;
+    @InjectView(R.id.buffering_title)
+    TextView mBuffering;
 
     GetMainService sGetMainService;
+    NowPlaying mNowPlaying;
 
     public interface GetMainService {
         NowPlayingService getMainService();
@@ -77,23 +81,43 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
         });
     }
 
-    private void addDataToView(final NowPlaying nowPlaying) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mMediaPlayerTitle.setText(nowPlaying.getNow().getTitle());
-                mMediaPlayerTime.setText(Utils.getFriendlyAirTime(nowPlaying.getNow().getAirtime()));
-            }
-        });
+    private void addDataToView(NowPlaying nowPlaying) {
+        mNowPlaying = nowPlaying;
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mMediaPlayerTitle.setText(mNowPlaying.getNow().getTitle());
+                    mMediaPlayerTime.setText(Utils.getFriendlyAirTime(mNowPlaying.getNow().getAirtime()));
+                }
+            });
+        }
 
     }
 
     public void updateToggle() {
         NowPlayingService mainService = sGetMainService.getMainService();
+
+        //The media player might have been buffering so set the buffering view to gone.
+        showBuffering(false);
+
         if (mainService != null) {
             mPlayPauseButton.setChecked(sGetMainService.getMainService().isPlaying());
-        } else
+        } else {
             mPlayPauseButton.setChecked(false);
+        }
+    }
+
+    // Show the buffering
+    public void showBuffering(boolean isBuffering) {
+        if (isBuffering) {
+            mBuffering.setVisibility(View.VISIBLE);
+            mMediaPlayerTime.setVisibility(View.GONE);
+        } else {
+            mBuffering.setVisibility(View.GONE);
+            mMediaPlayerTime.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

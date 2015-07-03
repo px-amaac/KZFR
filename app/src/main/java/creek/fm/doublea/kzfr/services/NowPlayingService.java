@@ -14,13 +14,13 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import java.io.IOException;
 
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.activities.MainActivity;
 import creek.fm.doublea.kzfr.activities.ScheduleActivity;
-import creek.fm.doublea.kzfr.fragments.NowPlayingFragment;
 
 
 /**
@@ -28,6 +28,7 @@ import creek.fm.doublea.kzfr.fragments.NowPlayingFragment;
  */
 public class NowPlayingService extends Service implements AudioManager.OnAudioFocusChangeListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnInfoListener {
+    private static final String TAG = NowPlayingService.class.getSimpleName();
 
     private final IBinder mMediaPlayerBinder = new MediaPlayerBinder();
     public static final String ACTION_PLAY = "creek.fm.doublea.kzfr.services.PLAY";
@@ -226,6 +227,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     }
 
     private void sendUpdatePlayerIntent() {
+        Log.d(TAG, "updatePlayerIntent");
         Intent updatePlayerIntent = new Intent(MainActivity.UPDATE_PLAYER);
         LocalBroadcastManager.getInstance(this).sendBroadcast(updatePlayerIntent);
     }
@@ -268,11 +270,18 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
 
     private void processPlayRequest() {
         if (mState == State.Stopped) {
+            sendBufferingIntent();
             configAndPrepareMediaPlayer();
         } else if (mState == State.Paused) {
             requestResources();
             startMediaPlayer();
         }
+    }
+
+    //send an intent telling any activity listening to this intent that the media player is buffering.
+    private void sendBufferingIntent() {
+        Intent bufferingPlayerIntent = new Intent(MainActivity.BUFFERING);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(bufferingPlayerIntent);
     }
 
     private void processPauseRequest() {
@@ -369,8 +378,9 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     }
 
     public boolean isPlaying() {
-        if (mMediaPlayer != null)
+        if (mMediaPlayer != null) {
             return mMediaPlayer.isPlaying();
+        }
         return false;
     }
 
