@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
 
         Intent mediaIntent = new Intent(this, NowPlayingService.class);
         startService(mediaIntent);
-        if (!mBound)
+        if (mNowPlayingService == null)
             bindService(mediaIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
     }
@@ -179,7 +179,8 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     protected void onPause() {
         super.onPause();
         sendStopIntent();
-        unbindService(mServiceConnection);
+        if(mNowPlayingService != null)
+            unbindService(mServiceConnection);
         mBound = false;
     }
 
@@ -203,8 +204,6 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
 
     @Override
     public NowPlayingService getMainService() {
-        if (mBound)
             return mNowPlayingService;
-        return null;
     }
 }
