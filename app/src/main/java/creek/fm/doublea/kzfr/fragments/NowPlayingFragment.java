@@ -8,13 +8,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.Utils;
+import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.models.NowPlaying;
@@ -35,6 +38,9 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
     TextView mMediaPlayerTime;
     @InjectView(R.id.buffering_title)
     TextView mBuffering;
+    @InjectView(R.id.media_player_data)
+    RelativeLayout mPlayerData;
+
 
     GetMainService sGetMainService;
     NowPlaying mNowPlaying;
@@ -133,4 +139,17 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
             getActivity().startService(mediaPlayerIntent);
         }
     }
+
+    @OnClick(R.id.media_player_data)
+    public void onMediaPlayerDataClicked() {
+        if(mNowPlaying != null) {
+            Intent programIntent = new Intent(getActivity(), ProgramActivity.class);
+            programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            programIntent.putExtra(ProgramActivity.PROGRAM_DATA_KEY, mNowPlaying.getNow());
+            getActivity().startActivity(programIntent);
+        }
+    }
+
+
+
 }

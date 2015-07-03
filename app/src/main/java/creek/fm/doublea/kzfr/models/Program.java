@@ -34,7 +34,7 @@ public class Program implements Parcelable {
     @Expose
     private String imageName;
     @Expose
-    private List<Object> hosts = new ArrayList<Object>();
+    private List<Host> hosts = new ArrayList<Host>();
     @Expose
     private List<Category> categories = new ArrayList<Category>();
 
@@ -187,7 +187,7 @@ public class Program implements Parcelable {
      * @return
      * The hosts
      */
-    public List<Object> getHosts() {
+    public List<Host> getHosts() {
         return hosts;
     }
 
@@ -196,7 +196,7 @@ public class Program implements Parcelable {
      * @param hosts
      * The hosts
      */
-    public void setHosts(List<Object> hosts) {
+    public void setHosts(List<Host> hosts) {
         this.hosts = hosts;
     }
 
@@ -249,8 +249,7 @@ public class Program implements Parcelable {
         this.shortDescription = in.readString();
         this.Image = in.readParcelable(creek.fm.doublea.kzfr.models.Image.class.getClassLoader());
         this.imageName = in.readString();
-        this.hosts = new ArrayList<Object>();
-        in.readList(this.hosts, List.class.getClassLoader());
+        this.hosts = in.createTypedArrayList(Host.CREATOR);
         this.categories = in.createTypedArrayList(Category.CREATOR);
     }
 

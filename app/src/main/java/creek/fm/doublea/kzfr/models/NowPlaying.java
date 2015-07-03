@@ -8,9 +8,9 @@ import com.google.gson.annotations.Expose;
 public class NowPlaying {
 
     @Expose
-    private Broadcast now;
+    private Program now;
     @Expose
-    private Broadcast next;
+    private Program next;
     @Expose
     private Boolean Track;
 
@@ -19,7 +19,7 @@ public class NowPlaying {
      * @return
      * The now
      */
-    public Broadcast getNow() {
+    public Program getNow() {
         return now;
     }
 
@@ -28,7 +28,7 @@ public class NowPlaying {
      * @param now
      * The now
      */
-    public void setNow(Broadcast now) {
+    public void setNow(Program now) {
         this.now = now;
     }
 
@@ -37,7 +37,7 @@ public class NowPlaying {
      * @return
      * The next
      */
-    public Broadcast getNext() {
+    public Program getNext() {
         return next;
     }
 
@@ -46,7 +46,7 @@ public class NowPlaying {
      * @param next
      * The next
      */
-    public void setNext(Broadcast next) {
+    public void setNext(Program next) {
         this.next = next;
     }
 

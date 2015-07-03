@@ -18,7 +18,7 @@ public class Host implements Parcelable {
     @Expose
     private String username;
     @Expose
-    private Boolean image;
+    private String image;
 
     /**
      *
@@ -79,7 +79,7 @@ public class Host implements Parcelable {
      * @return
      * The image
      */
-    public Boolean getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -88,7 +88,7 @@ public class Host implements Parcelable {
      * @param image
      * The image
      */
-    public void setImage(Boolean image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -111,8 +111,8 @@ public class Host implements Parcelable {
     protected Host(Parcel in) {
         this.id = in.readString();
         this.displayName = in.readString();
-        this.username = in.readString();
-        this.image = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.username =
+        this.image = in.readString();
     }
 
     public static final Parcelable.Creator<Host> CREATOR = new Parcelable.Creator<Host>() {
