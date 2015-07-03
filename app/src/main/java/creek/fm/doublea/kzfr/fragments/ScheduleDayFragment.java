@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.adapters.DayListAdapter;
 import creek.fm.doublea.kzfr.models.Program;
@@ -22,7 +22,7 @@ import creek.fm.doublea.kzfr.models.Program;
  * Created by Aaron on 6/25/2015.
  */
 public class ScheduleDayFragment extends Fragment {
-    @InjectView(R.id.day_recycler_view)
+    @Bind(R.id.day_recycler_view)
     RecyclerView mRecyclerView;
 
     private static final String POSITION_TAG = "creek.fm.doublea.kzfr.fragments.position_tag";
@@ -61,7 +61,7 @@ public class ScheduleDayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("ScheduleDayFragment", "onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_schedule_day, container, false);
-        ButterKnife.inject(this, rootView);
+        ButterKnife.bind(this, rootView);
         mPosition = getArguments().getInt(POSITION_TAG);
         setupRecyclerView();
 
@@ -92,9 +92,9 @@ public class ScheduleDayFragment extends Fragment {
 
     private void checkForProgramData() {
         Log.d("ScheduleDayFragment", "checkForProgramData");
-        if(mListAdapter.isEmpty()) {
+        if (mListAdapter.isEmpty()) {
             List<Program> programList = getDataInterface.getProgramListData(mPosition);
-            if(programList != null) {
+            if (programList != null) {
                 mListAdapter.setProgramsData(getDataInterface.getProgramListData(mPosition));
                 mListAdapter.notifyDataSetChanged();
             }
@@ -111,6 +111,6 @@ public class ScheduleDayFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 }

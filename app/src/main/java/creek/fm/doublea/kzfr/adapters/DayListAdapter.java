@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.Utils;
 import creek.fm.doublea.kzfr.models.Airtime;
@@ -41,6 +41,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     private ArrayList<Program> mPrograms = new ArrayList<>();
     private Context mContext;
     private int mLastPosition = -1;
+
     public static interface OnItemClickListener {
         public void onItemClick(Program program);
     }
@@ -66,11 +67,9 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     /**
      * Here is the key method to apply the animation
      */
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > mLastPosition)
-        {
+        if (position > mLastPosition) {
             Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_in);
             viewToAnimate.startAnimation(animation);
             mLastPosition = position;
@@ -99,15 +98,15 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.day_card_view)
+        @Bind(R.id.day_card_view)
         CardView mCardView;
-        @InjectView(R.id.program_time)
+        @Bind(R.id.program_time)
         TextView mTime;
-        @InjectView(R.id.program_title)
+        @Bind(R.id.program_title)
         TextView mTitle;
-        @InjectView(R.id.program_description)
+        @Bind(R.id.program_description)
         TextView mDescription;
-        @InjectView(R.id.program_image)
+        @Bind(R.id.program_image)
         ImageView mImageView;
 
         private Program mProgramItem;
@@ -115,7 +114,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
         public ViewHolder(View v) {
             super(v);
             Log.d(TAG, "ViewHolder Constructor");
-            ButterKnife.inject(this, v);
+            ButterKnife.bind(this, v);
             v.setOnClickListener(new View.OnClickListener() {
 
                 @Override

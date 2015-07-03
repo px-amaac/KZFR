@@ -102,162 +102,126 @@ public class Airtime implements Parcelable {
     private String endX;
 
     /**
-     *
-     * @return
-     * The start
+     * @return The start
      */
     public String getStart() {
         return start;
     }
 
     /**
-     *
-     * @param start
-     * The start
+     * @param start The start
      */
     public void setStart(String start) {
         this.start = start;
     }
 
     /**
-     *
-     * @return
-     * The end
+     * @return The end
      */
     public String getEnd() {
         return end;
     }
 
     /**
-     *
-     * @param end
-     * The end
+     * @param end The end
      */
     public void setEnd(String end) {
         this.end = end;
     }
 
     /**
-     *
-     * @return
-     * The startX
+     * @return The startX
      */
     public String getStartX() {
         return startX;
     }
 
     /**
-     *
-     * @param startX
-     * The start_x
+     * @param startX The start_x
      */
     public void setStartX(String startX) {
         this.startX = startX;
     }
 
     /**
-     *
-     * @return
-     * The endX
+     * @return The endX
      */
     public String getEndX() {
         return endX;
     }
 
     /**
-     *
-     * @param endX
-     * The end_x
+     * @param endX The end_x
      */
     public void setEndX(String endX) {
         this.endX = endX;
     }
 
     /**
-     *
-     * @return
-     * The startF
+     * @return The startF
      */
     public String getStartF() {
         return startF;
     }
 
     /**
-     *
-     * @param startF
-     * The start_f
+     * @param startF The start_f
      */
     public void setStartF(String startF) {
         this.startF = startF;
     }
 
     /**
-     *
-     * @return
-     * The endF
+     * @return The endF
      */
     public String getEndF() {
         return endF;
     }
 
     /**
-     *
-     * @param endF
-     * The end_f
+     * @param endF The end_f
      */
     public void setEndF(String endF) {
         this.endF = endF;
     }
 
     /**
-     *
-     * @return
-     * The startGmt
+     * @return The startGmt
      */
     public String getStartGmt() {
         return startGmt;
     }
 
     /**
-     *
-     * @param startGmt
-     * The start_gmt
+     * @param startGmt The start_gmt
      */
     public void setStartGmt(String startGmt) {
         this.startGmt = startGmt;
     }
 
     /**
-     *
-     * @return
-     * The endGmt
+     * @return The endGmt
      */
     public String getEndGmt() {
         return endGmt;
     }
 
     /**
-     *
-     * @param endGmt
-     * The end_gmt
+     * @param endGmt The end_gmt
      */
     public void setEndGmt(String endGmt) {
         this.endGmt = endGmt;
     }
 
     /**
-     *
-     * @return
-     * The weekday
+     * @return The weekday
      */
     public String getWeekday() {
         return weekday;
     }
 
     /**
-     *
-     * @param weekday
-     * The weekday
+     * @param weekday The weekday
      */
     public void setWeekday(String weekday) {
         this.weekday = weekday;

@@ -20,36 +20,28 @@ public class Day implements Parcelable {
     private List<Program> programs = new ArrayList<Program>();
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public String getWeekday() {
         return weekday;
     }
 
     /**
-     *
-     * @param weekday
-     * The id
+     * @param weekday The id
      */
     public void setWeekday(String weekday) {
         this.weekday = weekday;
     }
 
     /**
-     *
-     * @return
-     * The programs
+     * @return The programs
      */
     public List<Program> getPrograms() {
         return programs;
     }
 
     /**
-     *
-     * @param programs
-     * The programs
+     * @param programs The programs
      */
     public void setPrograms(List<Program> programs) {
         this.programs = programs;

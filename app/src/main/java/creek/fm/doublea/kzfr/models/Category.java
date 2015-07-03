@@ -19,54 +19,42 @@ public class Category implements Parcelable {
     private String shortName;
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     * The title
+     * @return The title
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     *
-     * @param title
-     * The title
+     * @param title The title
      */
     public void setTitle(String title) {
         this.title = title;
     }
 
     /**
-     *
-     * @return
-     * The shortName
+     * @return The shortName
      */
     public String getShortName() {
         return shortName;
     }
 
     /**
-     *
-     * @param shortName
-     * The short_name
+     * @param shortName The short_name
      */
     public void setShortName(String shortName) {
         this.shortName = shortName;

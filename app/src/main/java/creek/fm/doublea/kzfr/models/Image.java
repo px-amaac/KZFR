@@ -23,72 +23,56 @@ public class Image implements Parcelable {
     private String urlLg;
 
     /**
-     *
-     * @return
-     * The url
+     * @return The url
      */
     public String getUrl() {
         return url;
     }
 
     /**
-     *
-     * @param url
-     * The url
+     * @param url The url
      */
     public void setUrl(String url) {
         this.url = url;
     }
 
     /**
-     *
-     * @return
-     * The urlSm
+     * @return The urlSm
      */
     public String getUrlSm() {
         return urlSm;
     }
 
     /**
-     *
-     * @param urlSm
-     * The url_sm
+     * @param urlSm The url_sm
      */
     public void setUrlSm(String urlSm) {
         this.urlSm = urlSm;
     }
 
     /**
-     *
-     * @return
-     * The urlMd
+     * @return The urlMd
      */
     public String getUrlMd() {
         return urlMd;
     }
 
     /**
-     *
-     * @param urlMd
-     * The url_md
+     * @param urlMd The url_md
      */
     public void setUrlMd(String urlMd) {
         this.urlMd = urlMd;
     }
 
     /**
-     *
-     * @return
-     * The urlLg
+     * @return The urlLg
      */
     public String getUrlLg() {
         return urlLg;
     }
 
     /**
-     *
-     * @param urlLg
-     * The url_lg
+     * @param urlLg The url_lg
      */
     public void setUrlLg(String urlLg) {
         this.urlLg = urlLg;

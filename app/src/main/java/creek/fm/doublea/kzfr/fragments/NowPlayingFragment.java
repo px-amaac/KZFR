@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.Utils;
@@ -30,15 +30,15 @@ import retrofit.client.Response;
 public class NowPlayingFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = NowPlayingFragment.class.getSimpleName();
 
-    @InjectView(R.id.play_pause_button)
+    @Bind(R.id.play_pause_button)
     ToggleButton mPlayPauseButton;
-    @InjectView(R.id.media_player_title)
+    @Bind(R.id.media_player_title)
     TextView mMediaPlayerTitle;
-    @InjectView(R.id.media_player_time)
+    @Bind(R.id.media_player_time)
     TextView mMediaPlayerTime;
-    @InjectView(R.id.buffering_title)
+    @Bind(R.id.buffering_title)
     TextView mBuffering;
-    @InjectView(R.id.media_player_data)
+    @Bind(R.id.media_player_data)
     RelativeLayout mPlayerData;
 
 
@@ -63,7 +63,7 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_media_controls, container, false);
-        ButterKnife.inject(this, v);
+        ButterKnife.bind(this, v);
         mPlayPauseButton.setOnClickListener(this);
         executeApiCall();
         return v;
@@ -142,14 +142,13 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
 
     @OnClick(R.id.media_player_data)
     public void onMediaPlayerDataClicked() {
-        if(mNowPlaying != null) {
+        if (mNowPlaying != null) {
             Intent programIntent = new Intent(getActivity(), ProgramActivity.class);
             programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             programIntent.putExtra(ProgramActivity.PROGRAM_DATA_KEY, mNowPlaying.getNow());
             getActivity().startActivity(programIntent);
         }
     }
-
 
 
 }

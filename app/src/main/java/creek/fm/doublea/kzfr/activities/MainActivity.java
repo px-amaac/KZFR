@@ -22,8 +22,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.fragments.NowPlayingFragment;
 import creek.fm.doublea.kzfr.services.NowPlayingService;
@@ -36,15 +36,15 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
 
 
     // Butterknife view injections
-    @InjectView(R.id.drawer_layout)
+    @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @InjectView(R.id.main_toolbar)
+    @Bind(R.id.main_toolbar)
     Toolbar mMainActionToolbar;
-    @InjectView(R.id.navigation)
+    @Bind(R.id.navigation)
     NavigationView mNavigationView;
-    @InjectView(R.id.content)
+    @Bind(R.id.content)
     FrameLayout mContentView;
-    @InjectView(R.id.progress_spinner)
+    @Bind(R.id.progress_spinner)
     protected ProgressBar mProgressBar;
 
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         setSupportActionBar(mMainActionToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
