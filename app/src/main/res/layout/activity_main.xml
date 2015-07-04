@@ -6,47 +6,45 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/woodtileback"
-            android:padding="4dp">
+            android:layout_height="match_parent">
 
-        </android.support.v7.widget.Toolbar>
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
 
-        <fragment
-            android:id="@+id/now_playing_fragment"
-            class="creek.fm.doublea.kzfr.fragments.NowPlayingFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            tools:layout="@layout/fragment_media_controls" />
-
-        <FrameLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/now_playing_fragment"
-            android:layout_below="@id/main_toolbar">
-
-            <ProgressBar
-                android:id="@+id/progress_spinner"
-                android:layout_width="wrap_content"
+            <fragment
+                android:id="@+id/now_playing_fragment"
+                class="creek.fm.doublea.kzfr.fragments.NowPlayingFragment"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+                android:layout_alignParentBottom="true"
+                tools:layout="@layout/fragment_media_controls" />
+
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/now_playing_fragment"
+                android:layout_below="@id/toolbar">
+
+                <ProgressBar
+                    android:id="@+id/progress_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
 
 
-        </FrameLayout>
-
-    </RelativeLayout>
+            </FrameLayout>
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
@@ -55,6 +53,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/menu_main" />
-
 
 </android.support.v4.widget.DrawerLayout>

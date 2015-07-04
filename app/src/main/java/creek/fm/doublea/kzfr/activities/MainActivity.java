@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     FrameLayout mContentView;
     @Bind(R.id.progress_spinner)
     protected ProgressBar mProgressBar;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     ActionBarDrawerToggle actionBarDrawerToggle;
     private NowPlayingService mNowPlayingService;
@@ -96,7 +99,22 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(mMainActionToolbar);
+        setupToolbar();
+        setupCollapsingToolbarLayout();
+        mNavigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
+        registerBroadcastReceiver();
+
+    }
+
+    private void setupCollapsingToolbarLayout() {
+        if(mCollapsingToolbarLayout != null) {
+        }
+    }
+
+    private void setupToolbar() {
+        if(mMainActionToolbar != null) {
+            setSupportActionBar(mMainActionToolbar);
+        }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             setupActionBar(actionBar);
@@ -108,11 +126,6 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
                 R.string.open_drawer_content_description,
                 R.string.close_drawer_content_description);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-
-        mNavigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
-
-        registerBroadcastReceiver();
-
     }
 
     private void registerBroadcastReceiver() {
