@@ -1,6 +1,7 @@
 package creek.fm.doublea.kzfr.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.adapters.DayListAdapter;
 import creek.fm.doublea.kzfr.models.Program;
 
@@ -83,7 +85,10 @@ public class ScheduleDayFragment extends Fragment {
             return new DayListAdapter(getActivity(), new DayListAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(Program program) {
-
+                    Intent programIntent = new Intent(getActivity(), ProgramActivity.class);
+                    programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    programIntent.putExtra(ProgramActivity.PROGRAM_DATA_KEY, program);
+                    getActivity().startActivity(programIntent);
                 }
             });
         } else
