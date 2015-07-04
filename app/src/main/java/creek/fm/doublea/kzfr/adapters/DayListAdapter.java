@@ -25,7 +25,7 @@ import java.util.TimeZone;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.Utils;
+import creek.fm.doublea.kzfr.utils.Utils;
 import creek.fm.doublea.kzfr.models.Airtime;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.Program;

@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.Utils;
+import creek.fm.doublea.kzfr.utils.Utils;
 import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
