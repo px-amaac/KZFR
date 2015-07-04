@@ -4,7 +4,7 @@
     android:id="@+id/day_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="@dimen/card_margin"
     card_view:cardBackgroundColor="@color/white"
     card_view:cardCornerRadius="2dp">
 
