@@ -129,7 +129,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
         public void bind(Program program) {
             Log.d(TAG, "bind day");
             mProgramItem = program;
-            mTime.setText(getFriendlyAirTime(mProgramItem.getAirtime()));
+            mTime.setText(Utils.getFriendlyAirTime(mProgramItem.getAirtime()));
             mTitle.setText(mProgramItem.getTitle());
             mDescription.setText(mProgramItem.getShortDescription());
             String imageUrl = null;
@@ -143,42 +143,6 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
                     .onlyScaleDown()
                     .centerInside()
                     .into(mImageView);
-        }
-
-        private String getFriendlyAirTime(Airtime airTime) {
-            String friendlyAirtime;
-
-            friendlyAirtime = parseTime(airTime.getStartF()) + " - "
-                    + parseTime(airTime.getEndF());
-            return friendlyAirtime;
-        }
-
-        public String parseTime(String time) {
-            String mTime = null;
-            TimeZone currentTimeZone = TimeZone.getDefault();
-            TimeZone KZFRTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
-            SimpleDateFormat simpleDateFormatKZFRTimeZone = new SimpleDateFormat("HH:mm:ss", Locale.US);
-            SimpleDateFormat simpleDateFormatCurrentTimeZone = new SimpleDateFormat("hh:mm a",
-                    Locale.getDefault());
-
-            Date date = null;
-            simpleDateFormatCurrentTimeZone.setTimeZone(currentTimeZone);
-            simpleDateFormatKZFRTimeZone.setTimeZone(KZFRTimeZone);
-            try {
-                date = simpleDateFormatKZFRTimeZone.parse(time);
-            } catch (ParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            mTime = simpleDateFormatCurrentTimeZone.format(date.getTime());
-
-            // bruteforce the result to be formatted correctly.
-            String result = "";
-            if (mTime.charAt(0) == '0')
-                result = mTime.substring(1);
-            else
-                result = mTime;
-            return result;
         }
     }
 }
