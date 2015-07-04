@@ -58,7 +58,7 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
         mProgram = intent.getParcelableExtra(PROGRAM_DATA_KEY);
         if(mProgram != null) {
             mCollapsingToolbarLayout.setTitle(mProgram.getTitle());
-            mProgramDescription.setText(mProgram.getFullDescription());
+            mProgramDescription.setText(mProgram.getShortDescription());
             if(mProgram.getImage() != null) {
                 setupProgramImage();
             }
