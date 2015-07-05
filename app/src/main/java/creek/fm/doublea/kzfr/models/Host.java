@@ -95,8 +95,8 @@ public class Host implements Parcelable {
     protected Host(Parcel in) {
         this.id = in.readString();
         this.displayName = in.readString();
-        this.username =
-                this.image = in.readString();
+        this.username = in.readString();
+        this.image = in.readString();
     }
 
     public static final Parcelable.Creator<Host> CREATOR = new Parcelable.Creator<Host>() {

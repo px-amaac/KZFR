@@ -193,7 +193,7 @@ public class Program implements Parcelable {
         dest.writeString(this.shortDescription);
         dest.writeParcelable(this.Image, 0);
         dest.writeString(this.imageName);
-        dest.writeList(this.hosts);
+        dest.writeTypedList(this.hosts);
         dest.writeTypedList(categories);
     }
 
