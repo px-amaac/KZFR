@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -15,6 +16,19 @@ import creek.fm.doublea.kzfr.models.Airtime;
  * Created by Aaron on 6/30/2015.
  */
 public class Utils {
+
+    public static String parseDay(String weekday) {
+        int day = 0;
+        String[] mWeekday = { "Monday", "Tuesday", "Wednesday", "Thursday",
+                "Friday", "Saturday", "Sunday" };
+        try {
+            day = Integer.parseInt(weekday);
+        } catch (NumberFormatException nfe) {
+            System.out.println("Could not parse " + nfe);
+        }
+
+        return mWeekday[day - 1];
+    }
     /*
         https://gist.github.com/laaptu/7867851
      */
@@ -23,12 +37,25 @@ public class Utils {
 
     }
 
-    public static String getFriendlyAirTime(Airtime airTime) {
-        String friendlyAirtime;
+    public static String getFriendlyAirtimes(List<Airtime> airtimes) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Airtime airtime : airtimes) {
+            stringBuilder.append(getFriendlyAirTime(airtime))
+                    .append("\n");
+        }
+        return stringBuilder.toString();
+    }
 
-        friendlyAirtime = parseTime(airTime.getStartF()) + " - "
-                + parseTime(airTime.getEndF());
-        return friendlyAirtime;
+    public static String getFriendlyAirTime(Airtime airTime) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append(parseDay(airTime.getWeekday()))
+                .append(" ")
+                .append(parseTime(airTime.getStartF()))
+                .append(" - ")
+                .append(parseTime(airTime.getEndF()));
+
+        return stringBuilder.toString();
     }
 
     private static String parseTime(String time) {
