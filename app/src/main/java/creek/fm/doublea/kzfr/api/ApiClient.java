@@ -22,6 +22,7 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 import retrofit.http.GET;
+import retrofit.http.Path;
 
 /**
  * Created by Aaron on 6/21/2015.
@@ -71,11 +72,11 @@ public class ApiClient {
 
         /*http://kzfr.org/api/host/{HOST_ID}*/
         @GET("/host/{id}")
-        void getHost(KZFRRetrofitCallback<Host> callback);
+        void getHost(@Path("id") int id, KZFRRetrofitCallback<Host> callback);
 
         /*http://kzfr.org/api/show/{PROGRAM_ID}*/
         @GET("/show/{id}")
-        void getProgram(KZFRRetrofitCallback<Program> callback);
+        void getProgram(@Path("id") int id, KZFRRetrofitCallback<Program> callback);
 
     }
 
