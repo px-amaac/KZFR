@@ -37,6 +37,8 @@ public class Program implements Parcelable {
     private List<Host> hosts = new ArrayList<Host>();
     @Expose
     private List<Category> categories = new ArrayList<Category>();
+    @Expose
+    private List<Airtime> airtimes = new ArrayList<Airtime>();
 
     /**
      * @return The Airtime
@@ -178,6 +180,20 @@ public class Program implements Parcelable {
         this.categories = categories;
     }
 
+    /**
+     * @return The airtimes
+     */
+    public List<Airtime> getAirtimes() {
+        return airtimes;
+    }
+
+    /**
+     * @param airtimes The airtimes
+     */
+    public void setAirtimes(List<Airtime> airtimes) {
+        this.airtimes = airtimes;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -194,7 +210,8 @@ public class Program implements Parcelable {
         dest.writeParcelable(this.Image, 0);
         dest.writeString(this.imageName);
         dest.writeTypedList(this.hosts);
-        dest.writeTypedList(categories);
+        dest.writeTypedList(this.categories);
+        dest.writeTypedList(this.airtimes);
     }
 
     public Program() {
@@ -211,6 +228,7 @@ public class Program implements Parcelable {
         this.imageName = in.readString();
         this.hosts = in.createTypedArrayList(Host.CREATOR);
         this.categories = in.createTypedArrayList(Category.CREATOR);
+        this.airtimes = in.createTypedArrayList(Airtime.CREATOR);
     }
 
     public static final Parcelable.Creator<Program> CREATOR = new Parcelable.Creator<Program>() {
