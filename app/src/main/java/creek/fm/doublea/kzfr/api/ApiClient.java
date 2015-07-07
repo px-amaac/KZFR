@@ -13,9 +13,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import creek.fm.doublea.kzfr.models.Day;
+import creek.fm.doublea.kzfr.models.Host;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.JsonDeserializer;
 import creek.fm.doublea.kzfr.models.NowPlaying;
+import creek.fm.doublea.kzfr.models.Program;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
@@ -66,6 +68,15 @@ public class ApiClient {
         /*http://kzfr.org/api/broadcasting*/
         @GET("/broadcasting")
         void getCurrentBroadcast(KZFRRetrofitCallback<NowPlaying> callback);
+
+        /*http://kzfr.org/api/host/{HOST_ID}*/
+        @GET("/host/{id}")
+        void getHost(KZFRRetrofitCallback<Host> callback);
+
+        /*http://kzfr.org/api/show/{PROGRAM_ID}*/
+        @GET("/show/{id}")
+        void getProgram(KZFRRetrofitCallback<Program> callback);
+
     }
 
 
