@@ -86,7 +86,7 @@ public class Host implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.displayName);
         dest.writeString(this.username);
-        dest.writeValue(this.image);
+        dest.writeString(this.image);
     }
 
     public Host() {
