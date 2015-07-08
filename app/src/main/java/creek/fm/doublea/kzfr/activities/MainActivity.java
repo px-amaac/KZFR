@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     @Override
     protected void onPause() {
         super.onPause();
+        mDrawerLayout.closeDrawers();
         sendStopIntent();
         if (mNowPlayingService != null) {
             unbindService(mServiceConnection);

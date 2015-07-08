@@ -1,6 +1,7 @@
 package creek.fm.doublea.kzfr.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,6 +40,7 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     private ProgramRecyclerAdapter mProgramRecyclerAdapter;
     private ImageView mProgramImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +50,33 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
         mHostRecyclerView = (RecyclerView) content.findViewById(R.id.host_recycler_view);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) content.findViewById(R.id.collapsing_toolbar);
         mProgramImageView = (ImageView) content.findViewById(R.id.program_collapsing_image_view);
+        mToolbar = (Toolbar) content.findViewById(R.id.toolbar);
         setupRecyclerView();
 
-        mProgramId = getIntent().getIntExtra(PROGRAM_ID_KEY, -1);
         if (savedInstanceState != null) {
             Program savedProgram = (Program) savedInstanceState.getParcelable(PROGRAM_DATA_KEY);
             int nextProgramId = savedInstanceState.getInt(NEXT_PROGRAM_ID_KEY);
             if (nextProgramId != -1)
                 mProgramRecyclerAdapter.setNextProgramId(nextProgramId);
             addDataToAdapter(savedProgram);
-        } else {
-            if (mProgramId != -1) {
-                showProgressBar(true);
-                executeProgramApiCall(mProgramId);
-            }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mProgramId != -1) {
+            showProgressBar(true);
+            executeProgramApiCall(mProgramId);
+            mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
+            mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mProgramId = intent.getIntExtra(PROGRAM_ID_KEY, -1);
     }
 
     @Override
@@ -91,8 +106,10 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
             public void run() {
                 mProgramRecyclerAdapter.notifyDataSetChanged();
                 if(program != null) {
-                    setupProgramImage(program.getImage());
                     mCollapsingToolbarLayout.setTitle(program.getTitle());
+                    mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+                    mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+                    setupProgramImage(program.getImage());
                 }
                 showProgressBar(false);
             }
