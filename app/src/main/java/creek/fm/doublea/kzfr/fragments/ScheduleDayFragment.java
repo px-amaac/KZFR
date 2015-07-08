@@ -87,7 +87,7 @@ public class ScheduleDayFragment extends Fragment {
                 public void onItemClick(Program program) {
                     Intent programIntent = new Intent(getActivity(), ProgramActivity.class);
                     programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    programIntent.putExtra(ProgramActivity.PROGRAM_DATA_KEY, program);
+                    programIntent.putExtra(ProgramActivity.PROGRAM_ID_KEY, Integer.valueOf(program.getId()));
                     getActivity().startActivity(programIntent);
                 }
             });

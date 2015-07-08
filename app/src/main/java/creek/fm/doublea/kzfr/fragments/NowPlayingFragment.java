@@ -145,7 +145,8 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
         if (mNowPlaying != null) {
             Intent programIntent = new Intent(getActivity(), ProgramActivity.class);
             programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            programIntent.putExtra(ProgramActivity.PROGRAM_DATA_KEY, mNowPlaying.getNow());
+            programIntent.putExtra(ProgramActivity.PROGRAM_ID_KEY, Integer.valueOf(mNowPlaying.getNow().getId()));
+            programIntent.putExtra(ProgramActivity.NEXT_PROGRAM_ID_KEY, Integer.valueOf(mNowPlaying.getNext().getId()));
             getActivity().startActivity(programIntent);
         }
     }

@@ -16,6 +16,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.adapters.ProgramRecyclerAdapter;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.models.Image;
@@ -26,14 +27,15 @@ import retrofit.client.Response;
 /**
  * Created by Aaron on 7/6/2015.
  */
-public class ProgramActivity extends MainActivity implements View.OnClickListener{
+public class ProgramActivity extends MainActivity implements View.OnClickListener {
     private static final String TAG = ProgramActivity.class.getSimpleName();
     public static final String PROGRAM_ID_KEY = TAG + ".program_id_key";
     public static final String PROGRAM_DATA_KEY = TAG + ".program_data_key";
+    public static final String NEXT_PROGRAM_ID_KEY = TAG + ".next_program_data_key";
 
     private int mProgramId;
     private RecyclerView mHostRecyclerView;
-    private RecyclerView.Adapter mProgramRecyclerAdapter;
+    private ProgramRecyclerAdapter mProgramRecyclerAdapter;
     private ImageView mProgramImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
@@ -48,14 +50,26 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
         setupRecyclerView();
 
         mProgramId = getIntent().getIntExtra(PROGRAM_ID_KEY, -1);
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             Program savedProgram = (Program) savedInstanceState.getParcelable(PROGRAM_DATA_KEY);
+            int nextProgramId = savedInstanceState.getInt(NEXT_PROGRAM_ID_KEY);
+            if (nextProgramId != -1)
+                mProgramRecyclerAdapter.setNextProgramId(nextProgramId);
             addDataToAdapter(savedProgram);
         } else {
-            if(mProgramId != -1) {
+            if (mProgramId != -1) {
                 showProgressBar(true);
                 executeProgramApiCall(mProgramId);
             }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mProgramRecyclerAdapter != null && !mProgramRecyclerAdapter.isEmpty()) {
+            outState.putParcelable(PROGRAM_DATA_KEY, mProgramRecyclerAdapter.getProgramData());
+            outState.putInt(NEXT_PROGRAM_ID_KEY, mProgramRecyclerAdapter.getNextProgramId());
         }
     }
 
@@ -66,14 +80,21 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
             public void success(Program program, Response response) {
                 super.success(program, response);
                 addDataToAdapter(program);
-                showProgressBar(false);
             }
         });
     }
 
-    private void addDataToAdapter(Program program) {
+    private void addDataToAdapter(final Program program) {
+        mProgramRecyclerAdapter.setProgramData(program);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgramRecyclerAdapter.notifyDataSetChanged();
+                setupProgramImage(program.getImage());
+                showProgressBar(false);
+            }
+        });
 
-        setupProgramImage(program.getImage());
     }
 
     private void setupRecyclerView() {
