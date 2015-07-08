@@ -90,8 +90,10 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
             @Override
             public void run() {
                 mProgramRecyclerAdapter.notifyDataSetChanged();
-                setupProgramImage(program.getImage());
-                mCollapsingToolbarLayout.setTitle(program.getTitle());
+                if(program != null) {
+                    setupProgramImage(program.getImage());
+                    mCollapsingToolbarLayout.setTitle(program.getTitle());
+                }
                 showProgressBar(false);
             }
         });
