@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.activities.ProgramActivity;
-import creek.fm.doublea.kzfr.adapters.DayListAdapter;
+import creek.fm.doublea.kzfr.adapters.ProgramListAdapter;
 import creek.fm.doublea.kzfr.models.Program;
 
 /**
@@ -31,7 +31,7 @@ public class ScheduleDayFragment extends Fragment {
 
     private int mPosition;
 
-    private DayListAdapter mListAdapter = null;
+    private ProgramListAdapter mListAdapter = null;
 
     private GetDataInterface getDataInterface;
 
@@ -79,18 +79,10 @@ public class ScheduleDayFragment extends Fragment {
 
     }
 
-    private DayListAdapter getOrSetupAdapter() {
+    private ProgramListAdapter getOrSetupAdapter() {
         Log.d("ScheduleDayFragment", "getOrSetupAdapter");
         if (mListAdapter == null) {
-            return new DayListAdapter(getActivity(), new DayListAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(Program program) {
-                    Intent programIntent = new Intent(getActivity(), ProgramActivity.class);
-                    programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    programIntent.putExtra(ProgramActivity.PROGRAM_ID_KEY, Integer.valueOf(program.getId()));
-                    getActivity().startActivity(programIntent);
-                }
-            });
+            return new ProgramListAdapter(getActivity());
         } else
             return mListAdapter;
     }

@@ -1,6 +1,7 @@
 package creek.fm.doublea.kzfr.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,59 +15,45 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.utils.Utils;
-import creek.fm.doublea.kzfr.models.Airtime;
+import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.utils.Utils;
 
 /**
  * Created by Aaron on 6/26/2015.
  */
-public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHolder> {
-    private static final String TAG = DayListAdapter.class.getSimpleName();
+public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.ViewHolder> {
+    private static final String TAG = ProgramListAdapter.class.getSimpleName();
 
-    private OnItemClickListener mOnItemClickListener;
     private final LayoutInflater mInflater;
     private ArrayList<Program> mPrograms = new ArrayList<>();
     private Context mContext;
     private int mLastPosition = -1;
 
-    public static interface OnItemClickListener {
-        public void onItemClick(Program program);
-    }
-
-    public DayListAdapter(Context context, OnItemClickListener onItemClickListener) {
+    public ProgramListAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
-        this.setOnItemClickListener(onItemClickListener);
     }
 
     @Override
-    public DayListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProgramListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         return new ViewHolder(mInflater.inflate(R.layout.program_card_view, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(DayListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ProgramListAdapter.ViewHolder holder, int position) {
         holder.bind(mPrograms.get(position));
         setAnimation(holder.mCardView, position);
     }
 
-    /**
-     * Here is the key method to apply the animation
-     */
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > mLastPosition) {
@@ -74,10 +61,6 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
             viewToAnimate.startAnimation(animation);
             mLastPosition = position;
         }
-    }
-
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
-        mOnItemClickListener = itemClickListener;
     }
 
     public void setProgramsData(List<Program> programData) {
@@ -119,9 +102,10 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.ViewHold
 
                 @Override
                 public void onClick(View v) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(mProgramItem);
-                    }
+                    Intent programIntent = new Intent(mContext, ProgramActivity.class);
+                    programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    programIntent.putExtra(ProgramActivity.PROGRAM_ID_KEY, Integer.valueOf(mProgramItem.getId()));
+                    mContext.startActivity(programIntent);
                 }
             });
         }
