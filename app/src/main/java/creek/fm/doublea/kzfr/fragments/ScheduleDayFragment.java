@@ -1,7 +1,6 @@
 package creek.fm.doublea.kzfr.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.adapters.ProgramListAdapter;
 import creek.fm.doublea.kzfr.models.Program;
 
@@ -24,7 +22,7 @@ import creek.fm.doublea.kzfr.models.Program;
  * Created by Aaron on 6/25/2015.
  */
 public class ScheduleDayFragment extends Fragment {
-    @Bind(R.id.day_recycler_view)
+    @Bind(R.id.programs_recycler_view)
     RecyclerView mRecyclerView;
 
     private static final String POSITION_TAG = "creek.fm.doublea.kzfr.fragments.position_tag";
@@ -62,7 +60,7 @@ public class ScheduleDayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("ScheduleDayFragment", "onCreateView");
-        View rootView = inflater.inflate(R.layout.fragment_schedule_day, container, false);
+        View rootView = inflater.inflate(R.layout.program_recycler_layout, container, false);
         ButterKnife.bind(this, rootView);
         mPosition = getArguments().getInt(POSITION_TAG);
         setupRecyclerView();
