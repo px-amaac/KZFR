@@ -47,6 +47,9 @@ public class Utils {
     }
 
     public static String getFriendlyAirTime(Airtime airTime) {
+        if(airTime == null) {
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append(parseDay(airTime.getWeekday()))
