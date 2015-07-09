@@ -22,6 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.activities.ProgramActivity;
+import creek.fm.doublea.kzfr.models.Airtime;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.Program;
 import creek.fm.doublea.kzfr.utils.Utils;
@@ -113,7 +114,7 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
         public void bind(Program program) {
             Log.d(TAG, "bind day");
             mProgramItem = program;
-            mTime.setText(Utils.getFriendlyAirTime(mProgramItem.getAirtime()));
+            setAirtimeText();
             mTitle.setText(mProgramItem.getTitle());
             mDescription.setText(mProgramItem.getShortDescription());
             String imageUrl = null;
@@ -127,6 +128,16 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
                     .onlyScaleDown()
                     .centerInside()
                     .into(mImageView);
+        }
+
+        private void setAirtimeText() {
+            List<Airtime> airtimes = mProgramItem.getAirtimes();
+            if (!airtimes.isEmpty()) {
+                mTime.setText(Utils.getFriendlyAirtimes(airtimes));
+            } else {
+                mTime.setText(
+                        Utils.getFriendlyAirTime(mProgramItem.getAirtime()));
+            }
         }
     }
 }

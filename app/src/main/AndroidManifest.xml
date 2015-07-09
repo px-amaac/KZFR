@@ -24,6 +24,8 @@
 
         <activity android:name=".activities.ScheduleActivity" />
 
+        <activity android:name=".activities.ProgramsActivity" />
+
         <service android:name=".services.NowPlayingService" />
 
 

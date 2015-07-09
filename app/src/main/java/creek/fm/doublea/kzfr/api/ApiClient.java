@@ -8,6 +8,7 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -77,6 +78,10 @@ public class ApiClient {
         /*http://kzfr.org/api/show/{PROGRAM_ID}*/
         @GET("/show/{id}")
         void getProgram(@Path("id") int id, KZFRRetrofitCallback<Program> callback);
+
+        /*http://kzfr.org/api/programs*/
+        @GET("/programs")
+        void getPrograms(KZFRRetrofitCallback<ArrayList<Program>> callback);
 
     }
 

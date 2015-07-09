@@ -27,7 +27,7 @@ public class ScheduleDayFragment extends Fragment {
 
     private static final String POSITION_TAG = "creek.fm.doublea.kzfr.fragments.position_tag";
 
-    private int mPosition;
+    private int mPagerPosition;
 
     private ProgramListAdapter mListAdapter = null;
 
@@ -62,7 +62,7 @@ public class ScheduleDayFragment extends Fragment {
         Log.d("ScheduleDayFragment", "onCreateView");
         View rootView = inflater.inflate(R.layout.program_recycler_layout, container, false);
         ButterKnife.bind(this, rootView);
-        mPosition = getArguments().getInt(POSITION_TAG);
+        mPagerPosition = getArguments().getInt(POSITION_TAG);
         setupRecyclerView();
 
         return rootView;
@@ -88,9 +88,9 @@ public class ScheduleDayFragment extends Fragment {
     private void checkForProgramData() {
         Log.d("ScheduleDayFragment", "checkForProgramData");
         if (mListAdapter.isEmpty()) {
-            List<Program> programList = getDataInterface.getProgramListData(mPosition);
+            List<Program> programList = getDataInterface.getProgramListData(mPagerPosition);
             if (programList != null) {
-                mListAdapter.setProgramsData(getDataInterface.getProgramListData(mPosition));
+                mListAdapter.setProgramsData(getDataInterface.getProgramListData(mPagerPosition));
                 mListAdapter.notifyDataSetChanged();
             }
         }

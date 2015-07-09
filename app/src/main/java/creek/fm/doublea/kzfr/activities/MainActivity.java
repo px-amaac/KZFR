@@ -128,12 +128,17 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             int itemId = menuItem.getItemId();
-            if (itemId == R.id.schedule) {
-                Intent scheduleIntent = new Intent(MainActivity.this, ScheduleActivity.class);
-                startActivity(scheduleIntent);
-                return true;
+            switch(itemId) {
+                case R.id.schedule:
+                    Intent scheduleIntent = new Intent(MainActivity.this, ScheduleActivity.class);
+                    startActivity(scheduleIntent);
+                    break;
+                case R.id.programs:
+                    Intent programIntent = new Intent(MainActivity.this, ProgramsActivity.class);
+                    startActivity(programIntent);
+                    break;
             }
-            return false;
+            return true;
         }
     };
 
