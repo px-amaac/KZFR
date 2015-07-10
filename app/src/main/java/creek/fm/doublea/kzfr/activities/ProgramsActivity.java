@@ -4,20 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.adapters.ProgramListAdapter;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
-import creek.fm.doublea.kzfr.models.Day;
 import creek.fm.doublea.kzfr.models.Program;
 import retrofit.client.Response;
 
@@ -34,9 +29,9 @@ public class ProgramsActivity extends MainActivity{
         super.onCreate(savedInstanceState);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View content = inflater.inflate(R.layout.program_recycler_layout, mContentView, true);
+        View content = inflater.inflate(R.layout.simple_recycler_layout, mContentView, true);
 
-        mRecyclerView = (RecyclerView) content.findViewById(R.id.programs_recycler_view);
+        mRecyclerView = (RecyclerView) content.findViewById(R.id.simple_recycler_view);
         setupProgramRecyclerView();
     }
 

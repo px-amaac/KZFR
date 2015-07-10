@@ -148,7 +148,7 @@ public class Program implements Parcelable {
     /**
      * @param image The image
      */
-    public void setImage(String image) {
+    public void setImageName(String image) {
         this.imageName = image;
     }
 

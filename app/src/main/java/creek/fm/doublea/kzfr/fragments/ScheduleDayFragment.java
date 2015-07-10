@@ -22,7 +22,7 @@ import creek.fm.doublea.kzfr.models.Program;
  * Created by Aaron on 6/25/2015.
  */
 public class ScheduleDayFragment extends Fragment {
-    @Bind(R.id.programs_recycler_view)
+    @Bind(R.id.simple_recycler_view)
     RecyclerView mRecyclerView;
 
     private static final String POSITION_TAG = "creek.fm.doublea.kzfr.fragments.position_tag";
@@ -60,7 +60,7 @@ public class ScheduleDayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("ScheduleDayFragment", "onCreateView");
-        View rootView = inflater.inflate(R.layout.program_recycler_layout, container, false);
+        View rootView = inflater.inflate(R.layout.simple_recycler_layout, container, false);
         ButterKnife.bind(this, rootView);
         mPagerPosition = getArguments().getInt(POSITION_TAG);
         setupRecyclerView();

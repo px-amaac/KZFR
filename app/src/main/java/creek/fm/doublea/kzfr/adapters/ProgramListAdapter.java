@@ -46,7 +46,7 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
     @Override
     public ProgramListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
-        return new ViewHolder(mInflater.inflate(R.layout.program_card_view, parent, false));
+        return new ViewHolder(mInflater.inflate(R.layout.program_card_layout, parent, false));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.day_card_view)
+        @Bind(R.id.program_card_view)
         CardView mCardView;
         @Bind(R.id.program_time)
         TextView mTime;

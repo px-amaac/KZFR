@@ -18,7 +18,10 @@ public class Host implements Parcelable {
     @Expose
     private String username;
     @Expose
-    private String image;
+    private creek.fm.doublea.kzfr.models.Image Image;
+    @SerializedName("image")
+    @Expose
+    private String imageName;
 
     /**
      * @return The id
@@ -63,18 +66,36 @@ public class Host implements Parcelable {
     }
 
     /**
+     * @return The Image
+     */
+    public creek.fm.doublea.kzfr.models.Image getImage() {
+        return Image;
+    }
+
+    /**
+     * @param Image The Image
+     */
+    public void setImage(creek.fm.doublea.kzfr.models.Image Image) {
+        this.Image = Image;
+    }
+
+    /**
      * @return The image
      */
-    public String getImage() {
-        return image;
+    public String getImageName() {
+        return imageName;
     }
 
     /**
      * @param image The image
      */
     public void setImage(String image) {
-        this.image = image;
+        this.imageName = image;
     }
+
+    /**
+     * @return The hosts
+     */
 
     @Override
     public int describeContents() {
@@ -86,7 +107,8 @@ public class Host implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.displayName);
         dest.writeString(this.username);
-        dest.writeString(this.image);
+        dest.writeString(this.imageName);
+        dest.writeParcelable(this.Image, 0);
     }
 
     public Host() {
@@ -96,7 +118,8 @@ public class Host implements Parcelable {
         this.id = in.readString();
         this.displayName = in.readString();
         this.username = in.readString();
-        this.image = in.readString();
+        this.imageName = in.readString();
+        this.Image = in.readParcelable(creek.fm.doublea.kzfr.models.Image.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Host> CREATOR = new Parcelable.Creator<Host>() {
