@@ -83,6 +83,10 @@ public class ApiClient {
         @GET("/programs")
         void getPrograms(KZFRRetrofitCallback<ArrayList<Program>> callback);
 
+        /*http://kzfr.org/api/hosts*/
+        @GET("/hosts")
+        void getHosts(KZFRRetrofitCallback<ArrayList<Host>> callback);
+
     }
 
 

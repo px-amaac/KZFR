@@ -26,6 +26,8 @@
 
         <activity android:name=".activities.ProgramsActivity" />
 
+        <activity android:name=".activities.HostsActivity" />
+
         <service android:name=".services.NowPlayingService" />
 
 

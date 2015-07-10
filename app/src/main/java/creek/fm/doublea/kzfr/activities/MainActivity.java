@@ -137,6 +137,10 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
                     Intent programIntent = new Intent(MainActivity.this, ProgramsActivity.class);
                     startActivity(programIntent);
                     break;
+                case R.id.hosts:
+                    Intent hostIntent = new Intent(MainActivity.this, HostsActivity.class);
+                    startActivity(hostIntent);
+                    break;
             }
             return true;
         }
