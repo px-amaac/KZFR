@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -111,10 +112,26 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    class UpNextViewHolder extends ProgramBaseViewHolder {
+        @Bind(R.id.up_next_image_view)
+        ImageView mUpNextImageView;
+        static final int viewType = 43;
+
+        public UpNextViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @Override
+        public void bind(int position, Program program) {
+
+        }
+    }
+
     private Context mContext;
     private LayoutInflater mInflater;
     private Program mProgramData;
-    private int mNextProgramId;
+    private int mNextProgramId = -1;
 
     public ProgramRecyclerAdapter(Context context) {
         mContext = context;
@@ -130,9 +147,16 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else if (position > DescriptionViewHolder.viewType
                 && position <= DescriptionViewHolder.viewType + getHostsNum()) {
             return position;
+        } else if (position == getItemCount() - 1) {
+            return UpNextViewHolder.viewType;
         } else {
             return CategoriesViewHolder.viewType;
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return 2 + getHostsNum() + getCategoriesNum() + hasNextProgram();
     }
 
     private int getHostsNum() {
@@ -149,9 +173,11 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return 0;
     }
 
-    @Override
-    public int getItemCount() {
-        return 2 + getHostsNum() + getCategoriesNum();
+    private int hasNextProgram() {
+        if (mNextProgramId != -1) {
+            return 1;
+        } else
+            return 0;
     }
 
 
@@ -164,6 +190,8 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else if (viewType > DescriptionViewHolder.viewType
                 && viewType <= DescriptionViewHolder.viewType + getHostsNum()) {
             return new HostsViewHolder(mInflater.inflate(R.layout.hosts_card_layout, parent, false));
+        } else if (viewType == UpNextViewHolder.viewType) {
+            return new UpNextViewHolder(mInflater.inflate(R.layout.up_next_layout, parent, false));
         } else
             return new CategoriesViewHolder(mInflater.inflate(R.layout.categories_card_layout, parent, false));
     }

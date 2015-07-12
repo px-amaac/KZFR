@@ -35,7 +35,7 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     public static final String PROGRAM_DATA_KEY = TAG + ".program_data_key";
     public static final String NEXT_PROGRAM_ID_KEY = TAG + ".next_program_data_key";
 
-    private int mProgramId;
+    private int mProgramId, mNextProgramId;
     private RecyclerView mHostRecyclerView;
     private ProgramRecyclerAdapter mProgramRecyclerAdapter;
     private ImageView mProgramImageView;
@@ -55,10 +55,15 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
 
         if (savedInstanceState != null) {
             Program savedProgram = (Program) savedInstanceState.getParcelable(PROGRAM_DATA_KEY);
-            int nextProgramId = savedInstanceState.getInt(NEXT_PROGRAM_ID_KEY);
-            if (nextProgramId != -1)
-                mProgramRecyclerAdapter.setNextProgramId(nextProgramId);
             addDataToAdapter(savedProgram);
+            mNextProgramId = savedInstanceState.getInt(NEXT_PROGRAM_ID_KEY);
+            setNextProgramId(mNextProgramId);
+        }
+    }
+
+    private void setNextProgramId(int nextProgramId) {
+        if (mNextProgramId != -1 && mProgramRecyclerAdapter != null) {
+            mProgramRecyclerAdapter.setNextProgramId(mNextProgramId);
         }
     }
 
@@ -68,8 +73,6 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
         if (mProgramId != -1) {
             showProgressBar(true);
             executeProgramApiCall(mProgramId);
-            mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
-            mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
         }
     }
 
@@ -77,6 +80,8 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         mProgramId = intent.getIntExtra(PROGRAM_ID_KEY, -1);
+        mNextProgramId = intent.getIntExtra(NEXT_PROGRAM_ID_KEY, -1);
+        setNextProgramId(mNextProgramId);
     }
 
     @Override
