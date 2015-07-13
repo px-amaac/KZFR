@@ -62,7 +62,7 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     }
 
     private void setNextProgramId(int nextProgramId) {
-        if (mNextProgramId != -1 && mProgramRecyclerAdapter != null) {
+        if (mProgramRecyclerAdapter != null) {
             mProgramRecyclerAdapter.setNextProgramId(mNextProgramId);
         }
     }

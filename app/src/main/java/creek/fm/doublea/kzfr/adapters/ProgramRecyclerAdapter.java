@@ -1,6 +1,7 @@
 package creek.fm.doublea.kzfr.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
+import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.models.Airtime;
 import creek.fm.doublea.kzfr.models.Category;
 import creek.fm.doublea.kzfr.models.Program;
@@ -125,6 +127,15 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Override
         public void bind(int position, Program program) {
 
+            mUpNextImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent programIntent = new Intent(mContext, ProgramActivity.class);
+                    programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    programIntent.putExtra(ProgramActivity.PROGRAM_ID_KEY, Integer.valueOf(mNextProgramId));
+                    mContext.startActivity(programIntent);
+                }
+            });
         }
     }
 
@@ -147,7 +158,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else if (position > DescriptionViewHolder.viewType
                 && position <= DescriptionViewHolder.viewType + getHostsNum()) {
             return position;
-        } else if (position == getItemCount() - 1) {
+        } else if (position == getItemCount() - 1 && mNextProgramId != -1) {
             return UpNextViewHolder.viewType;
         } else {
             return CategoriesViewHolder.viewType;
