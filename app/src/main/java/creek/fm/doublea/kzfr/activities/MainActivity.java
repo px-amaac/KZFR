@@ -16,10 +16,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import butterknife.Bind;
@@ -170,6 +172,19 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        centerNavDrawerIconVertically();
+    }
+
+    //The navigation drawer icon by default is not centered vertically. This method centers the navigation drawer icon in the app bar layout
+    //Solution found http://stackoverflow.com/questions/29003584/set-actionbardrawertoggle-in-center-of-toolbar-or-actionbar-android
+    public void centerNavDrawerIconVertically() {
+        for (int i = 0; i < mMainActionToolbar.getChildCount(); i++) {
+            // make toggle drawable center-vertical, you can make each view alignment whatever you want
+            if (mMainActionToolbar.getChildAt(i) instanceof ImageButton) {
+                Toolbar.LayoutParams lp = (Toolbar.LayoutParams) mMainActionToolbar.getChildAt(i).getLayoutParams();
+                lp.gravity = Gravity.CENTER_VERTICAL;
+            }
+        }
     }
 
     @Override
