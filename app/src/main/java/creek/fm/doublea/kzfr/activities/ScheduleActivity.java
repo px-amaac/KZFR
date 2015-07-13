@@ -98,7 +98,7 @@ public class ScheduleActivity extends MainActivity implements ScheduleDayFragmen
 
     private int getDayOfWeek() {
         Calendar calendar = Calendar.getInstance();
-        return (calendar.get(Calendar.DAY_OF_WEEK) - 2);
+        return ((calendar.get(Calendar.DAY_OF_WEEK) - 2) % 7);
     }
 
     @Override
