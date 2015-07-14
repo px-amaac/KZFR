@@ -24,6 +24,7 @@ import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.Program;
 import creek.fm.doublea.kzfr.utils.PaletteTransformation;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
@@ -101,6 +102,17 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
                 super.success(program, response);
                 addDataToAdapter(program);
             }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showProgressBar(false);
+                    }
+                });
+            }
         });
     }
 
@@ -120,6 +132,13 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
 
     }
 
+    /**
+     * This method is a solution to a bug in the collapsing toolbar layout that causes the title to
+     * not update unless the text size has changed. The method simply changes the text size and
+     * changes it back forcing the title to update.
+     * http://stackoverflow.com/questions/30682548/collapsingtoolbarlayout-settitle-does-not-update-unless-collapsed/31309381#31309381
+     * @param title the new title
+     */
     private void setCollapsingToolbarLayoutTitle(String title) {
         mCollapsingToolbarLayout.setTitle(title);
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
@@ -136,20 +155,22 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     }
 
     private void setupProgramImage(Image image) {
-        Picasso.with(this)
-                .load(image.getUrlLg())
-                .transform(PaletteTransformation.instance())
-                .placeholder(R.drawable.kzfr_logo)
-                .into(mProgramImageView, new Callback.EmptyCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap bitmap = ((BitmapDrawable) mProgramImageView.getDrawable()).getBitmap();
-                        Palette palette = PaletteTransformation.getPalette(bitmap);
-                        int darkVibrantColor = palette.getDarkVibrantColor(R.color.dark);
-                        mCollapsingToolbarLayout.setContentScrimColor(darkVibrantColor);
-                    }
-                });
-        mProgramImageView.setOnClickListener(this);
+        if(image != null) {
+            Picasso.with(this)
+                    .load(image.getUrlLg())
+                    .transform(PaletteTransformation.instance())
+                    .placeholder(R.drawable.kzfr_logo)
+                    .into(mProgramImageView, new Callback.EmptyCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Bitmap bitmap = ((BitmapDrawable) mProgramImageView.getDrawable()).getBitmap();
+                            Palette palette = PaletteTransformation.getPalette(bitmap);
+                            int darkVibrantColor = palette.getDarkVibrantColor(R.color.dark);
+                            mCollapsingToolbarLayout.setContentScrimColor(darkVibrantColor);
+                        }
+                    });
+            mProgramImageView.setOnClickListener(this);
+        }
     }
 
     @Override
