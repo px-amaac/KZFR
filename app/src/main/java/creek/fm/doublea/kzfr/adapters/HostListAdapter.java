@@ -105,20 +105,29 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
 
         public void bind(Host host) {
             mHost = host;
-            mHostName.setText(mHost.getDisplayName());
+            String hostName = mHost.getDisplayName();;
+            if(!hostName.isEmpty()) {
+                mHostName.setText(hostName);
+
+            } else {
+                mHostName.setVisibility(View.GONE);
+            }
             String imageUrl = null;
             Image imageUrls = mHost.getImage();
             if (imageUrls != null) {
                 mImageView.setVisibility(View.VISIBLE);
                 imageUrl = imageUrls.getUrlSm();
+                Picasso.with(mContext)
+                        .load(imageUrl)
+                        .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
+                        .onlyScaleDown()
+                        .centerInside()
+                        .into(mImageView);
+            } else {
+                mImageView.setVisibility(View.GONE);
             }
 
-            Picasso.with(mContext)
-                    .load(imageUrl)
-                    .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
-                    .onlyScaleDown()
-                    .centerInside()
-                    .into(mImageView);
+
         }
     }
 }
