@@ -71,7 +71,13 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void bind(int position, Program program) {
-            mProgramDescription.setText(Html.fromHtml(program.getFullDescription()));
+            String programDescription = program.getFullDescription();
+            if (programDescription.isEmpty()) {
+                programDescription = program.getShortDescription();
+            }
+            if (!programDescription.isEmpty()) {
+                mProgramDescription.setText(Html.fromHtml(programDescription));
+            }
         }
     }
 
