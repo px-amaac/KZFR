@@ -158,6 +158,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      * program view has a next program id then the last view is an up next button. this should only
      * happen if the program view is the current program running and was reached by clicking on the
      * media player bar.
+     *
      * @param position the current position of the view about to be created.
      * @return the view type
      */

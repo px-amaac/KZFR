@@ -12,7 +12,7 @@ import java.util.WeakHashMap;
  * Solution taken from a post by JakeWharton on using palette with picasso.
  * http://jakewharton.com/coercing-picasso-to-play-with-palette/
  */
-public final class PaletteTransformation implements Transformation{
+public final class PaletteTransformation implements Transformation {
     private static final PaletteTransformation INSTANCE = new PaletteTransformation();
     private static final Map<Bitmap, Palette> CACHE = new WeakHashMap<>();
 
@@ -24,7 +24,8 @@ public final class PaletteTransformation implements Transformation{
         return CACHE.get(bitmap);
     }
 
-    private PaletteTransformation() {}
+    private PaletteTransformation() {
+    }
 
     @Override
     public Bitmap transform(Bitmap source) {

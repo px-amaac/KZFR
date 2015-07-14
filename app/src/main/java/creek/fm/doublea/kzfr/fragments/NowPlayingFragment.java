@@ -16,12 +16,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.utils.Utils;
 import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.models.NowPlaying;
 import creek.fm.doublea.kzfr.services.NowPlayingService;
+import creek.fm.doublea.kzfr.utils.Utils;
 import retrofit.client.Response;
 
 /**
@@ -102,6 +102,11 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
 
     }
 
+    /**
+     * This method is called by the main activity when it receives a broadcast from the media player
+     * service. This tells the media player bar to check if the media player is playing and set the
+     * play pause button accordingly.
+     */
     public void updateToggle() {
         NowPlayingService mainService = sGetMainService.getMainService();
 
@@ -115,7 +120,12 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    // Show the buffering
+    /**
+     * If the media player is buffering on setting itself up this method is called to make the ui
+     * changes indicating that the media player is currently buffering.
+     *
+     * @param isBuffering
+     */
     public void showBuffering(boolean isBuffering) {
         if (isBuffering) {
             mBuffering.setVisibility(View.VISIBLE);
@@ -140,6 +150,10 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    /**
+     * OnClick action for the data in the media player bar. This method launches the program intent
+     * with an extra program id so it displays the up next button.
+     */
     @OnClick(R.id.media_player_data)
     public void onMediaPlayerDataClicked() {
         if (mNowPlaying != null) {

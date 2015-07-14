@@ -137,6 +137,7 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
      * not update unless the text size has changed. The method simply changes the text size and
      * changes it back forcing the title to update.
      * http://stackoverflow.com/questions/30682548/collapsingtoolbarlayout-settitle-does-not-update-unless-collapsed/31309381#31309381
+     *
      * @param title the new title
      */
     private void setCollapsingToolbarLayoutTitle(String title) {
@@ -155,7 +156,7 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     }
 
     private void setupProgramImage(Image image) {
-        if(image != null) {
+        if (image != null) {
             Picasso.with(this)
                     .load(image.getUrlLg())
                     .transform(PaletteTransformation.instance())

@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         }
     };
 
+    /**
+     * this broadcast receiver is receiving intents from the media player service and calling the
+     * appropriate methods to update the media player bar.
+     */
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -113,10 +117,12 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
 
         mNavigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        registerBroadcastReceiver();
 
     }
 
+    /**
+     * Register the broadcast receiver te receive intents from the media player service.
+     */
     private void registerBroadcastReceiver() {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter updateIntentFilter = new IntentFilter();
@@ -125,12 +131,17 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         broadcastManager.registerReceiver(broadcastReceiver, updateIntentFilter);
     }
 
+    private void unRegisterBroadcastReceiver() {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+        broadcastManager.unregisterReceiver(broadcastReceiver);
+    }
+
     private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             int itemId = menuItem.getItemId();
-            switch(itemId) {
+            switch (itemId) {
                 case R.id.schedule:
                     Intent scheduleIntent = new Intent(MainActivity.this, ScheduleActivity.class);
                     startActivity(scheduleIntent);
@@ -151,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     @Override
     protected void onResume() {
         super.onResume();
-
+        registerBroadcastReceiver();
         Intent mediaIntent = new Intent(this, NowPlayingService.class);
         startService(mediaIntent);
         if (mNowPlayingService == null)
@@ -175,8 +186,11 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         centerNavDrawerIconVertically();
     }
 
-    //The navigation drawer icon by default is not centered vertically. This method centers the navigation drawer icon in the app bar layout
-    //Solution found http://stackoverflow.com/questions/29003584/set-actionbardrawertoggle-in-center-of-toolbar-or-actionbar-android
+    /**
+     * The navigation drawer icon by default is not centered vertically. This method centers the
+     * navigation drawer icon in the app bar layout
+     * Solution found http://stackoverflow.com/questions/29003584/set-actionbardrawertoggle-in-center-of-toolbar-or-actionbar-android
+     */
     public void centerNavDrawerIconVertically() {
         for (int i = 0; i < mMainActionToolbar.getChildCount(); i++) {
             // make toggle drawable center-vertical, you can make each view alignment whatever you want
@@ -219,19 +233,26 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
             unbindService(mServiceConnection);
             mNowPlayingService = null;
         }
+        unRegisterBroadcastReceiver();
         mBound = false;
     }
 
-    /* Stop intent is sent to the service so the service can determine if it should stop. If the
-       media player is paused when any activity triggers onPause then the service should stop itself.
-      */
+    /**
+     * Stop intent is sent to the service so the service can determine if it should stop. If the
+     * media player is paused when any activity triggers onPause then the service should stop itself.
+     */
     private void sendStopIntent() {
         Intent stopIntent = new Intent(this, NowPlayingService.class);
         stopIntent.setAction(NowPlayingService.ACTION_CLOSE);
         startService(stopIntent);
     }
 
-
+    /**
+     * This method will hide or show the progrss bar depending on the boolean passed in.
+     * This method should be called on the ui thread.
+     *
+     * @param shouldShow
+     */
     protected void showProgressBar(boolean shouldShow) {
         if (shouldShow) {
             mProgressBar.setVisibility(View.VISIBLE);

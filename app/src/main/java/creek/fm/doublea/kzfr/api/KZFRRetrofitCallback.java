@@ -1,10 +1,10 @@
 package creek.fm.doublea.kzfr.api;
 
+import android.util.Log;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-
-import android.util.Log;
 
 /**
  * Created by Aaron on 6/21/2015.

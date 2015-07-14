@@ -20,7 +20,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.models.Airtime;
 import creek.fm.doublea.kzfr.models.Host;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.utils.Utils;
@@ -105,8 +104,9 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
 
         public void bind(Host host) {
             mHost = host;
-            String hostName = mHost.getDisplayName();;
-            if(!hostName.isEmpty()) {
+            String hostName = mHost.getDisplayName();
+            ;
+            if (!hostName.isEmpty()) {
                 mHostName.setText(hostName);
 
             } else {

@@ -19,7 +19,7 @@ import retrofit.client.Response;
 /**
  * Created by Aaron on 7/8/2015.
  */
-public class ProgramsActivity extends MainActivity{
+public class ProgramsActivity extends MainActivity {
 
     private RecyclerView mRecyclerView;
     private ProgramListAdapter mProgramListAdapter;

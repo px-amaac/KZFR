@@ -17,10 +17,17 @@ import creek.fm.doublea.kzfr.models.Airtime;
  */
 public class Utils {
 
+    /**
+     * This method converts an integer from the schedule json with the proper string weekday associated
+     * with its eventual view pager position.
+     *
+     * @param weekday
+     * @return
+     */
     public static String parseDay(String weekday) {
         int day = 0;
-        String[] mWeekday = { "Monday", "Tuesday", "Wednesday", "Thursday",
-                "Friday", "Saturday", "Sunday" };
+        String[] mWeekday = {"Monday", "Tuesday", "Wednesday", "Thursday",
+                "Friday", "Saturday", "Sunday"};
         try {
             day = Integer.parseInt(weekday);
         } catch (NumberFormatException nfe) {
@@ -29,25 +36,40 @@ public class Utils {
 
         return mWeekday[day - 1];
     }
-    /*
-        https://gist.github.com/laaptu/7867851
+
+    /**
+     * https://gist.github.com/laaptu/7867851
      */
-    public static int convertDpToPx(Context context, int dp){
-        return Math.round(dp*(context.getResources().getDisplayMetrics().xdpi/ DisplayMetrics.DENSITY_DEFAULT));
+    public static int convertDpToPx(Context context, int dp) {
+        return Math.round(dp * (context.getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
     }
 
+    /**
+     * This method cycles through a list of airtimes and gets the friendly string version of all
+     * these airtimes seperated by a newline.
+     *
+     * @param airtimes
+     * @return
+     */
     public static String getFriendlyAirtimes(List<Airtime> airtimes) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(Airtime airtime : airtimes) {
+        for (Airtime airtime : airtimes) {
             stringBuilder.append(getFriendlyAirTime(airtime))
                     .append("\n");
         }
         return stringBuilder.toString();
     }
 
+    /**
+     * This method takes an airtimes weekday, start time, and end time and forms a readable string
+     * to be displayed.
+     *
+     * @param airTime
+     * @return
+     */
     public static String getFriendlyAirTime(Airtime airTime) {
-        if(airTime == null) {
+        if (airTime == null) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -61,6 +83,14 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    /**
+     * This method accepts a String in the time format of HH:mm:ss and converts it into the correct
+     * time based off the devices current timezone. This way all airtimes are shown in local time
+     * and not stuck with the stations time
+     *
+     * @param time
+     * @return
+     */
     private static String parseTime(String time) {
         String mTime = null;
         TimeZone currentTimeZone = TimeZone.getDefault();
