@@ -143,17 +143,29 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private LayoutInflater mInflater;
     private Program mProgramData;
     private int mNextProgramId = -1;
+    private boolean mHasAirTimes;
 
     public ProgramRecyclerAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
     }
 
+    /**
+     * This method is very specific to the layout desired. The desired layout is as follows.
+     * If there are any airtimes then the airtimes view is first. The description view will be
+     * second unless there is no airtimes view then it will be first. After the description there
+     * will be 0 or more hosts views followed by 0 or more categories in a single card view. If the
+     * program view has a next program id then the last view is an up next button. this should only
+     * happen if the program view is the current program running and was reached by clicking on the
+     * media player bar.
+     * @param position the current position of the view about to be created.
+     * @return the view type
+     */
     @Override
     public int getItemViewType(int position) {
-        if (position == AirtimeViewHolder.viewType) {
+        if (position == AirtimeViewHolder.viewType && mHasAirTimes) {
             return AirtimeViewHolder.viewType;
-        } else if (position == DescriptionViewHolder.viewType) {
+        } else if (position <= DescriptionViewHolder.viewType) {
             return DescriptionViewHolder.viewType;
         } else if (position > DescriptionViewHolder.viewType
                 && position <= DescriptionViewHolder.viewType + getHostsNum()) {
@@ -167,7 +179,12 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return 2 + getHostsNum() + getCategoriesNum() + hasNextProgram();
+        return 1 + getHasAirtimes() + getHostsNum() + getCategoriesNum() + hasNextProgram();
+    }
+
+    private int getHasAirtimes() {
+        mHasAirTimes = (mProgramData != null && (!mProgramData.getAirtimes().isEmpty() || mProgramData.getAirtime() != null));
+        return mHasAirTimes ? 1 : 0;
     }
 
     private int getHostsNum() {
@@ -178,17 +195,11 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private int getCategoriesNum() {
-        if (mProgramData != null && mProgramData.getCategories().size() > 0) {
-            return 1;
-        }
-        return 0;
+        return (mProgramData != null && mProgramData.getCategories().size() > 0) ? 1 : 0;
     }
 
     private int hasNextProgram() {
-        if (mNextProgramId != -1) {
-            return 1;
-        } else
-            return 0;
+        return (mNextProgramId != -1) ? 1 : 0;
     }
 
 
