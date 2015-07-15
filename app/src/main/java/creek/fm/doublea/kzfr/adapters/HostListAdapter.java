@@ -105,7 +105,6 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
         public void bind(Host host) {
             mHost = host;
             String hostName = mHost.getDisplayName();
-            ;
             if (!hostName.isEmpty()) {
                 mHostName.setText(hostName);
 

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -18,6 +20,8 @@ import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.activities.ProgramActivity;
 import creek.fm.doublea.kzfr.models.Airtime;
 import creek.fm.doublea.kzfr.models.Category;
+import creek.fm.doublea.kzfr.models.Host;
+import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.Program;
 import creek.fm.doublea.kzfr.utils.Utils;
 
@@ -84,6 +88,8 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     class HostsViewHolder extends ProgramBaseViewHolder {
         @Bind(R.id.card_view_host_name)
         TextView mProgramHostName;
+        @Bind(R.id.host_image)
+        ImageView mImageView;
 
         static final int viewType = 2;
 
@@ -94,7 +100,20 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void bind(int position, Program program) {
-            mProgramHostName.setText(program.getHosts().get(position - 2).getDisplayName());
+            Host host = program.getHosts().get(position - 2);
+            mProgramHostName.setText(host.getDisplayName());
+            Image imageUrls = host.getImage();
+            if (imageUrls != null) {
+                mImageView.setVisibility(View.VISIBLE);
+                Picasso.with(mContext)
+                        .load(imageUrls.getUrlSm())
+                        .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
+                        .onlyScaleDown()
+                        .centerInside()
+                        .into(mImageView);
+            } else {
+                mImageView.setVisibility(View.GONE);
+            }
         }
     }
 
