@@ -71,18 +71,24 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
+        getDataFromIntent();
         if (mProgramId != -1) {
             showProgressBar(true);
             executeProgramApiCall(mProgramId);
         }
     }
 
+    private void getDataFromIntent() {
+        Intent currentIntent = getIntent();
+        mProgramId = currentIntent.getIntExtra(PROGRAM_ID_KEY, -1);
+        mNextProgramId = currentIntent.getIntExtra(NEXT_PROGRAM_ID_KEY, -1);
+        setNextProgramId(mNextProgramId);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mProgramId = intent.getIntExtra(PROGRAM_ID_KEY, -1);
-        mNextProgramId = intent.getIntExtra(NEXT_PROGRAM_ID_KEY, -1);
-        setNextProgramId(mNextProgramId);
+        setIntent(intent);
     }
 
     @Override
