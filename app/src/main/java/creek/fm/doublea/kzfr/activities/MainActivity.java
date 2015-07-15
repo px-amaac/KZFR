@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.NavigationView;
@@ -153,6 +154,11 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
                 case R.id.hosts:
                     Intent hostIntent = new Intent(MainActivity.this, HostsActivity.class);
                     startActivity(hostIntent);
+                    break;
+                case R.id.website:
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://kzfr.org"));
+                    startActivity(browserIntent);
                     break;
             }
             return true;
