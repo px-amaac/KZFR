@@ -143,6 +143,12 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             int itemId = menuItem.getItemId();
             switch (itemId) {
+                case R.id.now_playing:
+                    NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.now_playing_fragment);
+                    if (nowPlayingFragment != null) {
+                        nowPlayingFragment.onMediaPlayerDataClicked();
+                    }
+                    break;
                 case R.id.schedule:
                     Intent scheduleIntent = new Intent(MainActivity.this, ScheduleActivity.class);
                     startActivity(scheduleIntent);
