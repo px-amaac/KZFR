@@ -43,7 +43,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Bind(R.id.program_airtimes)
         TextView mProgramAirtimes;
 
-        static final int viewType = 0;
+        static final int viewType = 14;
 
         public AirtimeViewHolder(View itemView) {
             super(itemView);
@@ -66,7 +66,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Bind(R.id.description_card_layout)
         TextView mProgramDescription;
 
-        static final int viewType = 1;
+        static final int viewType = 13;
 
         public DescriptionViewHolder(View itemView) {
             super(itemView);
@@ -91,7 +91,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Bind(R.id.host_image)
         ImageView mImageView;
 
-        static final int viewType = 2;
+        static final int viewType = 12;
 
         public HostsViewHolder(View itemView) {
             super(itemView);
@@ -100,7 +100,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void bind(int position, Program program) {
-            Host host = program.getHosts().get(position - 2);
+            Host host = program.getHosts().get(position - (mDescriptionPosition + 1));
             mProgramHostName.setText(host.getDisplayName());
             Image imageUrls = host.getImage();
             if (imageUrls != null) {
@@ -120,7 +120,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     class CategoriesViewHolder extends ProgramBaseViewHolder {
         @Bind(R.id.program_categories)
         TextView mProgramCategories;
-        static final int viewType = 42;
+        static final int viewType = 11;
 
         public CategoriesViewHolder(View itemView) {
             super(itemView);
@@ -142,7 +142,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     class UpNextViewHolder extends ProgramBaseViewHolder {
         @Bind(R.id.up_next_image_view)
         ImageView mUpNextImageView;
-        static final int viewType = 43;
+        static final int viewType = 10;
 
         public UpNextViewHolder(View itemView) {
             super(itemView);
@@ -169,6 +169,8 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private Program mProgramData;
     private int mNextProgramId = -1;
     private boolean mHasAirTimes;
+    private int mDescriptionPosition = -1;
+    private int mLastHostPosition = -1;
 
     public ProgramRecyclerAdapter(Context context) {
         mContext = context;
@@ -189,18 +191,38 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      */
     @Override
     public int getItemViewType(int position) {
-        if (position == AirtimeViewHolder.viewType && mHasAirTimes) {
-            return AirtimeViewHolder.viewType;
-        } else if (position <= DescriptionViewHolder.viewType) {
-            return DescriptionViewHolder.viewType;
-        } else if (position > DescriptionViewHolder.viewType
-                && position <= DescriptionViewHolder.viewType + getHostsNum()) {
-            return position;
+
+        int endPosition = -1;
+        ensureDescriptionPosition();
+        ensureLastHostPosition();
+
+        if (position == 0 && mHasAirTimes) {
+            endPosition = AirtimeViewHolder.viewType;
+        } else if (position == mDescriptionPosition) {
+            endPosition = DescriptionViewHolder.viewType;
+        } else if (position > mDescriptionPosition && position <= mLastHostPosition) {
+            endPosition = HostsViewHolder.viewType;
+        } else if (position > mLastHostPosition && position <= mLastHostPosition + getCategoriesNum()) {
+            endPosition = CategoriesViewHolder.viewType;
         } else if (position == getItemCount() - 1 && mNextProgramId != -1) {
-            return UpNextViewHolder.viewType;
-        } else {
-            return CategoriesViewHolder.viewType;
+            endPosition = UpNextViewHolder.viewType;
         }
+        return endPosition;
+    }
+
+    private void ensureDescriptionPosition() {
+        if (mDescriptionPosition == -1) {
+            if (mHasAirTimes) {
+                mDescriptionPosition = 1;
+            } else {
+                mDescriptionPosition = 0;
+            }
+        }
+    }
+
+    private void ensureLastHostPosition() {
+        if (mLastHostPosition == -1)
+            mLastHostPosition = mDescriptionPosition + getHostsNum();
     }
 
     @Override
@@ -214,10 +236,11 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private int getHostsNum() {
+        int hostNum = 0;
         if (mProgramData != null) {
-            return mProgramData.getHosts().size();
+            hostNum = mProgramData.getHosts().size();
         }
-        return 0;
+        return hostNum;
     }
 
     private int getCategoriesNum() {
@@ -231,17 +254,20 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder currentViewHolder = null;
+
         if (viewType == AirtimeViewHolder.viewType) {
-            return new AirtimeViewHolder(mInflater.inflate(R.layout.airtime_card_layout, parent, false));
+            currentViewHolder = new AirtimeViewHolder(mInflater.inflate(R.layout.airtime_card_layout, parent, false));
         } else if (viewType == DescriptionViewHolder.viewType) {
-            return new DescriptionViewHolder(mInflater.inflate(R.layout.description_card_layout, parent, false));
-        } else if (viewType > DescriptionViewHolder.viewType
-                && viewType <= DescriptionViewHolder.viewType + getHostsNum()) {
-            return new HostsViewHolder(mInflater.inflate(R.layout.hosts_card_layout, parent, false));
+            currentViewHolder = new DescriptionViewHolder(mInflater.inflate(R.layout.description_card_layout, parent, false));
+        } else if (viewType == HostsViewHolder.viewType) {
+            currentViewHolder = new HostsViewHolder(mInflater.inflate(R.layout.hosts_card_layout, parent, false));
         } else if (viewType == UpNextViewHolder.viewType) {
-            return new UpNextViewHolder(mInflater.inflate(R.layout.up_next_layout, parent, false));
-        } else
-            return new CategoriesViewHolder(mInflater.inflate(R.layout.categories_card_layout, parent, false));
+            currentViewHolder = new UpNextViewHolder(mInflater.inflate(R.layout.up_next_layout, parent, false));
+        } else {
+            currentViewHolder = new CategoriesViewHolder(mInflater.inflate(R.layout.categories_card_layout, parent, false));
+        }
+        return currentViewHolder;
     }
 
     @Override
@@ -254,6 +280,8 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public void setProgramData(Program program) {
         mProgramData = program;
+        mDescriptionPosition = -1;
+        mLastHostPosition = -1;
     }
 
     public void setNextProgramId(int nextProgramId) {
