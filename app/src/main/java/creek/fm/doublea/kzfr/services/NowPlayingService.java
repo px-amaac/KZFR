@@ -33,7 +33,8 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     private final IBinder mMediaPlayerBinder = new MediaPlayerBinder();
     public static final String ACTION_PLAY = "creek.fm.doublea.kzfr.services.PLAY";
     public static final String ACTION_PAUSE = "creek.fm.doublea.kzfr.services.PAUSE";
-    public static final String ACTION_CLOSE = "creek.fm.doublea.kzfr.services.APP_CLOSING";
+    public static final String ACTION_CLOSE = "creek.fm.doublea.kzfr.services.APP_CLOSE";
+    public static final String ACTION_CLOSE_IF_PAUSED = "creek.fm.doublea.kzfr.services.APP_CLOSE_IF_PAUSED";
     private static final int NOTIFICATION_ID = 4223;
     private MediaPlayer mMediaPlayer = null;
     private AudioManager mAudioManager = null;
@@ -172,8 +173,10 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
                 processPlayRequest();
             } else if (action.equals(ACTION_PAUSE)) {
                 processPauseRequest();
-            } else if (action.equals(ACTION_CLOSE)) {
+            } else if (action.equals(ACTION_CLOSE_IF_PAUSED)) {
                 closeIfPaused();
+            } else if (action.equals(ACTION_CLOSE)) {
+                close();
             }
         }
         return START_STICKY; //do not restart service if it is killed.
@@ -182,9 +185,13 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     //if the media player is paused or stopped and this method has been triggered then stop the service.
     private void closeIfPaused() {
         if (mState == State.Paused || mState == State.Stopped) {
-            removeNotification();
-            stopSelf();
+            close();
         }
+    }
+
+    private void close() {
+        removeNotification();
+        stopSelf();
     }
 
     private void initMediaPlayer() {
@@ -316,6 +323,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         } else {
             builder.addAction(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE));
         }
+        builder.addAction(generateAction(android.R.drawable.ic_menu_close_clear_cancel, "Close", ACTION_CLOSE));
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         if (startForeground)

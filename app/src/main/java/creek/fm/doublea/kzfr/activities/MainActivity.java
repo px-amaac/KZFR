@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
      */
     private void sendStopIntent() {
         Intent stopIntent = new Intent(this, NowPlayingService.class);
-        stopIntent.setAction(NowPlayingService.ACTION_CLOSE);
+        stopIntent.setAction(NowPlayingService.ACTION_CLOSE_IF_PAUSED);
         startService(stopIntent);
     }
 
