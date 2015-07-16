@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.models.Host;
 import creek.fm.doublea.kzfr.models.Image;
+import creek.fm.doublea.kzfr.models.Program;
 import creek.fm.doublea.kzfr.utils.Utils;
 
 /**
@@ -94,7 +95,6 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
             super(v);
             ButterKnife.bind(this, v);
             v.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
 
@@ -104,29 +104,53 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
 
         public void bind(Host host) {
             mHost = host;
-            String hostName = mHost.getDisplayName();
-            if (!hostName.isEmpty()) {
-                mHostName.setText(hostName);
-
-            } else {
-                mHostName.setVisibility(View.GONE);
-            }
-            String imageUrl = null;
+            setupHostName(mHost.getDisplayName());
+            List<Program> programs = mHost.getPrograms();
+            listHostPrograms(programs);
             Image imageUrls = mHost.getImage();
             if (imageUrls != null) {
-                mImageView.setVisibility(View.VISIBLE);
-                imageUrl = imageUrls.getUrlSm();
-                Picasso.with(mContext)
-                        .load(imageUrl)
-                        .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
-                        .onlyScaleDown()
-                        .centerInside()
-                        .into(mImageView);
+                loadHostImage(imageUrls.getUrlSm());
             } else {
-                mImageView.setVisibility(View.GONE);
+                loadDefaultHostImage();
             }
+        }
 
+        private void listHostPrograms(List<Program> programs) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Programs:\n");
+            for(Program program:programs) {
+                stringBuilder
+                        .append(program.getTitle())
+                        .append("\n");
+            }
+            mHostPrograms.setText(stringBuilder.toString());
+        }
 
+        private void loadHostImage(String imageUrl) {
+            mImageView.setVisibility(View.VISIBLE);
+            Picasso.with(mContext)
+                    .load(imageUrl)
+                    .resize(Utils.convertDpToPx(mContext, 108), Utils.convertDpToPx(mContext, 108))
+                    .onlyScaleDown()
+                    .centerInside()
+                    .into(mImageView);
+        }
+
+        private void loadDefaultHostImage() {
+            Picasso.with(mContext)
+                    .load(R.mipmap.host_default_image)
+                    .resize(Utils.convertDpToPx(mContext, 108), Utils.convertDpToPx(mContext, 108))
+                    .onlyScaleDown()
+                    .centerInside()
+                    .into(mImageView);
+        }
+
+        private void setupHostName(String hostName) {
+            if (!hostName.isEmpty()) {
+                mHostName.setText(hostName);
+            } else {
+                mHostName.setText(mContext.getString(R.string.unknown_host_name));
+            }
         }
     }
 }

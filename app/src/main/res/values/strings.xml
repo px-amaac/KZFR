@@ -17,4 +17,5 @@
     <string name="description_label">Description:</string>
     <string name="categories_label">Categories:</string>
     <string name="airtimes_label">Airtimes:</string>
+    <string name="unknown_host_name">Unknown Host</string>
 </resources>

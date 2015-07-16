@@ -16,10 +16,9 @@
 
         <ImageView
             android:id="@+id/host_image"
-            android:layout_width="112dp"
-            android:layout_height="112dp"
+            android:layout_width="108dp"
+            android:layout_height="108dp"
             android:layout_alignParentLeft="true"
-            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp" />
 
@@ -35,7 +34,8 @@
                 android:id="@+id/card_view_host_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_gravity="left"
                 android:textAppearance="@style/KZFRCardTitleText"/>
 
@@ -43,9 +43,7 @@
                 android:id="@+id/card_view_hosts_programs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:textStyle="bold"
-                android:textSize="12sp"
+                android:textAppearance="@style/KZFRCardBoldText"
                 android:layout_marginBottom="16dp"
                 android:layout_gravity="left"/>
 

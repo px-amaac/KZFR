@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Aaron on 6/18/2015.
  */
@@ -22,6 +25,8 @@ public class Host implements Parcelable {
     @SerializedName("image")
     @Expose
     private String imageName;
+    @Expose
+    private List<Program> programs = new ArrayList<Program>();
 
     /**
      * @return The id
@@ -94,6 +99,20 @@ public class Host implements Parcelable {
     }
 
     /**
+     * @return The programs
+     */
+    public List<Program> getPrograms() {
+        return programs;
+    }
+
+    /**
+     * @param programs The programs
+     */
+    public void setPrograms(List<Program> programs) {
+        this.programs = programs;
+    }
+
+    /**
      * @return The hosts
      */
 
@@ -109,6 +128,7 @@ public class Host implements Parcelable {
         dest.writeString(this.username);
         dest.writeString(this.imageName);
         dest.writeParcelable(this.Image, 0);
+        dest.writeTypedList(this.programs);
     }
 
     public Host() {
@@ -120,6 +140,7 @@ public class Host implements Parcelable {
         this.username = in.readString();
         this.imageName = in.readString();
         this.Image = in.readParcelable(creek.fm.doublea.kzfr.models.Image.class.getClassLoader());
+        this.programs = in.createTypedArrayList(Program.CREATOR);
     }
 
     public static final Parcelable.Creator<Host> CREATOR = new Parcelable.Creator<Host>() {

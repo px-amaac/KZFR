@@ -87,7 +87,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     class HostsViewHolder extends ProgramBaseViewHolder {
         @Bind(R.id.card_view_host_name)
-        TextView mProgramHostName;
+        TextView mHostName;
         @Bind(R.id.host_image)
         ImageView mImageView;
 
@@ -101,18 +101,27 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Override
         public void bind(int position, Program program) {
             Host host = program.getHosts().get(position - (mDescriptionPosition + 1));
-            mProgramHostName.setText(host.getDisplayName());
+            String hostName = host.getDisplayName();
+            if (!hostName.isEmpty()) {
+                mHostName.setText(hostName);
+            } else {
+                mHostName.setText(mContext.getString(R.string.unknown_host_name));
+            }
             Image imageUrls = host.getImage();
             if (imageUrls != null) {
-                mImageView.setVisibility(View.VISIBLE);
                 Picasso.with(mContext)
                         .load(imageUrls.getUrlSm())
-                        .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
+                        .resize(Utils.convertDpToPx(mContext, 108), Utils.convertDpToPx(mContext, 108))
                         .onlyScaleDown()
                         .centerInside()
                         .into(mImageView);
             } else {
-                mImageView.setVisibility(View.GONE);
+                Picasso.with(mContext)
+                        .load(R.mipmap.host_default_image)
+                        .resize(Utils.convertDpToPx(mContext, 108), Utils.convertDpToPx(mContext, 108))
+                        .onlyScaleDown()
+                        .centerInside()
+                        .into(mImageView);
             }
         }
     }
