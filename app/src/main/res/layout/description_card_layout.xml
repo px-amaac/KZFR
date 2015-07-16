@@ -9,25 +9,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="@string/description_label"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:layout_marginBottom="4dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/description_card_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/kzfr_info"
-            android:textSize="18sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="@dimen/title_text_size" />
 
     </LinearLayout>
 

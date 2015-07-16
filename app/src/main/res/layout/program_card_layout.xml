@@ -33,24 +33,25 @@
                 android:id="@+id/program_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/KZFRCardTitleText"
-                android:layout_gravity="left" />
+                android:layout_gravity="left"
+                android:textAppearance="@style/KZFRCardTitleText" />
 
             <TextView
                 android:id="@+id/program_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:ellipsize="end"
                 android:maxLines="5"
-                android:layout_gravity="left"
-                android:textColor="@color/title_text_color"/>
+                android:textColor="@color/title_text_color"
+                android:textSize="@dimen/title_text_size" />
 
             <TextView
                 android:id="@+id/program_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textAppearance="@style/KZFRCardBoldText"/>
+                android:textAppearance="@style/KZFRCardBoldText" />
         </LinearLayout>
 
     </RelativeLayout>

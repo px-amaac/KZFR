@@ -39,7 +39,9 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
     private AudioManager mAudioManager = null;
 
     //The URL that feeds the KZFR stream.
-    private static final String mStreamUrl = "http://stream-tx1.radioparadise.com:8090/;stream/1";
+    //http://107.170.235.213:8081/prpfm-aac8/prpfm8/playlist.m3u8
+    //http://stream-tx1.radioparadise.com:8090/;stream/1
+    private static final String mStreamUrl = "http://107.170.235.213:8081/prpfm-aac8/prpfm8/playlist.m3u8";
 
     //Wifi Lock to ensure the wifo does not ge to sleep while we are stearming music.
     WifiManager.WifiLock mWifiLock;
