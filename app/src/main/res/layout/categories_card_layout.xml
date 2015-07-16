@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/categories_label"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:layout_marginBottom="4dp"/>

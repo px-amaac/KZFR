@@ -28,4 +28,16 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="KZFRCardTitleText" parent="@style/TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColor">@color/title_text_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="KZFRCardBoldText" parent="@style/TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">@dimen/bold_text_size</item>
+        <item name="android:textColor">@color/title_text_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
