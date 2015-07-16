@@ -163,21 +163,45 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
 
     private void setupProgramImage(Image image) {
         if (image != null) {
-            Picasso.with(this)
-                    .load(image.getUrlLg())
-                    .transform(PaletteTransformation.instance())
-                    .placeholder(R.drawable.kzfr_logo)
-                    .into(mProgramImageView, new Callback.EmptyCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Bitmap bitmap = ((BitmapDrawable) mProgramImageView.getDrawable()).getBitmap();
-                            Palette palette = PaletteTransformation.getPalette(bitmap);
-                            int darkVibrantColor = palette.getDarkVibrantColor(R.color.dark);
-                            mCollapsingToolbarLayout.setContentScrimColor(darkVibrantColor);
-                        }
-                    });
+            loadProgramImage(image.getUrlLg());
             mProgramImageView.setOnClickListener(this);
+        } else {
+            loadDefaultImage();
         }
+    }
+
+    Callback.EmptyCallback picassoSuccessCallback = new Callback.EmptyCallback() {
+        @Override
+        public void onSuccess() {
+            setCollapsingToolbarScrimColor();
+        }
+    };
+
+    private void loadProgramImage(String imageUrl) {
+        Picasso.with(this)
+                .load(imageUrl)
+                .transform(PaletteTransformation.instance())
+                .placeholder(R.drawable.kzfr_logo)
+                .into(mProgramImageView, picassoSuccessCallback);
+    }
+
+    /**
+     * This method will load the default KZFR image into the collapsing toolbar layout taking
+     * advantage of the paletteTransformation to change the toolbar color when collapsed.
+     */
+    private void loadDefaultImage() {
+        Picasso.with(this)
+                .load(R.drawable.kzfr_logo)
+                .transform(PaletteTransformation.instance())
+                .into(mProgramImageView, picassoSuccessCallback);
+        mProgramImageView.setOnClickListener(this);
+    }
+
+    private void setCollapsingToolbarScrimColor() {
+        Bitmap bitmap = ((BitmapDrawable) mProgramImageView.getDrawable()).getBitmap();
+        Palette palette = PaletteTransformation.getPalette(bitmap);
+        int darkVibrantColor = palette.getDarkVibrantColor(R.color.dark);
+        mCollapsingToolbarLayout.setContentScrimColor(darkVibrantColor);
     }
 
     @Override
