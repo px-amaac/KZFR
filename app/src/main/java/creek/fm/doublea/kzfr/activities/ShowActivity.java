@@ -71,11 +71,18 @@ public class ShowActivity extends MainActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        resetViewsToDefault();
         getDataFromIntent();
         if (mShowId != -1) {
             showProgressBar(true);
             executeShowApiCall(mShowId);
         }
+    }
+
+    private void resetViewsToDefault() {
+        loadDefaultImage();
+        mShowRecyclerAdapter.setShowData(null);
+        mShowRecyclerAdapter.notifyDataSetChanged();
     }
 
     private void getDataFromIntent() {
