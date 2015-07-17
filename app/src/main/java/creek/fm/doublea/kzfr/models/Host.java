@@ -25,8 +25,9 @@ public class Host implements Parcelable {
     @SerializedName("image")
     @Expose
     private String imageName;
+    @SerializedName("programs")
     @Expose
-    private List<Program> programs = new ArrayList<Program>();
+    private List<Show> shows = new ArrayList<Show>();
 
     /**
      * @return The id
@@ -99,17 +100,17 @@ public class Host implements Parcelable {
     }
 
     /**
-     * @return The programs
+     * @return The shows
      */
-    public List<Program> getPrograms() {
-        return programs;
+    public List<Show> getShows() {
+        return shows;
     }
 
     /**
-     * @param programs The programs
+     * @param shows The shows
      */
-    public void setPrograms(List<Program> programs) {
-        this.programs = programs;
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
     }
 
     /**
@@ -128,7 +129,7 @@ public class Host implements Parcelable {
         dest.writeString(this.username);
         dest.writeString(this.imageName);
         dest.writeParcelable(this.Image, 0);
-        dest.writeTypedList(this.programs);
+        dest.writeTypedList(this.shows);
     }
 
     public Host() {
@@ -140,7 +141,7 @@ public class Host implements Parcelable {
         this.username = in.readString();
         this.imageName = in.readString();
         this.Image = in.readParcelable(creek.fm.doublea.kzfr.models.Image.class.getClassLoader());
-        this.programs = in.createTypedArrayList(Program.CREATOR);
+        this.shows = in.createTypedArrayList(Show.CREATOR);
     }
 
     public static final Parcelable.Creator<Host> CREATOR = new Parcelable.Creator<Host>() {

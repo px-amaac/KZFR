@@ -24,7 +24,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/program_collapsing_image_view"
+                android:id="@+id/show_collapsing_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="256dp"
                 android:src="@drawable/kzfr_logo"

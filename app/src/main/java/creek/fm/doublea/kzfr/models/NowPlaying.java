@@ -8,37 +8,37 @@ import com.google.gson.annotations.Expose;
 public class NowPlaying {
 
     @Expose
-    private Program now;
+    private Show now;
     @Expose
-    private Program next;
+    private Show next;
     @Expose
     private Boolean Track;
 
     /**
      * @return The now
      */
-    public Program getNow() {
+    public Show getNow() {
         return now;
     }
 
     /**
      * @param now The now
      */
-    public void setNow(Program now) {
+    public void setNow(Show now) {
         this.now = now;
     }
 
     /**
      * @return The next
      */
-    public Program getNext() {
+    public Show getNext() {
         return next;
     }
 
     /**
      * @param next The next
      */
-    public void setNext(Program next) {
+    public void setNext(Show next) {
         this.next = next;
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/program_card_view"
+    android:id="@+id/show_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/card_margin"
@@ -14,7 +14,7 @@
         android:padding="12dp">
 
         <ImageView
-            android:id="@+id/program_image"
+            android:id="@+id/show_image"
             android:layout_width="112dp"
             android:layout_height="112dp"
             android:layout_alignParentLeft="true"
@@ -26,18 +26,18 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/program_image"
+            android:layout_toRightOf="@id/show_image"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/program_title"
+                android:id="@+id/show_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:textAppearance="@style/KZFRCardTitleText" />
 
             <TextView
-                android:id="@+id/program_description"
+                android:id="@+id/show_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -47,7 +47,7 @@
                 android:textSize="@dimen/title_text_size" />
 
             <TextView
-                android:id="@+id/program_time"
+                android:id="@+id/show_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"

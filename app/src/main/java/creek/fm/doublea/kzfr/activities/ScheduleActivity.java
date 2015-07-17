@@ -17,7 +17,7 @@ import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.fragments.ScheduleDayFragment;
 import creek.fm.doublea.kzfr.models.Day;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.models.Show;
 import retrofit.client.Response;
 
 /**
@@ -102,10 +102,8 @@ public class ScheduleActivity extends MainActivity implements ScheduleDayFragmen
     }
 
     @Override
-    public List<Program> getProgramListData(int position) {
-        Log.d("SchudeleActivity", "getProgramList");
+    public List<Show> getShowListData(int position) {
         if (mPagerAdapter != null && !mPagerAdapter.isEmpty()) {
-            Log.d("SchudeleActivity", "getProgramList_DataReturned");
             return mPagerAdapter.getData(position);
         }
         return null;

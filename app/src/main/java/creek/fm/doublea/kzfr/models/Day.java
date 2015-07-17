@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,9 @@ public class Day implements Parcelable {
 
     @Expose
     private String weekday;
-
+    @SerializedName("programs")
     @Expose
-    private List<Program> programs = new ArrayList<Program>();
+    private List<Show> shows = new ArrayList<Show>();
 
     /**
      * @return The id
@@ -34,17 +35,17 @@ public class Day implements Parcelable {
     }
 
     /**
-     * @return The programs
+     * @return The shows
      */
-    public List<Program> getPrograms() {
-        return programs;
+    public List<Show> getShows() {
+        return shows;
     }
 
     /**
-     * @param programs The programs
+     * @param shows The shows
      */
-    public void setPrograms(List<Program> programs) {
-        this.programs = programs;
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class Day implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.weekday);
-        dest.writeList(this.programs);
+        dest.writeList(this.shows);
     }
 
     public Day() {
@@ -63,8 +64,8 @@ public class Day implements Parcelable {
 
     protected Day(Parcel in) {
         this.weekday = in.readString();
-        this.programs = new ArrayList<Program>();
-        in.readList(this.programs, List.class.getClassLoader());
+        this.shows = new ArrayList<Show>();
+        in.readList(this.shows, List.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Day> CREATOR = new Parcelable.Creator<Day>() {

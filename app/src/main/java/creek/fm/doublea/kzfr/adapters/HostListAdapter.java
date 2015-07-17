@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
 import creek.fm.doublea.kzfr.models.Host;
 import creek.fm.doublea.kzfr.models.Image;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.models.Show;
 import creek.fm.doublea.kzfr.utils.Utils;
 
 /**
@@ -62,7 +62,7 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
         }
     }
 
-    public void setProgramsData(List<Host> hostData) {
+    public void setShowsData(List<Host> hostData) {
         mHosts.clear();
         mHosts.addAll(hostData);
     }
@@ -82,8 +82,8 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.host_card_view)
         CardView mCardView;
-        @Bind(R.id.card_view_hosts_programs)
-        TextView mHostPrograms;
+        @Bind(R.id.card_view_hosts_shows)
+        TextView mHostShows;
         @Bind(R.id.card_view_host_name)
         TextView mHostName;
         @Bind(R.id.host_image)
@@ -105,8 +105,8 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
         public void bind(Host host) {
             mHost = host;
             setupHostName(mHost.getDisplayName());
-            List<Program> programs = mHost.getPrograms();
-            listHostPrograms(programs);
+            List<Show> shows = mHost.getShows();
+            listHostShows(shows);
             Image imageUrls = mHost.getImage();
             if (imageUrls != null) {
                 loadHostImage(imageUrls.getUrlSm());
@@ -115,15 +115,15 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
             }
         }
 
-        private void listHostPrograms(List<Program> programs) {
+        private void listHostShows(List<Show> shows) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("Programs:\n");
-            for(Program program:programs) {
+            stringBuilder.append("Shows:\n");
+            for(Show show : shows) {
                 stringBuilder
-                        .append(program.getTitle())
+                        .append(show.getTitle())
                         .append("\n");
             }
-            mHostPrograms.setText(stringBuilder.toString());
+            mHostShows.setText(stringBuilder.toString());
         }
 
         private void loadHostImage(String imageUrl) {

@@ -53,10 +53,10 @@ public class HostsActivity extends MainActivity {
     protected void onResume() {
         super.onResume();
         showProgressBar(true);
-        executeProgramsApiCall();
+        executeShowsApiCall();
     }
 
-    private void executeProgramsApiCall() {
+    private void executeShowsApiCall() {
         ApiClient.getKZFRApiClient(this).getHosts(new KZFRRetrofitCallback<ArrayList<Host>>() {
             @Override
             public void success(ArrayList<Host> hosts, Response response) {
@@ -68,7 +68,7 @@ public class HostsActivity extends MainActivity {
 
     private void addDataToAdapter(ArrayList<Host> hosts) {
         if (hosts != null && !hosts.isEmpty()) {
-            mHostListAdapter.setProgramsData(hosts);
+            mHostListAdapter.setShowsData(hosts);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

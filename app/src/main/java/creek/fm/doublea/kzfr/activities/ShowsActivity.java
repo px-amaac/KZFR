@@ -10,19 +10,19 @@ import android.view.View;
 import java.util.ArrayList;
 
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.adapters.ProgramListAdapter;
+import creek.fm.doublea.kzfr.adapters.ShowListAdapter;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.models.Show;
 import retrofit.client.Response;
 
 /**
  * Created by Aaron on 7/8/2015.
  */
-public class ProgramsActivity extends MainActivity {
+public class ShowsActivity extends MainActivity {
 
     private RecyclerView mRecyclerView;
-    private ProgramListAdapter mProgramListAdapter;
+    private ShowListAdapter mShowListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,47 +32,47 @@ public class ProgramsActivity extends MainActivity {
         View content = inflater.inflate(R.layout.simple_recycler_layout, mContentView, true);
 
         mRecyclerView = (RecyclerView) content.findViewById(R.id.simple_recycler_view);
-        setupProgramRecyclerView();
+        setupShowRecyclerView();
     }
 
-    private void setupProgramRecyclerView() {
+    private void setupShowRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mProgramListAdapter = getOrSetupAdapter();
-        mRecyclerView.setAdapter(mProgramListAdapter);
+        mShowListAdapter = getOrSetupAdapter();
+        mRecyclerView.setAdapter(mShowListAdapter);
     }
 
-    private ProgramListAdapter getOrSetupAdapter() {
-        if (mProgramListAdapter == null) {
-            return new ProgramListAdapter(this);
+    private ShowListAdapter getOrSetupAdapter() {
+        if (mShowListAdapter == null) {
+            return new ShowListAdapter(this);
         } else
-            return mProgramListAdapter;
+            return mShowListAdapter;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         showProgressBar(true);
-        executeProgramsApiCall();
+        executeShowsApiCall();
     }
 
-    private void executeProgramsApiCall() {
-        ApiClient.getKZFRApiClient(this).getPrograms(new KZFRRetrofitCallback<ArrayList<Program>>() {
+    private void executeShowsApiCall() {
+        ApiClient.getKZFRApiClient(this).getShows(new KZFRRetrofitCallback<ArrayList<Show>>() {
             @Override
-            public void success(ArrayList<Program> programs, Response response) {
-                super.success(programs, response);
-                addDataToAdapter(programs);
+            public void success(ArrayList<Show> shows, Response response) {
+                super.success(shows, response);
+                addDataToAdapter(shows);
             }
         });
     }
 
-    private void addDataToAdapter(ArrayList<Program> programs) {
-        if (programs != null && !programs.isEmpty()) {
-            mProgramListAdapter.setProgramsData(programs);
+    private void addDataToAdapter(ArrayList<Show> shows) {
+        if (shows != null && !shows.isEmpty()) {
+            mShowListAdapter.setShowsData(shows);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mProgramListAdapter.notifyDataSetChanged();
+                    mShowListAdapter.notifyDataSetChanged();
                     showProgressBar(false);
                 }
             });

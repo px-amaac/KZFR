@@ -15,8 +15,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.adapters.ProgramListAdapter;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.adapters.ShowListAdapter;
+import creek.fm.doublea.kzfr.models.Show;
 
 /**
  * Created by Aaron on 6/25/2015.
@@ -29,7 +29,7 @@ public class ScheduleDayFragment extends Fragment {
 
     private int mPagerPosition;
 
-    private ProgramListAdapter mListAdapter = null;
+    private ShowListAdapter mListAdapter = null;
 
     private GetDataInterface getDataInterface;
 
@@ -44,7 +44,7 @@ public class ScheduleDayFragment extends Fragment {
     }
 
     public interface GetDataInterface {
-        List<Program> getProgramListData(int position);
+        List<Show> getShowListData(int position);
     }
 
     public static ScheduleDayFragment newInstance(int position) {
@@ -77,20 +77,20 @@ public class ScheduleDayFragment extends Fragment {
 
     }
 
-    private ProgramListAdapter getOrSetupAdapter() {
+    private ShowListAdapter getOrSetupAdapter() {
         Log.d("ScheduleDayFragment", "getOrSetupAdapter");
         if (mListAdapter == null) {
-            return new ProgramListAdapter(getActivity());
+            return new ShowListAdapter(getActivity());
         } else
             return mListAdapter;
     }
 
-    private void checkForProgramData() {
-        Log.d("ScheduleDayFragment", "checkForProgramData");
+    private void checkForShowData() {
+        Log.d("ScheduleDayFragment", "checkForShowData");
         if (mListAdapter.isEmpty()) {
-            List<Program> programList = getDataInterface.getProgramListData(mPagerPosition);
-            if (programList != null) {
-                mListAdapter.setProgramsData(getDataInterface.getProgramListData(mPagerPosition));
+            List<Show> showList = getDataInterface.getShowListData(mPagerPosition);
+            if (showList != null) {
+                mListAdapter.setShowsData(getDataInterface.getShowListData(mPagerPosition));
                 mListAdapter.notifyDataSetChanged();
             }
         }
@@ -100,7 +100,7 @@ public class ScheduleDayFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("ScheduleDayFragment", "OnResume");
-        checkForProgramData();
+        checkForShowData();
     }
 
     @Override

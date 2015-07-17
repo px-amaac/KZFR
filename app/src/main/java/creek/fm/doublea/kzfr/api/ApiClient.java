@@ -18,7 +18,7 @@ import creek.fm.doublea.kzfr.models.Host;
 import creek.fm.doublea.kzfr.models.Image;
 import creek.fm.doublea.kzfr.models.JsonDeserializer;
 import creek.fm.doublea.kzfr.models.NowPlaying;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.models.Show;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
@@ -75,13 +75,13 @@ public class ApiClient {
         @GET("/host/{id}")
         void getHost(@Path("id") int id, KZFRRetrofitCallback<Host> callback);
 
-        /*http://kzfr.org/api/show/{PROGRAM_ID}*/
+        /*http://kzfr.org/api/show/{SHOW_ID}*/
         @GET("/show/{id}")
-        void getProgram(@Path("id") int id, KZFRRetrofitCallback<Program> callback);
+        void getShow(@Path("id") int id, KZFRRetrofitCallback<Show> callback);
 
-        /*http://kzfr.org/api/programs*/
-        @GET("/programs")
-        void getPrograms(KZFRRetrofitCallback<ArrayList<Program>> callback);
+        /*http://kzfr.org/api/shows*/
+        @GET("/shows")
+        void getShows(KZFRRetrofitCallback<ArrayList<Show>> callback);
 
         /*http://kzfr.org/api/hosts*/
         @GET("/hosts")

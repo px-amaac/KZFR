@@ -18,11 +18,11 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.adapters.ProgramRecyclerAdapter;
+import creek.fm.doublea.kzfr.adapters.ShowRecyclerAdapter;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.models.Image;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.models.Show;
 import creek.fm.doublea.kzfr.utils.PaletteTransformation;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -30,16 +30,16 @@ import retrofit.client.Response;
 /**
  * Created by Aaron on 7/6/2015.
  */
-public class ProgramActivity extends MainActivity implements View.OnClickListener {
-    private static final String TAG = ProgramActivity.class.getSimpleName();
-    public static final String PROGRAM_ID_KEY = TAG + ".program_id_key";
-    public static final String PROGRAM_DATA_KEY = TAG + ".program_data_key";
-    public static final String NEXT_PROGRAM_ID_KEY = TAG + ".next_program_data_key";
+public class ShowActivity extends MainActivity implements View.OnClickListener {
+    private static final String TAG = ShowActivity.class.getSimpleName();
+    public static final String SHOW_ID_KEY = TAG + ".show_id_key";
+    public static final String SHOW_DATA_KEY = TAG + ".show_data_key";
+    public static final String NEXT_SHOW_ID_KEY = TAG + ".next_show_data_key";
 
-    private int mProgramId, mNextProgramId;
+    private int mShowId, mNextShowId;
     private RecyclerView mHostRecyclerView;
-    private ProgramRecyclerAdapter mProgramRecyclerAdapter;
-    private ImageView mProgramImageView;
+    private ShowRecyclerAdapter mShowRecyclerAdapter;
+    private ImageView mShowImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private Toolbar mToolbar;
 
@@ -47,24 +47,24 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) getSystemService((Context.LAYOUT_INFLATER_SERVICE));
-        View content = inflater.inflate(R.layout.activity_program, mContentView, true);
+        View content = inflater.inflate(R.layout.activity_show, mContentView, true);
         mHostRecyclerView = (RecyclerView) content.findViewById(R.id.host_recycler_view);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) content.findViewById(R.id.collapsing_toolbar);
-        mProgramImageView = (ImageView) content.findViewById(R.id.program_collapsing_image_view);
+        mShowImageView = (ImageView) content.findViewById(R.id.show_collapsing_image_view);
         mToolbar = (Toolbar) content.findViewById(R.id.toolbar);
         setupRecyclerView();
 
         if (savedInstanceState != null) {
-            Program savedProgram = (Program) savedInstanceState.getParcelable(PROGRAM_DATA_KEY);
-            addDataToAdapter(savedProgram);
-            mNextProgramId = savedInstanceState.getInt(NEXT_PROGRAM_ID_KEY);
-            setNextProgramId(mNextProgramId);
+            Show savedShow = (Show) savedInstanceState.getParcelable(SHOW_DATA_KEY);
+            addDataToAdapter(savedShow);
+            mNextShowId = savedInstanceState.getInt(NEXT_SHOW_ID_KEY);
+            setNextShowId(mNextShowId);
         }
     }
 
-    private void setNextProgramId(int nextProgramId) {
-        if (mProgramRecyclerAdapter != null) {
-            mProgramRecyclerAdapter.setNextProgramId(mNextProgramId);
+    private void setNextShowId(int nextShowId) {
+        if (mShowRecyclerAdapter != null) {
+            mShowRecyclerAdapter.setNextShowId(mNextShowId);
         }
     }
 
@@ -72,17 +72,17 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         getDataFromIntent();
-        if (mProgramId != -1) {
+        if (mShowId != -1) {
             showProgressBar(true);
-            executeProgramApiCall(mProgramId);
+            executeShowApiCall(mShowId);
         }
     }
 
     private void getDataFromIntent() {
         Intent currentIntent = getIntent();
-        mProgramId = currentIntent.getIntExtra(PROGRAM_ID_KEY, -1);
-        mNextProgramId = currentIntent.getIntExtra(NEXT_PROGRAM_ID_KEY, -1);
-        setNextProgramId(mNextProgramId);
+        mShowId = currentIntent.getIntExtra(SHOW_ID_KEY, -1);
+        mNextShowId = currentIntent.getIntExtra(NEXT_SHOW_ID_KEY, -1);
+        setNextShowId(mNextShowId);
     }
 
     @Override
@@ -94,19 +94,19 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mProgramRecyclerAdapter != null && !mProgramRecyclerAdapter.isEmpty()) {
-            outState.putParcelable(PROGRAM_DATA_KEY, mProgramRecyclerAdapter.getProgramData());
-            outState.putInt(NEXT_PROGRAM_ID_KEY, mProgramRecyclerAdapter.getNextProgramId());
+        if (mShowRecyclerAdapter != null && !mShowRecyclerAdapter.isEmpty()) {
+            outState.putParcelable(SHOW_DATA_KEY, mShowRecyclerAdapter.getShowData());
+            outState.putInt(NEXT_SHOW_ID_KEY, mShowRecyclerAdapter.getNextShowId());
         }
     }
 
-    private void executeProgramApiCall(int programId) {
-        ApiClient.getKZFRApiClient(this).getProgram(programId, new KZFRRetrofitCallback<Program>() {
+    private void executeShowApiCall(int showId) {
+        ApiClient.getKZFRApiClient(this).getShow(showId, new KZFRRetrofitCallback<Show>() {
 
             @Override
-            public void success(Program program, Response response) {
-                super.success(program, response);
-                addDataToAdapter(program);
+            public void success(Show show, Response response) {
+                super.success(show, response);
+                addDataToAdapter(show);
             }
 
             @Override
@@ -122,15 +122,15 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
         });
     }
 
-    private void addDataToAdapter(final Program program) {
-        mProgramRecyclerAdapter.setProgramData(program);
+    private void addDataToAdapter(final Show show) {
+        mShowRecyclerAdapter.setShowData(show);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mProgramRecyclerAdapter.notifyDataSetChanged();
-                if (program != null) {
-                    setCollapsingToolbarLayoutTitle(program.getTitle());
-                    setupProgramImage(program.getImage());
+                mShowRecyclerAdapter.notifyDataSetChanged();
+                if (show != null) {
+                    setCollapsingToolbarLayoutTitle(show.getTitle());
+                    setupShowImage(show.getImage());
                 }
                 showProgressBar(false);
             }
@@ -157,14 +157,14 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     private void setupRecyclerView() {
         mHostRecyclerView.setHasFixedSize(true);
         mHostRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mProgramRecyclerAdapter = new ProgramRecyclerAdapter(this);
-        mHostRecyclerView.setAdapter(mProgramRecyclerAdapter);
+        mShowRecyclerAdapter = new ShowRecyclerAdapter(this);
+        mHostRecyclerView.setAdapter(mShowRecyclerAdapter);
     }
 
-    private void setupProgramImage(Image image) {
+    private void setupShowImage(Image image) {
         if (image != null) {
-            loadProgramImage(image.getUrlLg());
-            mProgramImageView.setOnClickListener(this);
+            loadShowImage(image.getUrlLg());
+            mShowImageView.setOnClickListener(this);
         } else {
             loadDefaultImage();
         }
@@ -177,12 +177,12 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
         }
     };
 
-    private void loadProgramImage(String imageUrl) {
+    private void loadShowImage(String imageUrl) {
         Picasso.with(this)
                 .load(imageUrl)
                 .transform(PaletteTransformation.instance())
                 .placeholder(R.drawable.kzfr_logo)
-                .into(mProgramImageView, picassoSuccessCallback);
+                .into(mShowImageView, picassoSuccessCallback);
     }
 
     /**
@@ -193,12 +193,12 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
         Picasso.with(this)
                 .load(R.drawable.kzfr_logo)
                 .transform(PaletteTransformation.instance())
-                .into(mProgramImageView, picassoSuccessCallback);
-        mProgramImageView.setOnClickListener(this);
+                .into(mShowImageView, picassoSuccessCallback);
+        mShowImageView.setOnClickListener(this);
     }
 
     private void setCollapsingToolbarScrimColor() {
-        Bitmap bitmap = ((BitmapDrawable) mProgramImageView.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) mShowImageView.getDrawable()).getBitmap();
         Palette palette = PaletteTransformation.getPalette(bitmap);
         int darkVibrantColor = palette.getDarkVibrantColor(R.color.dark);
         mCollapsingToolbarLayout.setContentScrimColor(darkVibrantColor);
@@ -207,11 +207,11 @@ public class ProgramActivity extends MainActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.program_collapsing_image_view) {
-            if (mProgramImageView.getScaleType() == ImageView.ScaleType.CENTER_CROP) {
-                mProgramImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        if (id == R.id.show_collapsing_image_view) {
+            if (mShowImageView.getScaleType() == ImageView.ScaleType.CENTER_CROP) {
+                mShowImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             } else {
-                mProgramImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                mShowImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
         }
     }

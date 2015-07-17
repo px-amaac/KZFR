@@ -11,7 +11,7 @@ import java.util.Map;
 
 import creek.fm.doublea.kzfr.fragments.ScheduleDayFragment;
 import creek.fm.doublea.kzfr.models.Day;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.models.Show;
 
 /**
  * Created by Aaron on 6/25/2015.
@@ -57,9 +57,9 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
         mScheduleData.putAll(data);
     }
 
-    public List<Program> getData(int position) {
+    public List<Show> getData(int position) {
         Log.d(TAG, "getData at position " + position);
-        return mScheduleData.get(String.valueOf(position + 1)).getPrograms();
+        return mScheduleData.get(String.valueOf(position + 1)).getShows();
     }
 
     public HashMap<String, Day> getAllData() {

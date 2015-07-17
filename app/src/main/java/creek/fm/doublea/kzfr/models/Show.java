@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Aaron on 6/18/2015.
  */
-public class Program implements Parcelable {
+public class Show implements Parcelable {
     @Expose
     private creek.fm.doublea.kzfr.models.Airtime Airtime;
     @Expose
@@ -214,10 +214,10 @@ public class Program implements Parcelable {
         dest.writeTypedList(this.airtimes);
     }
 
-    public Program() {
+    public Show() {
     }
 
-    protected Program(Parcel in) {
+    protected Show(Parcel in) {
         this.Airtime = in.readParcelable(creek.fm.doublea.kzfr.models.Airtime.class.getClassLoader());
         this.id = in.readString();
         this.title = in.readString();
@@ -231,13 +231,13 @@ public class Program implements Parcelable {
         this.airtimes = in.createTypedArrayList(Airtime.CREATOR);
     }
 
-    public static final Parcelable.Creator<Program> CREATOR = new Parcelable.Creator<Program>() {
-        public Program createFromParcel(Parcel source) {
-            return new Program(source);
+    public static final Parcelable.Creator<Show> CREATOR = new Parcelable.Creator<Show>() {
+        public Show createFromParcel(Parcel source) {
+            return new Show(source);
         }
 
-        public Program[] newArray(int size) {
-            return new Program[size];
+        public Show[] newArray(int size) {
+            return new Show[size];
         }
     };
 }

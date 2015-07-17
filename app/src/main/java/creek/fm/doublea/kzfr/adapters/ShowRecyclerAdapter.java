@@ -17,31 +17,31 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.activities.ProgramActivity;
+import creek.fm.doublea.kzfr.activities.ShowActivity;
 import creek.fm.doublea.kzfr.models.Airtime;
 import creek.fm.doublea.kzfr.models.Category;
 import creek.fm.doublea.kzfr.models.Host;
 import creek.fm.doublea.kzfr.models.Image;
-import creek.fm.doublea.kzfr.models.Program;
+import creek.fm.doublea.kzfr.models.Show;
 import creek.fm.doublea.kzfr.utils.Utils;
 
 /**
  * Created by Aaron on 7/6/2015.
  */
-public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ShowRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    abstract class ProgramBaseViewHolder extends RecyclerView.ViewHolder {
+    abstract class ShowBaseViewHolder extends RecyclerView.ViewHolder {
 
-        public ProgramBaseViewHolder(View itemView) {
+        public ShowBaseViewHolder(View itemView) {
             super(itemView);
         }
 
-        public abstract void bind(int position, Program program);
+        public abstract void bind(int position, Show show);
     }
 
-    class AirtimeViewHolder extends ProgramBaseViewHolder {
-        @Bind(R.id.program_airtimes)
-        TextView mProgramAirtimes;
+    class AirtimeViewHolder extends ShowBaseViewHolder {
+        @Bind(R.id.show_airtimes)
+        TextView mShowAirtimes;
 
         static final int viewType = 14;
 
@@ -51,20 +51,20 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @Override
-        public void bind(int position, Program program) {
-            List<Airtime> airtimes = program.getAirtimes();
+        public void bind(int position, Show show) {
+            List<Airtime> airtimes = show.getAirtimes();
             if (!airtimes.isEmpty()) {
-                mProgramAirtimes.setText(Utils.getFriendlyAirtimes(airtimes));
+                mShowAirtimes.setText(Utils.getFriendlyAirtimes(airtimes));
             } else {
-                mProgramAirtimes.setText(
-                        Utils.getFriendlyAirTime(program.getAirtime()));
+                mShowAirtimes.setText(
+                        Utils.getFriendlyAirTime(show.getAirtime()));
             }
         }
     }
 
-    class DescriptionViewHolder extends ProgramBaseViewHolder {
+    class DescriptionViewHolder extends ShowBaseViewHolder {
         @Bind(R.id.description_card_layout)
-        TextView mProgramDescription;
+        TextView mShowDescription;
 
         static final int viewType = 13;
 
@@ -74,18 +74,18 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @Override
-        public void bind(int position, Program program) {
-            String programDescription = program.getFullDescription();
-            if (programDescription.isEmpty()) {
-                programDescription = program.getShortDescription();
+        public void bind(int position, Show show) {
+            String showDescription = show.getFullDescription();
+            if (showDescription.isEmpty()) {
+                showDescription = show.getShortDescription();
             }
-            if (!programDescription.isEmpty()) {
-                mProgramDescription.setText(Html.fromHtml(programDescription));
+            if (!showDescription.isEmpty()) {
+                mShowDescription.setText(Html.fromHtml(showDescription));
             }
         }
     }
 
-    class HostsViewHolder extends ProgramBaseViewHolder {
+    class HostsViewHolder extends ShowBaseViewHolder {
         @Bind(R.id.card_view_host_name)
         TextView mHostName;
         @Bind(R.id.host_image)
@@ -99,8 +99,8 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @Override
-        public void bind(int position, Program program) {
-            Host host = program.getHosts().get(position - (mDescriptionPosition + 1));
+        public void bind(int position, Show show) {
+            Host host = show.getHosts().get(position - (mDescriptionPosition + 1));
             String hostName = host.getDisplayName();
             if (!hostName.isEmpty()) {
                 mHostName.setText(hostName);
@@ -126,9 +126,9 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    class CategoriesViewHolder extends ProgramBaseViewHolder {
-        @Bind(R.id.program_categories)
-        TextView mProgramCategories;
+    class CategoriesViewHolder extends ShowBaseViewHolder {
+        @Bind(R.id.show_categories)
+        TextView mShowCategories;
         static final int viewType = 11;
 
         public CategoriesViewHolder(View itemView) {
@@ -137,18 +137,18 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @Override
-        public void bind(int position, Program program) {
-            List<Category> categoryList = program.getCategories();
+        public void bind(int position, Show show) {
+            List<Category> categoryList = show.getCategories();
             StringBuilder stringBuilder = new StringBuilder();
             for (Category category : categoryList) {
                 stringBuilder.append(category.getTitle())
                         .append(" ");
             }
-            mProgramCategories.setText(stringBuilder.toString());
+            mShowCategories.setText(stringBuilder.toString());
         }
     }
 
-    class UpNextViewHolder extends ProgramBaseViewHolder {
+    class UpNextViewHolder extends ShowBaseViewHolder {
         @Bind(R.id.up_next_image_view)
         ImageView mUpNextImageView;
         static final int viewType = 10;
@@ -159,15 +159,15 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @Override
-        public void bind(int position, Program program) {
+        public void bind(int position, Show show) {
 
             mUpNextImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent programIntent = new Intent(mContext, ProgramActivity.class);
-                    programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    programIntent.putExtra(ProgramActivity.PROGRAM_ID_KEY, Integer.valueOf(mNextProgramId));
-                    mContext.startActivity(programIntent);
+                    Intent showIntent = new Intent(mContext, ShowActivity.class);
+                    showIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    showIntent.putExtra(ShowActivity.SHOW_ID_KEY, Integer.valueOf(mNextShowId));
+                    mContext.startActivity(showIntent);
                 }
             });
         }
@@ -175,13 +175,13 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private Program mProgramData;
-    private int mNextProgramId = -1;
+    private Show mShowData;
+    private int mNextShowId = -1;
     private boolean mHasAirTimes;
     private int mDescriptionPosition = -1;
     private int mLastHostPosition = -1;
 
-    public ProgramRecyclerAdapter(Context context) {
+    public ShowRecyclerAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
     }
@@ -191,8 +191,8 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      * If there are any airtimes then the airtimes view is first. The description view will be
      * second unless there is no airtimes view then it will be first. After the description there
      * will be 0 or more hosts views followed by 0 or more categories in a single card view. If the
-     * program view has a next program id then the last view is an up next button. this should only
-     * happen if the program view is the current program running and was reached by clicking on the
+     * show view has a next show id then the last view is an up next button. this should only
+     * happen if the show view is the current show running and was reached by clicking on the
      * media player bar.
      *
      * @param position the current position of the view about to be created.
@@ -213,7 +213,7 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             endPosition = HostsViewHolder.viewType;
         } else if (position > mLastHostPosition && position <= mLastHostPosition + getCategoriesNum()) {
             endPosition = CategoriesViewHolder.viewType;
-        } else if (position == getItemCount() - 1 && mNextProgramId != -1) {
+        } else if (position == getItemCount() - 1 && mNextShowId != -1) {
             endPosition = UpNextViewHolder.viewType;
         }
         return endPosition;
@@ -236,28 +236,28 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return 1 + getHasAirtimes() + getHostsNum() + getCategoriesNum() + hasNextProgram();
+        return 1 + getHasAirtimes() + getHostsNum() + getCategoriesNum() + hasNextShow();
     }
 
     private int getHasAirtimes() {
-        mHasAirTimes = (mProgramData != null && (!mProgramData.getAirtimes().isEmpty() || mProgramData.getAirtime() != null));
+        mHasAirTimes = (mShowData != null && (!mShowData.getAirtimes().isEmpty() || mShowData.getAirtime() != null));
         return mHasAirTimes ? 1 : 0;
     }
 
     private int getHostsNum() {
         int hostNum = 0;
-        if (mProgramData != null) {
-            hostNum = mProgramData.getHosts().size();
+        if (mShowData != null) {
+            hostNum = mShowData.getHosts().size();
         }
         return hostNum;
     }
 
     private int getCategoriesNum() {
-        return (mProgramData != null && mProgramData.getCategories().size() > 0) ? 1 : 0;
+        return (mShowData != null && mShowData.getCategories().size() > 0) ? 1 : 0;
     }
 
-    private int hasNextProgram() {
-        return (mNextProgramId != -1) ? 1 : 0;
+    private int hasNextShow() {
+        return (mNextShowId != -1) ? 1 : 0;
     }
 
 
@@ -281,31 +281,36 @@ public class ProgramRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ProgramBaseViewHolder baseViewHolder = (ProgramBaseViewHolder) holder;
-        if (mProgramData != null) {
-            baseViewHolder.bind(position, mProgramData);
+        ShowBaseViewHolder baseViewHolder = (ShowBaseViewHolder) holder;
+        if (mShowData != null) {
+            baseViewHolder.bind(position, mShowData);
         }
     }
 
-    public void setProgramData(Program program) {
-        mProgramData = program;
+    public void setShowData(Show show) {
+        mShowData = show;
         mDescriptionPosition = -1;
         mLastHostPosition = -1;
     }
 
-    public void setNextProgramId(int nextProgramId) {
-        mNextProgramId = nextProgramId;
+    public void setNextShowId(int nextShowId) {
+        mNextShowId = nextShowId;
     }
 
-    public Program getProgramData() {
-        return mProgramData;
+    public Show getShowData() {
+        return mShowData;
     }
 
-    public int getNextProgramId() {
-        return mNextProgramId;
+    public int getNextShowId() {
+        return mNextShowId;
     }
 
     public boolean isEmpty() {
-        return mProgramData == null;
+        return mShowData == null;
+    }
+
+    private void resetViews() {
+        mShowData = null;
+        mNextShowId = -1;
     }
 }

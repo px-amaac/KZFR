@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import creek.fm.doublea.kzfr.R;
-import creek.fm.doublea.kzfr.activities.ProgramActivity;
+import creek.fm.doublea.kzfr.activities.ShowActivity;
 import creek.fm.doublea.kzfr.api.ApiClient;
 import creek.fm.doublea.kzfr.api.KZFRRetrofitCallback;
 import creek.fm.doublea.kzfr.models.NowPlaying;
@@ -151,17 +151,17 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * OnClick action for the data in the media player bar. This method launches the program intent
-     * with an extra program id so it displays the up next button.
+     * OnClick action for the data in the media player bar. This method launches the show intent
+     * with an extra show id so it displays the up next button.
      */
     @OnClick(R.id.media_player_data)
     public void onMediaPlayerDataClicked() {
         if (mNowPlaying != null) {
-            Intent programIntent = new Intent(getActivity(), ProgramActivity.class);
-            programIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            programIntent.putExtra(ProgramActivity.PROGRAM_ID_KEY, Integer.valueOf(mNowPlaying.getNow().getId()));
-            programIntent.putExtra(ProgramActivity.NEXT_PROGRAM_ID_KEY, Integer.valueOf(mNowPlaying.getNext().getId()));
-            getActivity().startActivity(programIntent);
+            Intent showIntent = new Intent(getActivity(), ShowActivity.class);
+            showIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            showIntent.putExtra(ShowActivity.SHOW_ID_KEY, Integer.valueOf(mNowPlaying.getNow().getId()));
+            showIntent.putExtra(ShowActivity.NEXT_SHOW_ID_KEY, Integer.valueOf(mNowPlaying.getNext().getId()));
+            getActivity().startActivity(showIntent);
         }
     }
 

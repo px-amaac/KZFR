@@ -153,9 +153,9 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
                     Intent scheduleIntent = new Intent(MainActivity.this, ScheduleActivity.class);
                     startActivity(scheduleIntent);
                     break;
-                case R.id.programs:
-                    Intent programIntent = new Intent(MainActivity.this, ProgramsActivity.class);
-                    startActivity(programIntent);
+                case R.id.shows:
+                    Intent showIntent = new Intent(MainActivity.this, ShowsActivity.class);
+                    startActivity(showIntent);
                     break;
                 case R.id.hosts:
                     Intent hostIntent = new Intent(MainActivity.this, HostsActivity.class);

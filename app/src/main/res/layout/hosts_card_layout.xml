@@ -40,7 +40,7 @@
                 android:textAppearance="@style/KZFRCardTitleText"/>
 
             <TextView
-                android:id="@+id/card_view_hosts_programs"
+                android:id="@+id/card_view_hosts_shows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/KZFRCardBoldText"
