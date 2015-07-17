@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginStart="18dp"
             app:expandedTitleTextAppearance="@style/ExpandedAppBar"
             app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
