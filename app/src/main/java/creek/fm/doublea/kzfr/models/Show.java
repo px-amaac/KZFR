@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Aaron on 6/18/2015.
+ * Parcelable Pojo that represents a single show, its airtimes, hosts, and categories.
  */
 public class Show implements Parcelable {
     @Expose
@@ -34,11 +34,11 @@ public class Show implements Parcelable {
     @Expose
     private String imageName;
     @Expose
-    private List<Host> hosts = new ArrayList<Host>();
+    private List<Host> hosts = new ArrayList<>();
     @Expose
-    private List<Category> categories = new ArrayList<Category>();
+    private List<Category> categories = new ArrayList<>();
     @Expose
-    private List<Airtime> airtimes = new ArrayList<Airtime>();
+    private List<Airtime> airtimes = new ArrayList<>();
 
     /**
      * @return The Airtime
@@ -217,7 +217,7 @@ public class Show implements Parcelable {
     public Show() {
     }
 
-    protected Show(Parcel in) {
+    private Show(Parcel in) {
         this.Airtime = in.readParcelable(creek.fm.doublea.kzfr.models.Airtime.class.getClassLoader());
         this.id = in.readString();
         this.title = in.readString();
@@ -228,7 +228,7 @@ public class Show implements Parcelable {
         this.imageName = in.readString();
         this.hosts = in.createTypedArrayList(Host.CREATOR);
         this.categories = in.createTypedArrayList(Category.CREATOR);
-        this.airtimes = in.createTypedArrayList(Airtime.CREATOR);
+        this.airtimes = in.createTypedArrayList(creek.fm.doublea.kzfr.models.Airtime.CREATOR);
     }
 
     public static final Parcelable.Creator<Show> CREATOR = new Parcelable.Creator<Show>() {

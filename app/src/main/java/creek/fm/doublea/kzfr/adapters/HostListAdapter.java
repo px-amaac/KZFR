@@ -26,14 +26,14 @@ import creek.fm.doublea.kzfr.models.Show;
 import creek.fm.doublea.kzfr.utils.Utils;
 
 /**
- * Created by Aaron on 6/26/2015.
+ * A list adapter to display all hosts in the Hosts Activity.
  */
 public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHolder> {
     private static final String TAG = HostListAdapter.class.getSimpleName();
 
     private final LayoutInflater mInflater;
-    private ArrayList<Host> mHosts = new ArrayList<>();
-    private Context mContext;
+    private final ArrayList<Host> mHosts = new ArrayList<>();
+    private final Context mContext;
     private int mLastPosition = -1;
 
     public HostListAdapter(Context context) {
@@ -68,10 +68,7 @@ public class HostListAdapter extends RecyclerView.Adapter<HostListAdapter.ViewHo
     }
 
     public boolean isEmpty() {
-        if (mHosts != null && !mHosts.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !(mHosts != null && !mHosts.isEmpty());
     }
 
     @Override

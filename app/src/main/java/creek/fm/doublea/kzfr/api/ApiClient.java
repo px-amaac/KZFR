@@ -26,7 +26,7 @@ import retrofit.http.GET;
 import retrofit.http.Path;
 
 /**
- * Created by Aaron on 6/21/2015.
+ * API client facilitates in making API calls and setting up retrofit.
  */
 public class ApiClient {
 

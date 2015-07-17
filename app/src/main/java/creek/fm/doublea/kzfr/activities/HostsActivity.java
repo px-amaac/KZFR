@@ -17,7 +17,7 @@ import creek.fm.doublea.kzfr.models.Host;
 import retrofit.client.Response;
 
 /**
- * Created by Aaron on 7/8/2015.
+ * An activity containing a list view displaying each individual host and their shows
  */
 public class HostsActivity extends MainActivity {
 

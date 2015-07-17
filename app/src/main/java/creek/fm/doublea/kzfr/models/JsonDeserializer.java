@@ -9,7 +9,9 @@ import com.google.gson.JsonPrimitive;
 import java.lang.reflect.Type;
 
 /**
- * Created by Aaron on 6/23/2015.
+ * This JsonDeserializer checks for boolean value type. If value is not supposed to be a boolean but it
+ * is then the deserializer throws out the boolean value and replaces it with a null value. This is
+ * used to handle "false" values in the json that should have been null.
  */
 public class JsonDeserializer<T> implements com.google.gson.JsonDeserializer<T> {
 

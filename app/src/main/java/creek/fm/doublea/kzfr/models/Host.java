@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Aaron on 6/18/2015.
+ * Parcelable Pojo representing a Host.
  */
 public class Host implements Parcelable {
     @Expose
@@ -27,7 +27,7 @@ public class Host implements Parcelable {
     private String imageName;
     @SerializedName("programs")
     @Expose
-    private List<Show> shows = new ArrayList<Show>();
+    private List<Show> shows = new ArrayList<>();
 
     /**
      * @return The id
@@ -135,7 +135,7 @@ public class Host implements Parcelable {
     public Host() {
     }
 
-    protected Host(Parcel in) {
+    private Host(Parcel in) {
         this.id = in.readString();
         this.displayName = in.readString();
         this.username = in.readString();

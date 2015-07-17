@@ -17,7 +17,7 @@ import creek.fm.doublea.kzfr.models.Show;
 import retrofit.client.Response;
 
 /**
- * Created by Aaron on 7/8/2015.
+ * Shows activity displays every show in a list view.
  */
 public class ShowsActivity extends MainActivity {
 

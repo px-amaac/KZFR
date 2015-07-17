@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">KZFR</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="now_playing">Now Playing</string>
     <string name="schedule">Schedule</string>
     <string name="shows">Shows</string>
@@ -12,7 +10,7 @@
     <!-- Content Descriptions -->
     <string name="open_drawer_content_description">Open Drawer</string>
     <string name="close_drawer_content_description">Close Drawer</string>
-    <string name="buffering">Buffering...</string>
+    <string name="buffering">Buffering…</string>
     <string name="kzfr_info">KZFR Community Radio is a noncommercial, nonprofit, public service organization dedicated to playing music and disseminating news and information. Our purpose is to entertain, educate, and to contribute to cultural appreciation and enlightenment. KZFR\'s programming reflects the needs of the Northern Sacramento Valley Communities. Most Programming is produced by members of our community and is community oriented. Programming produced outside our community provides information on issues affecting the Northern Sacramento Valley.</string>
     <string name="description_label">Description:</string>
     <string name="categories_label">Categories:</string>

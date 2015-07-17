@@ -7,7 +7,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by Aaron on 6/21/2015.
+ * Simple framework retrofit callback to handle failures.
  */
 public class KZFRRetrofitCallback<S> implements Callback<S> {
     private static final String TAG = KZFRRetrofitCallback.class.getSimpleName();

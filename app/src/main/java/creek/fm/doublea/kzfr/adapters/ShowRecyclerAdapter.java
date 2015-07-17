@@ -26,7 +26,7 @@ import creek.fm.doublea.kzfr.models.Show;
 import creek.fm.doublea.kzfr.utils.Utils;
 
 /**
- * Created by Aaron on 7/6/2015.
+ * The recycler adapter that displays the show data in different card layouts.
  */
 public class ShowRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -173,8 +173,8 @@ public class ShowRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private Context mContext;
-    private LayoutInflater mInflater;
+    private final Context mContext;
+    private final LayoutInflater mInflater;
     private Show mShowData;
     private int mNextShowId = -1;
     private boolean mHasAirTimes;
@@ -263,7 +263,7 @@ public class ShowRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder currentViewHolder = null;
+        RecyclerView.ViewHolder currentViewHolder;
 
         if (viewType == AirtimeViewHolder.viewType) {
             currentViewHolder = new AirtimeViewHolder(mInflater.inflate(R.layout.airtime_card_layout, parent, false));

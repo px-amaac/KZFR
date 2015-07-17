@@ -28,14 +28,15 @@ import creek.fm.doublea.kzfr.models.Show;
 import creek.fm.doublea.kzfr.utils.Utils;
 
 /**
- * Created by Aaron on 6/26/2015.
+ * This is the list adapter that is used by the show activity and the day fragments to display
+ * a list of shows, descriptions and airtimes.
  */
 public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.ViewHolder> {
     private static final String TAG = ShowListAdapter.class.getSimpleName();
 
     private final LayoutInflater mInflater;
-    private ArrayList<Show> mShows = new ArrayList<>();
-    private Context mContext;
+    private final ArrayList<Show> mShows = new ArrayList<>();
+    private final Context mContext;
     private int mLastPosition = -1;
 
     public ShowListAdapter(Context context) {
@@ -70,10 +71,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.ViewHo
     }
 
     public boolean isEmpty() {
-        if (mShows != null && !mShows.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !(mShows != null && !mShows.isEmpty());
     }
 
     @Override
@@ -117,7 +115,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.ViewHo
             setAirtimeText();
             mTitle.setText(mShowItem.getTitle());
             mDescription.setText(mShowItem.getShortDescription());
-            String imageUrl = null;
+            String imageUrl;
             Image imageUrls = mShowItem.getImage();
             if (imageUrls != null) {
                 imageUrl = imageUrls.getUrlSm();

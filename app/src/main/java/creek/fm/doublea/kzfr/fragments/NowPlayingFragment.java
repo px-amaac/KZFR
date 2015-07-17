@@ -25,7 +25,8 @@ import creek.fm.doublea.kzfr.utils.Utils;
 import retrofit.client.Response;
 
 /**
- * Created by Aaron on 6/10/2015.
+ * Fragment that displays the currently playing show title and communicates with the media player
+ * service to play and pause the media player.
  */
 public class NowPlayingFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = NowPlayingFragment.class.getSimpleName();
@@ -42,8 +43,8 @@ public class NowPlayingFragment extends Fragment implements View.OnClickListener
     RelativeLayout mPlayerData;
 
 
-    GetMainService sGetMainService;
-    NowPlaying mNowPlaying;
+    private GetMainService sGetMainService;
+    private NowPlaying mNowPlaying;
 
     public interface GetMainService {
         NowPlayingService getMainService();

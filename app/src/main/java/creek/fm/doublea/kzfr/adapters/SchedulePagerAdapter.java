@@ -14,14 +14,14 @@ import creek.fm.doublea.kzfr.models.Day;
 import creek.fm.doublea.kzfr.models.Show;
 
 /**
- * Created by Aaron on 6/25/2015.
+ * This is the pager adapter that displays the day fragments for each day of the week.
  */
 public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = SchedulePagerAdapter.class.getSimpleName();
     private static final String[] CONTENT = new String[]{"Monday", "Tuesday",
             "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
-    private HashMap<String, Day> mScheduleData = new HashMap<String, Day>();
+    private final HashMap<String, Day> mScheduleData = new HashMap<>();
 
     public SchedulePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -44,10 +44,7 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public boolean isEmpty() {
-        if (mScheduleData != null && !mScheduleData.isEmpty()) {
-            return false;
-        }
-        return true;
+        return mScheduleData == null || mScheduleData.isEmpty();
     }
 
     public void setData(Map<String, Day> data) {

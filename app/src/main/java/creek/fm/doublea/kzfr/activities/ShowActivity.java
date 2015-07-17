@@ -28,12 +28,13 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by Aaron on 7/6/2015.
+ * The show activity hosts a recycler adapter with different view holders to display the different
+ * types of data that represents a show.
  */
 public class ShowActivity extends MainActivity implements View.OnClickListener {
     private static final String TAG = ShowActivity.class.getSimpleName();
     public static final String SHOW_ID_KEY = TAG + ".show_id_key";
-    public static final String SHOW_DATA_KEY = TAG + ".show_data_key";
+    private static final String SHOW_DATA_KEY = TAG + ".show_data_key";
     public static final String NEXT_SHOW_ID_KEY = TAG + ".next_show_data_key";
 
     private int mShowId, mNextShowId;
@@ -41,7 +42,6 @@ public class ShowActivity extends MainActivity implements View.OnClickListener {
     private ShowRecyclerAdapter mShowRecyclerAdapter;
     private ImageView mShowImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +51,18 @@ public class ShowActivity extends MainActivity implements View.OnClickListener {
         mHostRecyclerView = (RecyclerView) content.findViewById(R.id.host_recycler_view);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) content.findViewById(R.id.collapsing_toolbar);
         mShowImageView = (ImageView) content.findViewById(R.id.show_collapsing_image_view);
-        mToolbar = (Toolbar) content.findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) content.findViewById(R.id.toolbar);
         setupRecyclerView();
 
         if (savedInstanceState != null) {
-            Show savedShow = (Show) savedInstanceState.getParcelable(SHOW_DATA_KEY);
+            Show savedShow = savedInstanceState.getParcelable(SHOW_DATA_KEY);
             addDataToAdapter(savedShow);
             mNextShowId = savedInstanceState.getInt(NEXT_SHOW_ID_KEY);
-            setNextShowId(mNextShowId);
+            setNextShowId();
         }
     }
 
-    private void setNextShowId(int nextShowId) {
+    private void setNextShowId() {
         if (mShowRecyclerAdapter != null) {
             mShowRecyclerAdapter.setNextShowId(mNextShowId);
         }
@@ -89,7 +89,7 @@ public class ShowActivity extends MainActivity implements View.OnClickListener {
         Intent currentIntent = getIntent();
         mShowId = currentIntent.getIntExtra(SHOW_ID_KEY, -1);
         mNextShowId = currentIntent.getIntExtra(NEXT_SHOW_ID_KEY, -1);
-        setNextShowId(mNextShowId);
+        setNextShowId();
     }
 
     @Override
@@ -177,7 +177,7 @@ public class ShowActivity extends MainActivity implements View.OnClickListener {
         }
     }
 
-    Callback.EmptyCallback picassoSuccessCallback = new Callback.EmptyCallback() {
+    private final Callback.EmptyCallback picassoSuccessCallback = new Callback.EmptyCallback() {
         @Override
         public void onSuccess() {
             setCollapsingToolbarScrimColor();

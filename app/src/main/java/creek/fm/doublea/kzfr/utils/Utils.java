@@ -13,7 +13,7 @@ import java.util.TimeZone;
 import creek.fm.doublea.kzfr.models.Airtime;
 
 /**
- * Created by Aaron on 6/30/2015.
+ * Utility class for miscellaneous static utility methods that were needed throughout the app.
  */
 public class Utils {
 
@@ -24,7 +24,7 @@ public class Utils {
      * @param weekday
      * @return
      */
-    public static String parseDay(String weekday) {
+    private static String parseDay(String weekday) {
         int day = 0;
         String[] mWeekday = {"Monday", "Tuesday", "Wednesday", "Thursday",
                 "Friday", "Saturday", "Sunday"};
@@ -92,7 +92,7 @@ public class Utils {
      * @return
      */
     private static String parseTime(String time) {
-        String mTime = null;
+        String mTime = "";
         TimeZone currentTimeZone = TimeZone.getDefault();
         TimeZone KZFRTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
         SimpleDateFormat simpleDateFormatKZFRTimeZone = new SimpleDateFormat("HH:mm:ss", Locale.US);
@@ -108,7 +108,9 @@ public class Utils {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        mTime = simpleDateFormatCurrentTimeZone.format(date.getTime());
+        if (date != null) {
+            mTime = simpleDateFormatCurrentTimeZone.format(date.getTime());
+        }
 
         // bruteforce the result to be formatted correctly.
         String result = "";

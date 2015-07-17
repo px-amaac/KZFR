@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Aaron on 6/18/2015.
+ * A Parcelable Pojo representing a collection of image urls.
  */
 public class Image implements Parcelable {
     @Expose

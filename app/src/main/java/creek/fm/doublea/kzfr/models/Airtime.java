@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Aaron on 6/18/2015.
+ * Airtime model representing a single airtime and day
  */
 public class Airtime implements Parcelable {
     @Expose
@@ -254,7 +254,7 @@ public class Airtime implements Parcelable {
     public Airtime() {
     }
 
-    protected Airtime(Parcel in) {
+    Airtime(Parcel in) {
         this.id = in.readString();
         this.start = in.readString();
         this.end = in.readString();

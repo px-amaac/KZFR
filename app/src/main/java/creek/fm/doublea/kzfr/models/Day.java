@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Aaron on 6/18/2015.
+ * Parcelable Pojo representing a day of the week in the schedule view.
  */
 public class Day implements Parcelable {
 
@@ -18,7 +18,7 @@ public class Day implements Parcelable {
     private String weekday;
     @SerializedName("programs")
     @Expose
-    private List<Show> shows = new ArrayList<Show>();
+    private List<Show> shows = new ArrayList<>();
 
     /**
      * @return The id
@@ -62,9 +62,9 @@ public class Day implements Parcelable {
     public Day() {
     }
 
-    protected Day(Parcel in) {
+    private Day(Parcel in) {
         this.weekday = in.readString();
-        this.shows = new ArrayList<Show>();
+        this.shows = new ArrayList<>();
         in.readList(this.shows, List.class.getClassLoader());
     }
 

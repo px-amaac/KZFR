@@ -33,7 +33,7 @@ import creek.fm.doublea.kzfr.services.NowPlayingService;
 
 
 public class MainActivity extends AppCompatActivity implements NowPlayingFragment.GetMainService {
-    public static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
     public static final String UPDATE_PLAYER = TAG + ".update_player";
     public static final String BUFFERING = TAG + ".buffering_player";
 
@@ -50,11 +50,11 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     @Bind(R.id.progress_spinner)
     protected ProgressBar mProgressBar;
 
-    ActionBarDrawerToggle actionBarDrawerToggle;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     private NowPlayingService mNowPlayingService;
     private boolean mBound;
 
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             NowPlayingService.MediaPlayerBinder binder = (NowPlayingService.MediaPlayerBinder) service;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
      * this broadcast receiver is receiving intents from the media player service and calling the
      * appropriate methods to update the media player bar.
      */
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(UPDATE_PLAYER)) {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         broadcastManager.unregisterReceiver(broadcastReceiver);
     }
 
-    private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
+    private final NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         actionBarDrawerToggle.syncState();
     }
 
-    public void setupActionBar(ActionBar actionBar) {
+    private void setupActionBar(ActionBar actionBar) {
         actionBar.setIcon(R.mipmap.kzfr_logo_small);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
      * navigation drawer icon in the app bar layout
      * Solution found http://stackoverflow.com/questions/29003584/set-actionbardrawertoggle-in-center-of-toolbar-or-actionbar-android
      */
-    public void centerNavDrawerIconVertically() {
+    private void centerNavDrawerIconVertically() {
         for (int i = 0; i < mMainActionToolbar.getChildCount(); i++) {
             // make toggle drawable center-vertical, you can make each view alignment whatever you want
             if (mMainActionToolbar.getChildAt(i) instanceof ImageButton) {
@@ -224,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
         actionBarDrawerToggle.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
@@ -265,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
      *
      * @param shouldShow
      */
-    protected void showProgressBar(boolean shouldShow) {
+    void showProgressBar(boolean shouldShow) {
         if (shouldShow) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {

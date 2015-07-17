@@ -19,7 +19,7 @@ import creek.fm.doublea.kzfr.adapters.ShowListAdapter;
 import creek.fm.doublea.kzfr.models.Show;
 
 /**
- * Created by Aaron on 6/25/2015.
+ * The fragment that contains the list view of shows for each day in the schedule view pager.
  */
 public class ScheduleDayFragment extends Fragment {
     @Bind(R.id.simple_recycler_view)

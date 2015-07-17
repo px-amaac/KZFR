@@ -21,7 +21,7 @@ import creek.fm.doublea.kzfr.models.Show;
 import retrofit.client.Response;
 
 /**
- * Created by Aaron on 6/22/2015.
+ * An activity that displays the schedule for each week.
  */
 public class ScheduleActivity extends MainActivity implements ScheduleDayFragment.GetDataInterface {
     private static final String TAG = ScheduleActivity.class.getSimpleName();
@@ -33,7 +33,6 @@ public class ScheduleActivity extends MainActivity implements ScheduleDayFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("SchudeleActivity", "onCreate");
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View content = inflater.inflate(R.layout.activity_schedule, mContentView, true);
         mViewPager = (ViewPager) content.findViewById(R.id.schedule_pager);
@@ -46,11 +45,6 @@ public class ScheduleActivity extends MainActivity implements ScheduleDayFragmen
             showProgressBar(true);
             executeApiCall();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private void addDataToPager(HashMap<String, Day> data) {

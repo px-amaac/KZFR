@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Aaron on 6/18/2015.
+ * Parcelable Pojo representing a category
  */
 public class Category implements Parcelable {
     @Expose
@@ -75,7 +75,7 @@ public class Category implements Parcelable {
     public Category() {
     }
 
-    protected Category(Parcel in) {
+    private Category(Parcel in) {
         this.id = in.readString();
         this.title = in.readString();
         this.shortName = in.readString();

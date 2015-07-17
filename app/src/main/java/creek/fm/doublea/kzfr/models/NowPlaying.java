@@ -3,7 +3,7 @@ package creek.fm.doublea.kzfr.models;
 import com.google.gson.annotations.Expose;
 
 /**
- * Created by Aaron on 6/30/2015.
+ * Parcelable Pojo representing the currently playing show and the next show up.
  */
 public class NowPlaying {
 
