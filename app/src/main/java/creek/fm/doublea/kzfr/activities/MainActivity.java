@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements NowPlayingFragmen
     }
 
     public void setupActionBar(ActionBar actionBar) {
-        actionBar.setIcon(R.mipmap.kzfr_logo);
+        actionBar.setIcon(R.mipmap.kzfr_logo_small);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);

@@ -315,7 +315,7 @@ public class NowPlayingService extends Service implements AudioManager.OnAudioFo
         PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setContentTitle("KZFR Radio").setContentText("Streaming Live")
-                .setSmallIcon(R.mipmap.kzfr_logo).setOngoing(true)
+                .setSmallIcon(R.mipmap.kzfr_logo_small).setOngoing(true)
                 .setContentIntent(getMainContentIntent())
                 .setDeleteIntent(pendingIntent);
         if (mState == State.Paused || mState == State.Stopped) {

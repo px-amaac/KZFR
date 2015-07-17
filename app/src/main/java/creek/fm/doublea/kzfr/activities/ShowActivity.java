@@ -188,7 +188,7 @@ public class ShowActivity extends MainActivity implements View.OnClickListener {
         Picasso.with(this)
                 .load(imageUrl)
                 .transform(PaletteTransformation.instance())
-                .placeholder(R.drawable.kzfr_logo)
+                .placeholder(R.mipmap.kzfr_logo_large)
                 .into(mShowImageView, picassoSuccessCallback);
     }
 
@@ -198,7 +198,7 @@ public class ShowActivity extends MainActivity implements View.OnClickListener {
      */
     private void loadDefaultImage() {
         Picasso.with(this)
-                .load(R.drawable.kzfr_logo)
+                .load(R.mipmap.kzfr_logo_large)
                 .transform(PaletteTransformation.instance())
                 .into(mShowImageView, picassoSuccessCallback);
         mShowImageView.setOnClickListener(this);

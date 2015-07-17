@@ -119,15 +119,23 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.ViewHo
             mDescription.setText(mShowItem.getShortDescription());
             String imageUrl = null;
             Image imageUrls = mShowItem.getImage();
-            if (imageUrls != null)
+            if (imageUrls != null) {
                 imageUrl = imageUrls.getUrlSm();
-
-            Picasso.with(mContext)
-                    .load(imageUrl)
-                    .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
-                    .onlyScaleDown()
-                    .centerInside()
-                    .into(mImageView);
+                Picasso.with(mContext)
+                        .load(imageUrl)
+                        .placeholder(R.mipmap.kzfr_logo_medium)
+                        .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
+                        .onlyScaleDown()
+                        .centerInside()
+                        .into(mImageView);
+            } else {
+                Picasso.with(mContext)
+                        .load(R.mipmap.kzfr_logo_medium)
+                        .resize(Utils.convertDpToPx(mContext, 112), Utils.convertDpToPx(mContext, 112))
+                        .onlyScaleDown()
+                        .centerInside()
+                        .into(mImageView);
+            }
         }
 
         private void setAirtimeText() {

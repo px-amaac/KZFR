@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/kzfr_logo"
+        android:src="@mipmap/kzfr_logo_medium"
         android:padding="8dp"
         android:layout_gravity="center"/>
 
