@@ -62,6 +62,7 @@ public class ScheduleActivity extends MainActivity implements ScheduleDayFragmen
                 @Override
                 public void run() {
                     mPagerAdapter.notifyDataSetChanged();
+                    mViewPager.setCurrentItem(getDayOfWeek());
                     showProgressBar(false);
                 }
             });
@@ -80,7 +81,6 @@ public class ScheduleActivity extends MainActivity implements ScheduleDayFragmen
         Log.d("SchudeleActivity", "setupPagerAdapter");
         if (mPagerAdapter == null) {
             mPagerAdapter = new SchedulePagerAdapter(getSupportFragmentManager());
-            mViewPager.setCurrentItem(getDayOfWeek());
         }
         return mPagerAdapter;
     }
